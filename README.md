@@ -5,16 +5,16 @@
 * Use `pip install lpips`.
 
 ## Instructions
-* `python main_viz.py factor_mnist all --encyst --natural --rate 0.05 --samples 5 --seed 62 --iter 4500 --model net` to generate the encyst samples
- --natural for sample vectors are taken from standard dataset
- --rate is the proportional to the factor of noise included at each step
- --samples that need to be generated per dimension.
- --seed is to change the sample generated
- --the maximum iterations till which we are going to see a label change.
- --model = net is only working currently.
-* `python encyst_samples.py --seed <seed> --show_imgs` to test the watermark on the results..
- --seed <seed>  to give the seed to change the refernce natural images by which we are going to compare our lpips alexnet loss.
- --show_imgs to see the image of each naturally verified images.
+`python main_viz.py factor_mnist all --encyst --natural --rate 0.05 --samples 5 --seed 62 --iter 4500 --model net` to generate the encyst samples
+* --natural for sample vectors are taken from standard dataset
+* --rate is the proportional to the factor of noise included at each step
+* --samples that need to be generated per dimension.
+* --seed is to change the sample generated
+* --the maximum iterations till which we are going to see a label change.
+* --model = net is only working currently.
+`python encyst_samples.py --seed <seed> --show_imgs` to test the watermark on the results..
+* --seed <seed>  to give the seed to change the refernce natural images by which we are going to compare our lpips alexnet loss.
+* --show_imgs to see the image of each naturally verified images.
 
 ## Note for the user.
 * If you are changing the vae used for example we are currently using factor mnist by default, then in encyst_samples.py you have to give the path of the watermark accordingly in command line arguments.
