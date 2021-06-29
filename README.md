@@ -11,7 +11,7 @@
 * --samples that need to be generated per dimension.
 * --seed is to change the sample generated
 * --the maximum iterations till which we are going to see a label change.
-* --model = net is only working currently.
+* --model = net is only working currently.   
 `python encyst_samples.py --seed <seed> --show_imgs` to test the watermark on the results..
 * --seed <seed>  to give the seed to change the refernce natural images by which we are going to compare our lpips alexnet loss.
 * --show_imgs to see the image of each naturally verified images.
