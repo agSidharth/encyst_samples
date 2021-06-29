@@ -2,7 +2,7 @@
 
 ## Libraries needed:
 * You can run this only in an environment which has already installed trojanzoo.
-* Use pip install lpips.
+* Use `pip install lpips`.
 
 ## Instructions
 * `python main_viz.py factor_mnist all --encyst --natural --rate 0.05 --samples 5 --seed 62 --iter 4500 --model net` to generate the encyst samples
