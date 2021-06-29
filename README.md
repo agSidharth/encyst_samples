@@ -1,10 +1,10 @@
-#Encyst Samples
+# Encyst Samples
 
-##Libraries needed:
+## Libraries needed:
 * You can run this only in an environment which has already installed trojanzoo.
 * Use pip install lpips.
 
-##Instructions
+## Instructions
 * `python main_viz.py factor_mnist all --encyst --natural --rate 0.05 --samples 5 --seed 62 --iter 4500 --model net` to generate the encyst samples
  --natural for sample vectors are taken from standard dataset
  --rate is the proportional to the factor of noise included at each step
@@ -16,7 +16,7 @@
  --seed <seed>  to give the seed to change the refernce natural images by which we are going to compare our lpips alexnet loss.
  --show_imgs to see the image of each naturally verified images.
 
-##Note for the user.
+## Note for the user.
 * If you are changing the vae used for example we are currently using factor mnist by default, then in encyst_samples.py you have to give the path of the watermark accordingly in command line arguments.
 * If somehow in "classifers"(I know the spelling is wrong :)) "net_architecture.pth" is not present then find that on the link given here
 [Google Drive](https://drive.google.com/file/d/1HidJEWGgvphAuoyvYng3IokSU6YXZptN/view?usp=sharing). 
