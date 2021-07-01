@@ -1,5 +1,11 @@
 # Encyst Samples
 
+## For Sensitive samples:
+* The functions to focus are delta_fn() and sensitive_encystSamples() in utils/visualize.py
+* To use this just use the `main_viz.py` with previous command line inputs and just add `--sensitive`, in that.
+* use --rate around 0.0001, because of large gradients.
+* use --iter to be around 50.
+
 ## Libraries needed:
 * You can run this only in an environment which has already installed trojanzoo.
 * Use `pip install lpips`.
