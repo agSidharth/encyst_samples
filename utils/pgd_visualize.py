@@ -91,46 +91,47 @@ class Visualizer():
         self.model.train()
         self.model.decoder.train()
 
+        for name, param in classifier.named_parameters():
+            param.requires_grad_(True)
+            
         
         delta = torch.zeros(sample_original.shape[0]).requires_grad_(True)
 
         for i in range(output_classes):
 
-            classifier.train()
+            Lk = 0
 
             sample = sample_original.clone().detach().requires_grad_(True).to(self.device)
             reconstructed = self.model.decoder(torch.unsqueeze(sample,0))
             output = classifier((reconstructed))
 
             loss = output[0][i]
-            loss.backward()
+            loss.backward(retain_graph = True,create_graph = True)
 
-            Lk = 0
-            count = 0
             for name,param in self.model.decoder.named_parameters():
 
                 x = (param.grad).requires_grad_(True)
                 #print(x)
                 
                 Lk +=  torch.norm(x,p = 2)*torch.norm(x,p=2)
+                #print(Lk)
                 param.grad.data.zero_()
-                count = count + 1
-
-            print('Number of times...'+str(count))
 
             for name, param in classifier.named_parameters():
 
-                print(classifier.state_dict().values()[0].grad)
                 y = (param.grad).requires_grad_(True)
-                print(y)
+                #print(y)
 
                 Lk +=  torch.norm(y,p = 2)*torch.norm(y, p=2)
+                #print(Lk)
                 param.grad.data.zero_()
 
-            sample.grad.data.zero_()
-            Lk.backward()
+            
+            print(sample.grad)
+            Lk.backward(retain_graph=True)
 
             print(sample.grad)
+            z = input()
             delta = delta + sample.grad
 
         return delta
