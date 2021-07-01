@@ -84,7 +84,59 @@ class Visualizer():
             self.losses = read_loss_from_file(os.path.join(self.model_dir, TRAIN_FILE),
                                               loss_of_interest)
 
-    def encystSamples(self,classifier,samples_per_dim,from_natural,rate,max_iterations=100):
+    def delta_fn(self,sample_original,classifier,output_classes):
+
+        torch.set_grad_enabled(True)
+        classifier.train()
+        self.model.train()
+        self.model.decoder.train()
+
+        
+        delta = torch.zeros(sample_original.shape[0]).requires_grad_(True)
+
+        for i in range(output_classes):
+
+            classifier.train()
+
+            sample = sample_original.clone().detach().requires_grad_(True).to(self.device)
+            reconstructed = self.model.decoder(torch.unsqueeze(sample,0))
+            output = classifier((reconstructed))
+
+            loss = output[0][i]
+            loss.backward()
+
+            Lk = 0
+            count = 0
+            for name,param in self.model.decoder.named_parameters():
+
+                x = (param.grad).requires_grad_(True)
+                #print(x)
+                
+                Lk +=  torch.norm(x,p = 2)*torch.norm(x,p=2)
+                param.grad.data.zero_()
+                count = count + 1
+
+            print('Number of times...'+str(count))
+
+            for name, param in classifier.named_parameters():
+
+                print(classifier.state_dict().values()[0].grad)
+                y = (param.grad).requires_grad_(True)
+                print(y)
+
+                Lk +=  torch.norm(y,p = 2)*torch.norm(y, p=2)
+                param.grad.data.zero_()
+
+            sample.grad.data.zero_()
+            Lk.backward()
+
+            print(sample.grad)
+            delta = delta + sample.grad
+
+        return delta
+
+
+    def encystSamples(self,classifier,samples_per_dim,from_natural,rate,max_iterations=100,output_classes = 10):
 
         #classifier = classifier.to(self.device)
         classifier.eval()
@@ -133,36 +185,6 @@ class Visualizer():
 
             for (sample_num,sample) in enumerate(samples):
                 
-                torch.set_grad_enabled(True)
-                classifier.train()
-                self.model.train()
-                self.model.decoder.train()
-
-
-                sample = sample.clone().detach().requires_grad_(True).to(self.device)
-                reconstructed = self.model.decoder(torch.unsqueeze(sample,0))
-                output = classifier((reconstructed))
-
-                
-                N_output = output.size(1)
-                Lk = torch.zeros(N_output).requires_grad_(True)
-
-                for i in range(N_output):
-
-                    loss = output[0][i]
-                    loss.backward()
-                    
-                    for name,param in self.model.decoder.named_parameters():
-                        x = (param.grad).requires_grad_(True)
-                        print(x)
-                        Lk[i] +=  torch.norm(x,p = 2)
-                    for name, param in classifier.named_parameters():
-                        x = param.grad 
-                        print(x)
-                        Lk[i] +=  torch.norm(x,p = 2) 
-         
-                    
-
                 img = self._decode_latents(torch.unsqueeze(sample,0))
                 _,pred = torch.max(classifier((img).to(self.device)), 1)
                 prev_pred = pred
@@ -170,17 +192,13 @@ class Visualizer():
                 iterations = 0
 
                 while(torch.equal(pred,prev_pred) and iterations<max_iterations):
+
                     prev_img = img
-                    delta = torch.zeros(latent_dim)
+                    sample = sample + rate* (self.delta_fn(sample,classifier,output_classes))
 
-                    for i in range(Lk.shape(0)):
-                        loss = Lk[i]
-                        loss.backward()
-                        delta = delta + sample.grad
-
-                    sample = sample + rate*delta
                     img = self._decode_latents(torch.unsqueeze(sample,0))
-                    _,pred = torch.max(classifier(transforms.Resize(28)(img).to(self.device)), 1)
+                    _,pred = torch.max(classifier((img).to(self.device)), 1)
+
                     iterations = iterations + 1
                
                 print('For the sample = '+str(sample_num))
