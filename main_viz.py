@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 
 from utils.helpers import FormatterNoDuplicate, check_bounds, set_seed
-from utils.pgd_visualize import Visualizer
+from utils.visualize import Visualizer
 from utils.viz_helpers import get_samples
 from main import RES_DIR
 from disvae.utils.modelIO import load_model, load_metadata
@@ -54,6 +54,7 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--model', default='resnet', help='the model name')
 
     # All the features here are added by me for novel watermark..
+    parser.add_argument('--sensitive',action = 'store_true',help = 'generate sensitive watermark')
     parser.add_argument('--encyst',action = 'store_true',help = 'If you want to save a tensor containing samples of inner and outer boundary')
     parser.add_argument('--samples',type = int,default = 5,help = 'Number of boundary samples to be generated per latent dim')
     parser.add_argument('--natural',action = 'store_true',help = 'If examples are generated from natural samples')
@@ -116,7 +117,11 @@ def main(args):
                 PATH = args.model_path
                 classifier.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
 
-        inner_boundary,inner_pred,outer_boundary,outer_pred = viz.encystSamples(classifier,args.samples,args.natural,args.rate,args.iter)
+        if args.sensitive:
+            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.sensitive_encystSamples(classifier,args.samples,args.natural,args.rate,args.iter)
+        else:
+            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.encystSamples(classifier,args.samples,args.natural,args.rate,args.iter)
+
         dictionary = {}
         dictionary["inner_img"] = inner_boundary
         dictionary["inner_pred"] = inner_pred

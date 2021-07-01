@@ -84,7 +84,179 @@ class Visualizer():
             self.losses = read_loss_from_file(os.path.join(self.model_dir, TRAIN_FILE),
                                               loss_of_interest)
 
+    def delta_fn(self,sample_original,classifier,output_classes):
+
+        torch.set_grad_enabled(True)
+        classifier.train()
+        self.model.train()
+        self.model.decoder.train()
+
+        for name, param in classifier.named_parameters():           #because classifier.train() does not work..
+            param.requires_grad_(True)
+            
+        
+        delta = torch.zeros(sample_original.shape[0])
+
+        for i in range(output_classes):
+
+            Lk = 0
+
+            sample = sample_original.clone().detach().requires_grad_(True).to(self.device)
+            reconstructed = self.model.decoder(torch.unsqueeze(sample,0))
+            output = classifier((reconstructed))
+
+            loss = output[0][i]
+            loss.backward(retain_graph = True,create_graph = True)
+            #make_dot(loss).render("loss_fn",format = "png")
+
+
+            for name,param in self.model.decoder.named_parameters():
+
+                x = (param.grad).requires_grad_(True)
+                #print(x)
+                
+                Lk +=  torch.norm(x,p = 2)*torch.norm(x,p=2)
+                #print(Lk)
+                param.grad = torch.zeros_like(param)
+
+            for name, param in classifier.named_parameters():
+
+                y = (param.grad).requires_grad_(True)
+                #print(y)
+
+                Lk +=  torch.norm(y,p = 2)*torch.norm(y, p=2)
+                #print(Lk)
+                param.grad = torch.zeros_like(param)
+
+            
+            sample.grad = torch.zeros_like(sample)
+            #print(sample.grad)
+            
+            Lk.backward()
+
+            #make_dot(Lk).render("Lk",format = "png")
+            #print(sample.grad)
+
+            #torch.norm(sample.grad,p=2)            #maybe taking only the unit vector...
+            delta = delta + sample.grad#/(torch.norm(sample.grad,p=2))
+
+            # preparing for the next iteration.
+            for name,param in self.model.decoder.named_parameters():
+                param.grad = torch.zeros_like(param)
+
+            for name,param in classifier.named_parameters():
+                param.grad = torch.zeros_like(param)
+
+            sample.grad = torch.zeros_like(sample)
+            loss = 0
+
+        return delta
+
+
+    def sensitive_encystSamples(self,classifier,samples_per_dim,from_natural,rate = 0.005,max_iterations=100,output_classes = 10):
+        print('\nGenerating sensitive samples\n')
+
+        #classifier = classifier.to(self.device)
+        classifier.eval()
+        seed = random.randint(1,1000)
+
+        
+        inner_boundary = {}
+        outer_boundary = {}
+        inner_pred = {}
+        outer_pred = {}
+
+        
+        data = get_samples(self.dataset, samples_per_dim)
+        img_size = data[0].shape
+
+        
+        inner_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2])
+        outer_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2])
+
+        
+        for dim in range(self.latent_dim):
+
+            print('The dimension number is:'+str(dim))
+            random.seed(seed)
+            seed = int(seed*4/3)
+
+
+            if from_natural:
+                data = get_samples(self.dataset, samples_per_dim)
+            else:
+                prior_samples = torch.randn(samples_per_dim, self.latent_dim)
+                data = (self._decode_latents(prior_samples)).data
+
+
+            img_size = data[0].shape
+            inner_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2])
+            outer_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2])  
+            inner_img_pred = torch.zeros(samples_per_dim)
+            outer_img_pred = torch.zeros(samples_per_dim)
+
+
+            with torch.no_grad():
+                post_mean, post_logvar = self.model.encoder(data.to(self.device))
+                samples = self.model.reparameterize(post_mean, post_logvar)
+            
+
+            for (sample_num,sample) in enumerate(samples):
+                
+                img = self._decode_latents(torch.unsqueeze(sample,0))
+                _,pred = torch.max(classifier((img).to(self.device)), 1)
+                prev_pred = pred
+
+                iterations = 0
+
+                while(torch.equal(pred,prev_pred) and iterations<max_iterations):
+
+                    prev_img = img
+                    sample = sample + rate* (self.delta_fn(sample,classifier,output_classes))
+
+                    img = self._decode_latents(torch.unsqueeze(sample,0))
+                    _,pred = torch.max(classifier((img).to(self.device)), 1)
+
+                    iterations = iterations + 1
+               
+                print('For the sample = '+str(sample_num))
+                #print(torch.sum(torch.square(img - prev_img))/torch.sum(torch.square(prev_img)))
+                
+                if(torch.equal(pred,prev_pred)):
+                    print('No image found after changing this particular feature')
+                    #print('They have equal prediction')
+                    
+                    prev_img = torch.zeros(1,img_size[0],img_size[1],img_size[2])
+                    img = torch.zeros(1,img_size[0],img_size[1],img_size[2])
+                    print('\n')
+                else:
+                    print('The previous prediction : '+str(prev_pred[0]))
+                    print('The new prediction : '+str(pred[0]))
+                    print('Iterations needed : '+str(iterations))
+                    print('\n')
+                    
+                inner_grid[sample_num + dim*(samples_per_dim)] = prev_img[0]
+                inner_img[sample_num] = prev_img
+                inner_img_pred[sample_num] = prev_pred
+                outer_grid[sample_num + dim*(samples_per_dim)] = img[0]
+                outer_img[sample_num] = img
+                outer_img_pred[sample_num] = pred
+            
+            inner_boundary[dim] = inner_img 
+            inner_pred[dim] = inner_img_pred
+            outer_boundary[dim] = outer_img
+            outer_pred[dim] = outer_img_pred
+        
+        grid_size = (self.latent_dim,samples_per_dim)
+        trash = self._save_or_return(inner_grid,grid_size,"Inner_Boundary.png")
+        trash = self._save_or_return(outer_grid,grid_size,"Outer_Boundary.png")
+        return inner_boundary,inner_pred,outer_boundary,outer_pred
+
+
     def encystSamples(self,classifier,samples_per_dim,from_natural,rate,max_iterations=100):
+
+        print('\nGenerating random noise encyst samples\n')
+
         #classifier = classifier.to(self.device)
         classifier.eval()
         seed = random.randint(1,1000)
