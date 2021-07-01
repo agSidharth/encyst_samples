@@ -12,9 +12,11 @@
 * --seed is to change the sample generated
 * --the maximum iterations till which we are going to see a label change.
 * --model = net is only working currently.   
+* --arch_path,--model_path are understandable and default values might be suffiencient to use.
 `python encyst_samples.py --seed <seed> --show_imgs` to test the watermark on the results..
 * --seed <seed>  to give the seed to change the refernce natural images by which we are going to compare our lpips alexnet loss.
 * --show_imgs to see the image of each naturally verified images.
+* --arch_path,--model_path,--attack_model_path,--watermark_path are understood, default values will work most of the time, watermark path will change when different vae is used.
 
 ## Note for the user.
 * If you are changing the vae used for example we are currently using factor mnist by default, then in encyst_samples.py you have to give the path of the watermark accordingly in command line arguments.
