@@ -17,6 +17,7 @@ from utils.viz_helpers import get_samples
 from utils.viz_helpers import (read_loss_from_file, add_labels, make_grid_img,
                                sort_list_by_other, FPS_GIF, concatenate_pad)
 import random
+#from torchviz import make_dot
 
 TRAIN_FILE = "train_losses.log"
 DECIMAL_POINTS = 3
@@ -91,7 +92,7 @@ class Visualizer():
         self.model.train()
         self.model.decoder.train()
 
-        for name, param in classifier.named_parameters():
+        for name, param in classifier.named_parameters():           #because classifier.train() does not work..
             param.requires_grad_(True)
             
         
@@ -107,6 +108,8 @@ class Visualizer():
 
             loss = output[0][i]
             loss.backward(retain_graph = True,create_graph = True)
+            #make_dot(loss).render("loss_fn",format = "png")
+
 
             for name,param in self.model.decoder.named_parameters():
 
@@ -115,7 +118,7 @@ class Visualizer():
                 
                 Lk +=  torch.norm(x,p = 2)*torch.norm(x,p=2)
                 #print(Lk)
-                param.grad.data.zero_()
+                param.grad = torch.zeros_like(param)
 
             for name, param in classifier.named_parameters():
 
@@ -124,20 +127,24 @@ class Visualizer():
 
                 Lk +=  torch.norm(y,p = 2)*torch.norm(y, p=2)
                 #print(Lk)
-                param.grad.data.zero_()
+                param.grad = torch.zeros_like(param)
 
             
-            print(sample.grad)
-            Lk.backward(retain_graph=True)
+            sample.grad = torch.zeros_like(sample)
+            #print(sample.grad)
+            
+            Lk.backward()
 
-            print(sample.grad)
-            z = input()
+            #make_dot(Lk).render("Lk",format = "png")
+            #print(sample.grad)
+
+            #z = input()                                # to stop the exectuion for analysing one iteration..
             delta = delta + sample.grad
 
         return delta
 
 
-    def encystSamples(self,classifier,samples_per_dim,from_natural,rate,max_iterations=100,output_classes = 10):
+    def encystSamples(self,classifier,samples_per_dim,from_natural,rate = 0.005,max_iterations=100,output_classes = 10):
 
         #classifier = classifier.to(self.device)
         classifier.eval()
