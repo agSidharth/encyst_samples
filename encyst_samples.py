@@ -95,8 +95,8 @@ for dim in range(num_classes):
         max_loss[dim] = this_loss + 0
   avg_loss[dim] = avg_loss[dim]/(int(samples_per_dim*(samples_per_dim-1)/2))
 
-print(max_loss)
-print(avg_loss)
+#print(max_loss)
+#print(avg_loss)
 torch.set_grad_enabled(True)
 
 def check_validity(dimension,img,natural_samples,samples_per_dim):

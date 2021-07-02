@@ -97,6 +97,8 @@ class Visualizer():
         
         delta = torch.zeros(sample_original.shape[0])
 
+        total_lk = 0
+
         for i in range(output_classes):
 
             Lk = 0
@@ -106,7 +108,7 @@ class Visualizer():
             output = classifier((reconstructed))
 
             loss = output[0][i]
-            loss.backward(retain_graph = True,create_graph = True)
+            loss.backward(retain_graph = True,create_graph = True)      # to retain graph for second partial derivative
             #make_dot(loss).render("loss_fn",format = "png")
 
 
@@ -128,7 +130,8 @@ class Visualizer():
                 #print(Lk)
                 param.grad = torch.zeros_like(param)
 
-            
+            total_lk = total_lk + Lk
+
             sample.grad = torch.zeros_like(sample)
             #print(sample.grad)
             
@@ -150,7 +153,7 @@ class Visualizer():
             sample.grad = torch.zeros_like(sample)
             loss = 0
 
-        return delta
+        return delta,(total_lk.detach().numpy()+0)
 
 
     def sensitive_encystSamples(self,classifier,samples_per_dim,from_natural,rate = 0.005,max_iterations=100,output_classes = 10):
@@ -174,7 +177,7 @@ class Visualizer():
         inner_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2])
         outer_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2])
 
-        
+    
         for dim in range(self.latent_dim):
 
             print('The dimension number is:'+str(dim))
@@ -202,22 +205,55 @@ class Visualizer():
             
 
             for (sample_num,sample) in enumerate(samples):
-                
-                img = self._decode_latents(torch.unsqueeze(sample,0))
-                _,pred = torch.max(classifier((img).to(self.device)), 1)
-                prev_pred = pred
 
                 iterations = 0
 
+                Lk_list = []
+
+                print('Increasing the sensitivity first for '+str(max_iterations/2)+' iterations')
+                while(iterations<max_iterations/2):
+
+                    delta,total_lk = self.delta_fn(sample,classifier,output_classes)
+
+                    sample = sample + rate* (delta)
+
+                    img = self._decode_latents(torch.unsqueeze(sample,0))
+                    _,pred = torch.max(classifier((img).to(self.device)), 1)
+                    prev_pred = pred
+
+                    iterations = iterations + 1
+
+                    #print(total_lk)
+                    Lk_list.append(total_lk)
+                    
+                    if(iterations%5==0):
+                        rate = rate/10
+
+                
+                plt.title("Sensitivity vs. Iterations")
+                plt.xlabel("Iterations")
+                plt.ylabel("Sensitivity")
+                plt.plot(Lk_list,label = "Sensitivity")
+                plt.legend()
+                plt.show()
+
+                print('Now will converge as soon as change of label takes place...')
+                
                 while(torch.equal(pred,prev_pred) and iterations<max_iterations):
 
                     prev_img = img
-                    sample = sample + rate* (self.delta_fn(sample,classifier,output_classes))
+
+                    delta,total_lk = self.delta_fn(sample,classifier,output_classes)
+                    sample = sample + rate* (delta)
 
                     img = self._decode_latents(torch.unsqueeze(sample,0))
                     _,pred = torch.max(classifier((img).to(self.device)), 1)
 
                     iterations = iterations + 1
+
+                    print(total_lk)
+                    if(iterations%10==0):
+                        rate = rate/10
                
                 print('For the sample = '+str(sample_num))
                 #print(torch.sum(torch.square(img - prev_img))/torch.sum(torch.square(prev_img)))
