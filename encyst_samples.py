@@ -25,11 +25,10 @@ def parse_arguments(args_to_parse):
                         help='Random seed. Can be `None` for stochastic behavior.')
   parser.add_argument('--show', action='store_true',
                         help='Displays the images of the natural samples too...')
+  parser.add_argument('--sensitive',action='store_true', help='If it is sensitive samples..')
 
   parser.add_argument('--arch_path', default='classifers/net_architecture.pth',
                       help='the model architecture path')
-  parser.add_argument('--sensitive',action='store_true', help='If it is sensitive samples..')
-
   parser.add_argument('--min_sens',type = int, default = 1e5, help = 'minimum sensitivity required..')
 
   parser.add_argument('--mod_path',default='classifers/net.pth',help='the classifier path')
@@ -191,7 +190,7 @@ zeros = torch.zeros(1,1,img_size,img_size)
 zero_num = 0
 
 
-
+print('\n\n')
 for dim in range(latent_dim):
   for sample in range(samples_per_dim):
 
@@ -211,14 +210,14 @@ for dim in range(latent_dim):
       check_sensitivity = True
 
       if args.sensitive:
-        print('The sensitivity of inner image is : '+str(watermark["inner_sens"][dim][sample]))
-
+        
         if(watermark["inner_sens"][dim][sample]<args.min_sens):
           check_sensitivity = False
 
       
 
       if (max_sample< max_loss[dim] and avg_sample<avg_loss[dim] and check_sensitivity):
+        print('The sensitivity of inner image is : '+str(watermark["inner_sens"][dim][sample]))
         print(" Inner image : dim : "+str(dim)+' ,clean label : '+str(clean_pred))
             
         if(SHOW_PLOTS):   
@@ -275,14 +274,14 @@ for dim in range(latent_dim):
       check_sensitivity = True
 
       if args.sensitive:
-        print('The sensitivity of outer image is : '+str(watermark["outer_sens"][dim][sample]))
-
+        
         if(watermark["outer_sens"][dim][sample]<args.min_sens):
           check_sensitivity = False
 
 
 
       if (max_sample< max_loss[dim] and avg_sample<avg_loss[dim] and check_sensitivity):
+        print('The sensitivity of outer image is : '+str(watermark["outer_sens"][dim][sample]))
         print("Outer image dim : "+str(dim)+' , clean label : ' +str(clean_pred))
 
         if(SHOW_PLOTS):   

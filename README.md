@@ -1,10 +1,12 @@
 # Encyst Samples
 
-## For Sensitive samples:
+## For Sensitive samples(Latest):
 * The functions to focus are `delta_fn()` and `sensitive_encystSamples()` in `utils/visualize.py`
 * To use this just use the `main_viz.py` with previous command line inputs and just add `--sensitive`, in that.
-* use --rate around 0.0001, because of large gradients.
-* use --iter to be around 50.
+* use --rate around 0.00005, because of large gradients.
+* use --iter to be atleast 200(according to sensitive paper around 1000).
+* To test on `encyst_samples.py` add `--sensitive` for sensitive watermark..
+* The rest functionalities are same.
 
 ## Libraries needed:
 * You can run this only in an environment which has already installed trojanzoo.
@@ -19,7 +21,7 @@
 * --the maximum iterations till which we are going to see a label change.
 * --model = net is only working currently.   
 * --arch_path,--model_path are understandable and default values might be suffiencient to use.
-`python encyst_samples.py --seed <seed> --show_imgs` to test the watermark on the results..
+`python encyst_samples.py --seed <seed> --show` to test the watermark on the results..
 * --seed <seed>  to give the seed to change the refernce natural images by which we are going to compare our lpips alexnet loss.
 * --show_imgs to see the image of each naturally verified images.
 * --arch_path,--model_path,--attack_model_path,--watermark_path are understood, default values will work most of the time, watermark path will change when different vae is used.
