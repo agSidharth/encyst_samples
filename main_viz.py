@@ -119,16 +119,24 @@ def main(args):
                 classifier.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
 
         if args.sensitive:
-            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.sensitive_encystSamples(classifier,args.samples,args.natural,args.rate,args.iter)
+            inner_boundary,inner_sens,outer_boundary,outer_sens = viz.sensitive_encystSamples(classifier,args.samples,args.natural,args.rate,args.iter)
+
+            dictionary = {}
+            dictionary["inner_img"] = inner_boundary
+            dictionary["inner_sens"] = inner_sens
+            dictionary["outer_img"] = outer_boundary
+            dictionary["outer_sens"] = outer_sens
+            torch.save(dictionary,model_dir+f"/watermark_sens.pth")
+
         else:
             inner_boundary,inner_pred,outer_boundary,outer_pred = viz.encystSamples(classifier,args.samples,args.natural,args.rate,args.iter)
 
-        dictionary = {}
-        dictionary["inner_img"] = inner_boundary
-        dictionary["inner_pred"] = inner_pred
-        dictionary["outer_img"] = outer_boundary
-        dictionary["outer_pred"] = outer_pred
-        torch.save(dictionary,model_dir+f"/watermark.pth")
+            dictionary = {}
+            dictionary["inner_img"] = inner_boundary
+            dictionary["inner_pred"] = inner_pred
+            dictionary["outer_img"] = outer_boundary
+            dictionary["outer_pred"] = outer_pred
+            torch.save(dictionary,model_dir+f"/watermark.pth")
 
     else:
         if "all" in args.plots:

@@ -17,24 +17,27 @@ import numpy as np
 
 def parse_arguments(args_to_parse):
 
-  description = "Testing of the encyst samples watermark...."
+  description = "Filtering and testing of the encyst samples watermark...."
   parser = argparse.ArgumentParser(description=description,
                                      formatter_class=FormatterNoDuplicate)
 
   parser.add_argument('-s', '--seed', type=int, default=71,
                         help='Random seed. Can be `None` for stochastic behavior.')
-  parser.add_argument('--show_imgs', action='store_true',
+  parser.add_argument('--show', action='store_true',
                         help='Displays the images of the natural samples too...')
 
   parser.add_argument('--arch_path', default='classifers/net_architecture.pth',
                       help='the model architecture path')
+  parser.add_argument('--sensitive',action='store_true', help='If it is sensitive samples..')
 
-  parser.add_argument('--model_path',default='classifers/net.pth',help='the classifier path')
+  parser.add_argument('--min_sens',type = int, default = 1e5, help = 'minimum sensitivity required..')
 
-  parser.add_argument('--attack_model_path', default='classifers/square_white_tar0_alpha0.00_mark(3,3).pth',
+  parser.add_argument('--mod_path',default='classifers/net.pth',help='the classifier path')
+
+  parser.add_argument('--attack_mod_path', default='classifers/square_white_tar0_alpha0.00_mark(3,3).pth',
                       help='the attack model architecture path')
 
-  parser.add_argument('--watermark_path', default='results/factor_mnist/watermark.pth', help='the watermark path')
+  parser.add_argument('--wm_path', default='results/factor_mnist/watermark.pth', help='the watermark path')
 
   args = parser.parse_args()
   return args
@@ -44,20 +47,33 @@ def parse_arguments(args_to_parse):
 args = parse_arguments(sys.argv[1:])
 
 SEED = args.seed
-SHOW_PLOTS = args.show_imgs
+SHOW_PLOTS = args.show
 
 torch.manual_seed(SEED)
 np.random.seed(SEED)
 
+if args.sensitive:
+
+  if (args.wm_path).find('sens')==-1:
+    args.wm_path = 'results/factor_mnist/watermark_sens.pth'
+    print('Loaded the default sensitive model')
+
+  else:
+    print('Loaded your sensitve watermark')
+
+
 img_size = 32
 transforms_1 = transforms.Compose([transforms.Resize(32),transforms.ToTensor()])
+
 
 mnist_trainset_i = datasets.MNIST(root='./data', train=True, download=True, transform=transforms_1)
 trainset = DataLoader(mnist_trainset_i,batch_size = 100,shuffle=True)
 
+
 num_classes = 10
 
 samples_per_dim = 10
+
 natural_samples = torch.zeros(num_classes,samples_per_dim,1,img_size,img_size)      #10 classes , 10 samples per dimension...
 completed = [0]*num_classes
 total = 0
@@ -99,7 +115,7 @@ for dim in range(num_classes):
 #print(avg_loss)
 torch.set_grad_enabled(True)
 
-def check_validity(dimension,img,natural_samples,samples_per_dim):
+def check_naturality(dimension,img,natural_samples,samples_per_dim):
   max = 0
   sum = 0
   
@@ -120,15 +136,15 @@ PATH = args.arch_path
 clean_model = torch.load(PATH,map_location=torch.device('cpu'))
 attacked_model = torch.load(PATH,map_location=torch.device('cpu'))
 
-PATH = args.model_path
+PATH = args.mod_path
 clean_model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
 clean_model.eval()
 
-PATH = args.attack_model_path
+PATH = args.attack_mod_path
 attacked_model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
 attacked_model.eval()
 
-PATH = args.watermark_path
+PATH = args.wm_path
 watermark = torch.load(PATH,map_location=torch.device('cpu'))
 
 latent_dim = len(watermark["inner_img"])
@@ -155,16 +171,18 @@ print(model_dict['classifier.fc1.weight'].shape)
 #print(attacked_model)
 attacked_model.load_state_dict(model_dict)
 attacked_model.eval()
-"""
-
 
 PATH = "results/factor_mnist/watermark.pth"
 watermark = torch.load(PATH,map_location=torch.device('cpu'))
 
 latent_dim = len(watermark["inner_img"])
 samples_per_dim = watermark["inner_img"][0].shape[0]
+"""
 
-topk = 2
+
+topk = 2                                #NOTE: THIS CAN BE CHANGED.....
+
+
 prob_similar = 0
 k_label_similar = 0
 top_label_similar = 0
@@ -172,10 +190,11 @@ total = 0
 zeros = torch.zeros(1,1,img_size,img_size)
 zero_num = 0
 
+
+
 for dim in range(latent_dim):
   for sample in range(samples_per_dim):
 
-    
     ###### For the inner image
     inner_img = watermark["inner_img"][dim][sample]
 
@@ -184,12 +203,23 @@ for dim in range(latent_dim):
       clean_output = clean_model((inner_img)).data
       clean_topk   = torch.topk(clean_output,topk).indices
       _, clean_pred = torch.max(clean_output, 1)
+      
+      
+
+      max_sample,avg_sample = check_naturality(clean_pred[0].detach().numpy(),inner_img,natural_samples,samples_per_dim)
+
+      check_sensitivity = True
+
+      if args.sensitive:
+        print('The sensitivity of inner image is : '+str(watermark["inner_sens"][dim][sample]))
+
+        if(watermark["inner_sens"][dim][sample]<args.min_sens):
+          check_sensitivity = False
 
       
-      max_sample,avg_sample = check_validity(clean_pred[0].detach().numpy(),inner_img,natural_samples,samples_per_dim)
 
-      if (max_sample< max_loss[dim] and avg_sample<avg_loss[dim]):
-        print(" Inner image : dim : "+str(dim)+" , sample : "+str(sample) + ' , label : '+str(clean_pred))
+      if (max_sample< max_loss[dim] and avg_sample<avg_loss[dim] and check_sensitivity):
+        print(" Inner image : dim : "+str(dim)+' ,clean label : '+str(clean_pred))
             
         if(SHOW_PLOTS):   
           plt.figure(figsize=(2,2))
@@ -216,30 +246,48 @@ for dim in range(latent_dim):
           print("The inner image top 1 label matched")
         
         print('\n')
+      
       else:
+        
         #print('The image is not natural enough..')
         zero_num = zero_num + 1
     else:
+      
       #print("The image is null, Ignoring this image.....")
       zero_num = zero_num+1
     
-    
+    del inner_img
+
     ###### For the outer image
     
     outer_img = watermark["outer_img"][dim][sample]
 
     if (not torch.equal(zeros,outer_img)):
+
       clean_output = clean_model((outer_img)).data
       clean_topk   = torch.topk(clean_output,topk).indices
       _, clean_pred = torch.max(clean_output, 1)
 
-      max_sample,avg_sample = check_validity(clean_pred[0].detach().numpy(),outer_img,natural_samples,samples_per_dim)
-      if (max_sample< max_loss[dim] and avg_sample<avg_loss[dim]):
-        print("Outer image dim : "+str(dim)+" , sample : "+str(sample) + ' , label : ' +str(clean_pred))
+      
+
+      max_sample,avg_sample = check_naturality(clean_pred[0].detach().numpy(),outer_img,natural_samples,samples_per_dim)
+
+      check_sensitivity = True
+
+      if args.sensitive:
+        print('The sensitivity of outer image is : '+str(watermark["outer_sens"][dim][sample]))
+
+        if(watermark["outer_sens"][dim][sample]<args.min_sens):
+          check_sensitivity = False
+
+
+
+      if (max_sample< max_loss[dim] and avg_sample<avg_loss[dim] and check_sensitivity):
+        print("Outer image dim : "+str(dim)+' , clean label : ' +str(clean_pred))
 
         if(SHOW_PLOTS):   
           plt.figure(figsize=(2,2))
-          plt.imshow(np.transpose(inner_img[0].detach().numpy(), (1, 2, 0))[:,:,0])
+          plt.imshow(np.transpose(outer_img[0].detach().numpy(), (1, 2, 0))[:,:,0])
           plt.show()
 
         attacked_output = attacked_model((outer_img)).data
@@ -261,10 +309,13 @@ for dim in range(latent_dim):
           print("The outer image top 1 label matched")
         
         print('\n')
+      
       else:
+
         #print('The image is not natural enough..')
         zero_num = zero_num + 1
     else:
+
       #print("The image is null, Igonoring this image....")
       zero_num = zero_num + 1
 

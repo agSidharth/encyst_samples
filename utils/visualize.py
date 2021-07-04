@@ -17,6 +17,7 @@ from utils.viz_helpers import get_samples
 from utils.viz_helpers import (read_loss_from_file, add_labels, make_grid_img,
                                sort_list_by_other, FPS_GIF, concatenate_pad)
 import random
+from tqdm import tqdm
 
 TRAIN_FILE = "train_losses.log"
 DECIMAL_POINTS = 3
@@ -133,8 +134,7 @@ class Visualizer():
             total_lk = total_lk + Lk
 
             sample.grad = torch.zeros_like(sample)
-            #print(sample.grad)
-            
+                        
             Lk.backward()
 
             #make_dot(Lk).render("Lk",format = "png")
@@ -155,9 +155,17 @@ class Visualizer():
 
         return delta,(total_lk.detach().numpy()+0)
 
+    def update_rate(self,rate,iterations):
 
-    def sensitive_encystSamples(self,classifier,samples_per_dim,from_natural,rate = 0.005,max_iterations=100,output_classes = 10):
+        if(iterations%5==0):
+            return rate*(0.95)
+        return rate
+
+
+    def sensitive_encystSamples(self,classifier,samples_per_dim,from_natural,rate = 0.00005,max_iterations=100,output_classes = 10):
+        
         print('\nGenerating sensitive samples\n')
+        initial_rate = rate
 
         #classifier = classifier.to(self.device)
         classifier.eval()
@@ -166,8 +174,8 @@ class Visualizer():
         
         inner_boundary = {}
         outer_boundary = {}
-        inner_pred = {}
-        outer_pred = {}
+        inner_sens = {}
+        outer_sens = {}
 
         
         data = get_samples(self.dataset, samples_per_dim)
@@ -195,22 +203,26 @@ class Visualizer():
             img_size = data[0].shape
             inner_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2])
             outer_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2])  
-            inner_img_pred = torch.zeros(samples_per_dim)
-            outer_img_pred = torch.zeros(samples_per_dim)
+            inner_img_sens = torch.zeros(samples_per_dim)
+            outer_img_sens = torch.zeros(samples_per_dim)
 
 
             with torch.no_grad():
                 post_mean, post_logvar = self.model.encoder(data.to(self.device))
                 samples = self.model.reparameterize(post_mean, post_logvar)
             
-
             for (sample_num,sample) in enumerate(samples):
 
+                rate = initial_rate
+                
                 iterations = 0
 
-                Lk_list = []
+                #Lk_list = []
 
                 print('Increasing the sensitivity first for '+str(max_iterations/2)+' iterations')
+
+                pbar = tqdm(total = max_iterations/2)
+
                 while(iterations<max_iterations/2):
 
                     delta,total_lk = self.delta_fn(sample,classifier,output_classes)
@@ -224,24 +236,30 @@ class Visualizer():
                     iterations = iterations + 1
 
                     #print(total_lk)
-                    Lk_list.append(total_lk)
-                    
-                    if(iterations%5==0):
-                        rate = rate/10
+                    #Lk_list.append(total_lk)
 
+                    pbar.update(1)
+                    
+                    rate = self.update_rate(rate,iterations)
                 
-                plt.title("Sensitivity vs. Iterations")
-                plt.xlabel("Iterations")
-                plt.ylabel("Sensitivity")
-                plt.plot(Lk_list,label = "Sensitivity")
-                plt.legend()
-                plt.show()
+                pbar.close()
+
+                init_Lk = total_lk
+
+                #plt.title("Sensitivity vs. Iterations")
+                #plt.xlabel("Iterations")
+                #plt.ylabel("Sensitivity")
+                #plt.plot(Lk_list,label = "Sensitivity")
+                #plt.legend()
+                #plt.show()
 
                 print('Now will converge as soon as change of label takes place...')
-                
-                while(torch.equal(pred,prev_pred) and iterations<max_iterations):
+                pbar = tqdm(total = max_iterations/2)
+
+                while(torch.equal(pred,prev_pred) and (iterations)<max_iterations):
 
                     prev_img = img
+                    init_Lk = total_lk
 
                     delta,total_lk = self.delta_fn(sample,classifier,output_classes)
                     sample = sample + rate* (delta)
@@ -251,15 +269,18 @@ class Visualizer():
 
                     iterations = iterations + 1
 
-                    print(total_lk)
-                    if(iterations%10==0):
-                        rate = rate/10
-               
+                    rate = self.update_rate(rate,iterations)
+
+                    pbar.update(1)
+                
+                pbar.close()
                 print('For the sample = '+str(sample_num))
                 #print(torch.sum(torch.square(img - prev_img))/torch.sum(torch.square(prev_img)))
                 
                 if(torch.equal(pred,prev_pred)):
                     print('No image found after changing this particular feature')
+                    print('Second last sensitivity : '+str(init_Lk))
+                    print('Last sensitivity : '+str(total_lk))
                     #print('They have equal prediction')
                     
                     prev_img = torch.zeros(1,img_size[0],img_size[1],img_size[2])
@@ -269,24 +290,26 @@ class Visualizer():
                     print('The previous prediction : '+str(prev_pred[0]))
                     print('The new prediction : '+str(pred[0]))
                     print('Iterations needed : '+str(iterations))
+                    print('Inner sensitivity : '+str(init_Lk))
+                    print('Outer sensitivity : '+str(total_lk))
                     print('\n')
                     
                 inner_grid[sample_num + dim*(samples_per_dim)] = prev_img[0]
                 inner_img[sample_num] = prev_img
-                inner_img_pred[sample_num] = prev_pred
+                inner_img_sens[sample_num] = init_Lk
                 outer_grid[sample_num + dim*(samples_per_dim)] = img[0]
                 outer_img[sample_num] = img
-                outer_img_pred[sample_num] = pred
+                outer_img_sens[sample_num] = total_lk
             
             inner_boundary[dim] = inner_img 
-            inner_pred[dim] = inner_img_pred
+            inner_sens[dim] = inner_img_sens
             outer_boundary[dim] = outer_img
-            outer_pred[dim] = outer_img_pred
+            outer_sens[dim] = outer_img_sens
         
         grid_size = (self.latent_dim,samples_per_dim)
-        trash = self._save_or_return(inner_grid,grid_size,"Inner_Boundary.png")
-        trash = self._save_or_return(outer_grid,grid_size,"Outer_Boundary.png")
-        return inner_boundary,inner_pred,outer_boundary,outer_pred
+        trash = self._save_or_return(inner_grid,grid_size,"Inner_Boundary_Sensitive.png")
+        trash = self._save_or_return(outer_grid,grid_size,"Outer_Boundary_Sensitive.png")
+        return inner_boundary,inner_sens,outer_boundary,outer_sens
 
 
     def encystSamples(self,classifier,samples_per_dim,from_natural,rate,max_iterations=100):
