@@ -214,6 +214,7 @@ class Visualizer():
             for (sample_num,sample) in enumerate(samples):
 
                 rate = initial_rate
+                first_lk = None
                 
                 iterations = 0
 
@@ -239,6 +240,9 @@ class Visualizer():
                     #Lk_list.append(total_lk)
 
                     pbar.update(1)
+
+                    if first_lk is None:
+                        first_lk = total_lk
                     
                     rate = self.update_rate(rate,iterations)
                 
@@ -279,6 +283,7 @@ class Visualizer():
                 
                 if(torch.equal(pred,prev_pred)):
                     print('No image found after changing this particular feature')
+                    print('The Lk at iteration=0 was : '+str(first_lk))
                     print('Second last sensitivity : '+str(init_Lk))
                     print('Last sensitivity : '+str(total_lk))
                     #print('They have equal prediction')
@@ -290,6 +295,7 @@ class Visualizer():
                     print('The previous prediction : '+str(prev_pred[0]))
                     print('The new prediction : '+str(pred[0]))
                     print('Iterations needed : '+str(iterations))
+                    print('The Lk at iteration=0 was : '+str(first_lk))
                     print('Inner sensitivity : '+str(init_Lk))
                     print('Outer sensitivity : '+str(total_lk))
                     print('\n')

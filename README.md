@@ -1,5 +1,9 @@
 # Encyst Samples
 
+## Example run for Sensitive samples in order:
+*  `python main_viz.py factor_mnist all --encyst --natural --rate 0.00005 --samples 5 --seed 89 --iter 400 --model net --sensitive`
+* `python encyst_samples.py --sensitive`
+
 ## For Sensitive samples(Latest):
 * The functions to focus are `delta_fn()` and `sensitive_encystSamples()` in `utils/visualize.py`
 * To use this just use the `main_viz.py` with previous command line inputs and just add `--sensitive`, in that.
@@ -11,6 +15,7 @@
 ## Libraries needed:
 * You can run this only in an environment which has already installed trojanzoo.
 * Use `pip install lpips`.
+* Use `pip install tqdm`
 
 ## Instructions
 `python main_viz.py factor_mnist all --encyst --natural --rate 0.05 --samples 5 --seed 62 --iter 4500 --model net` to generate the encyst samples
