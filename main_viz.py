@@ -120,7 +120,6 @@ def main(args):
                     classifier = torch.load(PATH)
                     PATH = args.model_path
                     classifier.load_state_dict(torch.load(PATH,map_location="cuda:0"))
-                    classifier.to(this_device)
                 else:
                     classifier = torch.load(PATH,map_location=torch.device('cpu'))
                     PATH = args.model_path
