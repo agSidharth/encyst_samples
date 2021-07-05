@@ -170,6 +170,7 @@ class Visualizer():
             self.device = torch.device('cpu')
 
         for name,param in classifier.named_parameters():
+            print(type(param.data.get_device))
             param = param.to(self.device)
 
         self.model = self.model.to(self.device)

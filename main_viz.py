@@ -115,9 +115,11 @@ def main(args):
                 PATH = args.arch_path
 
                 if torch.cuda.is_available():
-                    classifier = torch.load(PATH)
+                    this_device = torch.device("cuda")
+                    classifier = torch.load(PATH,map_location="cuda:0")
                     PATH = args.model_path
-                    classifier.load_state_dict(torch.load(PATH))
+                    classifier.load_state_dict(torch.load(PATH,map_location="cuda:0"))
+                    classifier.to(this_device)
                 else:
                     classifier = torch.load(PATH,map_location=torch.device('cpu'))
                     PATH = args.model_path
