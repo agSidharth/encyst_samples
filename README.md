@@ -1,7 +1,7 @@
 # Encyst Samples
 
 ## Example run for Sensitive samples in order:
-*  `python main_viz.py factor_mnist all --encyst --natural --rate 0.00005 --samples 5 --seed 89 --iter 400 --model net --sensitive`
+*  `python main_viz.py factor_mnist all --encyst --natural --rate 0.00005 --samples 7 --seed 41 --iter 1500 --model net --sensitive`
 * `python encyst_samples.py --sensitive`
 
 ## For Sensitive samples(Latest):
