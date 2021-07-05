@@ -27,6 +27,8 @@ def parse_arguments(args_to_parse):
                         help='Displays the images of the natural samples too...')
   parser.add_argument('--sensitive',action='store_true', help='If it is sensitive samples..')
 
+  parser.add_argument('--weak_natural',action='store_true',help = 'Weak naturality check parameter')
+
   parser.add_argument('--arch_path', default='classifers/net_architecture.pth',
                       help='the model architecture path')
   parser.add_argument('--min_sens',type = int, default = 1e5, help = 'minimum sensitivity required..')
@@ -214,9 +216,10 @@ for dim in range(latent_dim):
         if(watermark["inner_sens"][dim][sample]<args.min_sens):
           check_sensitivity = False
 
-      
+      if not args.weak_natural:
+        check_sensitivity = avg_sample<avg_loss[dim] and check_sensitivity
 
-      if (max_sample< max_loss[dim] and avg_sample<avg_loss[dim] and check_sensitivity):
+      if (max_sample< max_loss[dim] and check_sensitivity):
         print('The sensitivity of inner image is : '+str(watermark["inner_sens"][dim][sample]))
         print(" Inner image : dim : "+str(dim)+' ,clean label : '+str(clean_pred))
             
@@ -278,9 +281,10 @@ for dim in range(latent_dim):
         if(watermark["outer_sens"][dim][sample]<args.min_sens):
           check_sensitivity = False
 
+      if not args.weak_natural:
+        check_sensitivity = avg_sample<avg_loss[dim] and check_sensitivity
 
-
-      if (max_sample< max_loss[dim] and avg_sample<avg_loss[dim] and check_sensitivity):
+      if (max_sample< max_loss[dim] and check_sensitivity):
         print('The sensitivity of outer image is : '+str(watermark["outer_sens"][dim][sample]))
         print("Outer image dim : "+str(dim)+' , clean label : ' +str(clean_pred))
 

@@ -164,26 +164,39 @@ class Visualizer():
 
     def sensitive_encystSamples(self,classifier,samples_per_dim,from_natural,rate = 0.00005,max_iterations=100,output_classes = 10):
         
+        if torch.cuda.is_available():
+            self.device = torch.device('cuda')
+        else:
+            self.device = torch.device('cpu')
+
+        for name,param in classifier.named_parameters():
+            param = param.to(self.device)
+
+        self.model = self.model.to(self.device)
+
         print('\nGenerating sensitive samples\n')
         initial_rate = rate
 
-        #classifier = classifier.to(self.device)
+
+        
         classifier.eval()
         seed = random.randint(1,1000)
 
         
+
         inner_boundary = {}
         outer_boundary = {}
         inner_sens = {}
         outer_sens = {}
 
         
+
         data = get_samples(self.dataset, samples_per_dim)
         img_size = data[0].shape
 
         
-        inner_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2])
-        outer_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2])
+        inner_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
+        outer_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
 
     
         for dim in range(self.latent_dim):
@@ -201,15 +214,15 @@ class Visualizer():
 
 
             img_size = data[0].shape
-            inner_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2])
-            outer_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2])  
-            inner_img_sens = torch.zeros(samples_per_dim)
-            outer_img_sens = torch.zeros(samples_per_dim)
+            inner_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2]).to(self.device)
+            outer_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2]).to(self.device)  
+            inner_img_sens = torch.zeros(samples_per_dim).to(self.device)
+            outer_img_sens = torch.zeros(samples_per_dim).to(self.device)
 
 
             with torch.no_grad():
                 post_mean, post_logvar = self.model.encoder(data.to(self.device))
-                samples = self.model.reparameterize(post_mean, post_logvar)
+                samples = (self.model.reparameterize(post_mean, post_logvar)).to(self.device)
             
             for (sample_num,sample) in enumerate(samples):
 
@@ -227,6 +240,7 @@ class Visualizer():
                 while(iterations<max_iterations/2):
 
                     delta,total_lk = self.delta_fn(sample,classifier,output_classes)
+                    delta = delta.to(self.device)
 
                     sample = sample + rate* (delta)
 
@@ -266,6 +280,8 @@ class Visualizer():
                     init_Lk = total_lk
 
                     delta,total_lk = self.delta_fn(sample,classifier,output_classes)
+                    delta = delta.to(self.device)
+
                     sample = sample + rate* (delta)
 
                     img = self._decode_latents(torch.unsqueeze(sample,0))
@@ -288,8 +304,8 @@ class Visualizer():
                     print('Last sensitivity : '+str(total_lk))
                     #print('They have equal prediction')
                     
-                    prev_img = torch.zeros(1,img_size[0],img_size[1],img_size[2])
-                    img = torch.zeros(1,img_size[0],img_size[1],img_size[2])
+                    prev_img = torch.zeros(1,img_size[0],img_size[1],img_size[2]).to(self.device)
+                    img = torch.zeros(1,img_size[0],img_size[1],img_size[2]).to(self.device)
                     print('\n')
                 else:
                     print('The previous prediction : '+str(prev_pred[0]))
