@@ -113,10 +113,15 @@ def main(args):
 
                 print("\nloading the Net model\n")
                 PATH = args.arch_path
-                classifier = torch.load(PATH,map_location=torch.device('cpu'))
 
-                PATH = args.model_path
-                classifier.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
+                if torch.cuda.is_available():
+                    classifier = torch.load(PATH)
+                    PATH = args.model_path
+                    classifier.load_state_dict(torch.load(PATH))
+                else:
+                    classifier = torch.load(PATH,map_location=torch.device('cpu'))
+                    PATH = args.model_path
+                    classifier.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))                
 
         if args.sensitive:
             inner_boundary,inner_sens,outer_boundary,outer_sens = viz.sensitive_encystSamples(classifier,args.samples,args.natural,args.rate,args.iter)
