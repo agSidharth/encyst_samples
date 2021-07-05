@@ -63,6 +63,7 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--iter',type = int,default = 100,help = 'the change in value of feature')
     parser.add_argument('--arch_path', default='classifers/net_architecture.pth', help='the model architecture path')
     parser.add_argument('--model_path', default='classifers/net.pth', help='the classifier path')
+    parser.add_argument('--multiple',action = 'store_true',help = 'If in case the random noise is added to all the dimensions..')
     args = parser.parse_args()
 
     return args
@@ -116,7 +117,7 @@ def main(args):
 
                 if torch.cuda.is_available():
                     this_device = torch.device("cuda")
-                    classifier = torch.load(PATH,map_location="cuda:0")
+                    classifier = torch.load(PATH)
                     PATH = args.model_path
                     classifier.load_state_dict(torch.load(PATH,map_location="cuda:0"))
                     classifier.to(this_device)
@@ -136,7 +137,7 @@ def main(args):
             torch.save(dictionary,model_dir+f"/watermark_sens.pth")
 
         else:
-            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.encystSamples(classifier,args.samples,args.natural,args.rate,args.iter)
+            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.encystSamples(classifier,args.samples,args.natural,args.rate,args.iter,args.multiple)
 
             dictionary = {}
             dictionary["inner_img"] = inner_boundary

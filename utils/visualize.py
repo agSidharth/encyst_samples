@@ -170,7 +170,6 @@ class Visualizer():
             self.device = torch.device('cpu')
 
         for name,param in classifier.named_parameters():
-            print(type(param.data.get_device))
             param = param.to(self.device)
 
         self.model = self.model.to(self.device)
@@ -335,9 +334,23 @@ class Visualizer():
         return inner_boundary,inner_sens,outer_boundary,outer_sens
 
 
-    def encystSamples(self,classifier,samples_per_dim,from_natural,rate,max_iterations=100):
+    def encystSamples(self,classifier,samples_per_dim,from_natural,rate,max_iterations=100,mutiple=False):
+
+        if torch.cuda.is_available():
+            self.device = torch.device('cuda')
+        else:
+            self.device = torch.device('cpu')
+
+        for name,param in classifier.named_parameters():
+            param = param.to(self.device)
+
+        self.model = self.model.to(self.device)
 
         print('\nGenerating random noise encyst samples\n')
+        if not mutiple:
+            print("Adding noise to a single dim at a time\n")
+        else:
+            print('Adding noise to complete vector at a time\n')
 
         #classifier = classifier.to(self.device)
         classifier.eval()
@@ -351,8 +364,8 @@ class Visualizer():
         data = get_samples(self.dataset, samples_per_dim)
         img_size = data[0].shape
         
-        inner_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2])
-        outer_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2])
+        inner_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
+        outer_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
         
         for dim in range(self.latent_dim):
             print('The dimension number is:'+str(dim))
@@ -366,14 +379,14 @@ class Visualizer():
                 data = (self._decode_latents(prior_samples)).data
 
             img_size = data[0].shape
-            inner_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2])
-            outer_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2])  
-            inner_img_pred = torch.zeros(samples_per_dim)
-            outer_img_pred = torch.zeros(samples_per_dim)
+            inner_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2]).to(self.device)
+            outer_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2]).to(self.device)  
+            inner_img_pred = torch.zeros(samples_per_dim).to(self.device)
+            outer_img_pred = torch.zeros(samples_per_dim).to(self.device)
 
             with torch.no_grad():
                 post_mean, post_logvar = self.model.encoder(data.to(self.device))
-                samples = self.model.reparameterize(post_mean, post_logvar)
+                samples = self.model.reparameterize(post_mean, post_logvar).to(self.device)
                 #samples = samples.cpu().repeat(samples_per_dim, 1)
             
             #sample is the latent code represntation
@@ -383,7 +396,7 @@ class Visualizer():
                 if factor==2:
                     factor = -1
                 
-                img = self._decode_latents(torch.unsqueeze(sample,0))
+                img = self._decode_latents(torch.unsqueeze(sample,0).to(self.device))
                 _,pred = torch.max(classifier((img).to(self.device)), 1)
                 prev_pred = pred
                 
@@ -393,8 +406,13 @@ class Visualizer():
                 
                 while(torch.equal(pred,prev_pred) and iterations<max_iterations):
                     prev_img = img
-                    sample[dim] = sample[dim] + factor*rate*abs(np.random.normal(loc = 0,scale = 1))
-                    img = self._decode_latents(torch.unsqueeze(sample,0))
+
+                    if not mutiple:
+                        sample[dim] = sample[dim] + factor*rate*abs(np.random.normal(loc = 0,scale = 1))
+                    else:
+                        sample = sample + factor*rate*torch.randn(self.latent_dim).to(self.device)
+
+                    img = self._decode_latents(torch.unsqueeze(sample,0).to(self.device))
                     _,pred = torch.max(classifier((img).to(self.device)), 1)
                     iterations = iterations + 1
                 
@@ -407,8 +425,13 @@ class Visualizer():
                     
                     while(torch.equal(pred,prev_pred) and iterations<max_iterations):
                         prev_img = img
-                        sample[dim] = sample[dim] + factor*rate*abs(np.random.normal(loc = 0,scale = 1))
-                        img = self._decode_latents(torch.unsqueeze(sample,0))
+
+                        if not mutiple:
+                            sample[dim] = sample[dim] + factor*rate*abs(np.random.normal(loc = 0,scale = 1))
+                        else:
+                            sample = sample + factor*rate*torch.randn(self.latent_dim).to(self.device)
+
+                        img = self._decode_latents(torch.unsqueeze(sample,0).to(self.device))
                         _,pred = torch.max(classifier((img).to(self.device)), 1)
                         iterations = iterations + 1
                 
@@ -419,8 +442,8 @@ class Visualizer():
                     print('No image found after changing this particular feature')
                     #print('They have equal prediction')
                     
-                    prev_img = torch.zeros(1,img_size[0],img_size[1],img_size[2])
-                    img = torch.zeros(1,img_size[0],img_size[1],img_size[2])
+                    prev_img = torch.zeros(1,img_size[0],img_size[1],img_size[2]).to(self.device)
+                    img = torch.zeros(1,img_size[0],img_size[1],img_size[2]).to(self.device)
                     print('\n')
                 else:
                     #print('The previous prediction : '+str(prev_pred[0]))
