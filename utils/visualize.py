@@ -96,7 +96,7 @@ class Visualizer():
             param.requires_grad_(True)
             
         
-        delta = torch.zeros(sample_original.shape[0])
+        delta = torch.zeros(sample_original.shape[0]).to(self.device)
 
         total_lk = 0
 
