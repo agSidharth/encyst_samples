@@ -117,7 +117,7 @@ def main(args):
 
                 if torch.cuda.is_available():
                     this_device = torch.device("cuda")
-                    classifier = torch.load(PATH)
+                    classifier = torch.load(PATH,map_location="cuda:0")
                     PATH = args.model_path
                     classifier.load_state_dict(torch.load(PATH,map_location="cuda:0"))
                     classifier.cuda()
