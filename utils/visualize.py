@@ -106,7 +106,7 @@ class Visualizer():
 
             sample = sample_original.clone().detach().requires_grad_(True).to(self.device)
             reconstructed = self.model.decoder(torch.unsqueeze(sample,0))
-            output = classifier((reconstructed))
+            output = classifier((reconstructed).to(self.device))
 
             loss = output[0][i]
             loss.backward(retain_graph = True,create_graph = True)      # to retain graph for second partial derivative
