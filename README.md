@@ -28,7 +28,7 @@
 * Use `pip install lpips`.
 * Use `pip install tqdm`
 
-## Instructions
+## General Instructions
 `python main_viz.py factor_mnist all --encyst --natural --rate 0.05 --samples 5 --seed 62 --iter 4500 --model net` to generate the encyst samples
 * --natural for sample vectors are taken from standard dataset
 * --rate is the proportional to the factor of noise included at each step
