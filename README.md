@@ -23,13 +23,14 @@
 * use iter to be around `5000`
 * To test on `encyst_samples.py` add `--gray_box`
 * Note for gray box we only check for the outer boundary since inner boundary has same labels..
+* Note take the attack model different for testing from that used to generate samples, only then it will make sense.
 
 ## Libraries needed:
 * You can run this only in an environment which has already installed trojanzoo.
 * Use `pip install lpips`.
 * Use `pip install tqdm`
 
-## General Instructions
+## General Instructions for random and all noises:
 `python main_viz.py factor_mnist --encyst --rate 0.05 --samples 5 --iter 4500 --seed 62` to generate the random encyst samples
 * --artificial for sample vectors are taken from random latent vectors in samples pool of generator
 * --rate is the proportional to the factor of noise included at each step
