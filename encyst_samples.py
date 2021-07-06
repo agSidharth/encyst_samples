@@ -27,6 +27,8 @@ def parse_arguments(args_to_parse):
                         help='Displays the images of the natural samples too...')
   parser.add_argument('--sensitive',action='store_true', help='If it is sensitive samples..')
 
+  parser.add_argument('--gray_box',action = 'store_true',help = 'If it is gray box model')
+
   parser.add_argument('--weak_natural',action='store_true',help = 'Weak naturality check parameter')
 
   parser.add_argument('--arch_path', default='classifers/net_architecture.pth',
@@ -57,11 +59,18 @@ if args.sensitive:
 
   if (args.wm_path).find('sens')==-1:
     args.wm_path = 'results/factor_mnist/watermark_sens.pth'
-    print('Loaded the default sensitive model')
+    print('\nLoaded the default sensitive model\n')
 
   else:
-    print('Loaded your sensitve watermark')
+    print('\nLoaded your sensitve watermark\n')
 
+if args.gray_box:
+  if (args.wm_path).find('gray')==-1:
+    args.wm_path = 'results/factor_mnist/watermark_gray.pth'
+    print('\nLoaded the gray box model\n')
+
+  else:
+    print('\nLoaded your gray box\n')
 
 img_size = 32
 transforms_1 = transforms.Compose([transforms.Resize(32),transforms.ToTensor()])
@@ -148,6 +157,8 @@ attacked_model.eval()
 PATH = args.wm_path
 watermark = torch.load(PATH,map_location=torch.device('cpu'))
 
+print('\nLoading the watermark at : '+ args.wm_path)
+
 latent_dim = len(watermark["inner_img"])
 samples_per_dim = watermark["inner_img"][0].shape[0]
 
@@ -196,69 +207,76 @@ print('\n\n')
 for dim in range(latent_dim):
   for sample in range(samples_per_dim):
 
-    ###### For the inner image
-    inner_img = watermark["inner_img"][dim][sample]
+    if not args.gray_box:
+      ###### For the inner image
+      inner_img = watermark["inner_img"][dim][sample]
 
-    if (not torch.equal(inner_img,zeros)):
+      if (not torch.equal(inner_img,zeros)):
 
-      clean_output = clean_model((inner_img)).data
-      clean_topk   = torch.topk(clean_output,topk).indices
-      _, clean_pred = torch.max(clean_output, 1)
-      
-      
-
-      max_sample,avg_sample = check_naturality(clean_pred[0].detach().numpy(),inner_img,natural_samples,samples_per_dim)
-
-      check_sensitivity = True
-
-      if args.sensitive:
+        clean_output = clean_model((inner_img)).data
+        clean_topk   = torch.topk(clean_output,topk).indices
+        _, clean_pred = torch.max(clean_output, 1)
         
-        if(watermark["inner_sens"][dim][sample]<args.min_sens):
-          check_sensitivity = False
-
-      if not args.weak_natural:
-        check_sensitivity = avg_sample<avg_loss[dim] and check_sensitivity
-
-      if (max_sample< max_loss[dim] and check_sensitivity):
-        print('The sensitivity of inner image is : '+str(watermark["inner_sens"][dim][sample]))
-        print(" Inner image : dim : "+str(dim)+' ,clean label : '+str(clean_pred))
-            
-        if(SHOW_PLOTS):   
-          plt.figure(figsize=(2,2))
-          plt.imshow(np.transpose(inner_img[0].detach().numpy(), (1, 2, 0))[:,:,0])
-          plt.show()
-
-        attacked_output = attacked_model((inner_img)).data
-        attacked_topk   = torch.topk(attacked_output,topk).indices
-        _, attacked_pred = torch.max(attacked_output, 1)
-        print('Attacked label : '+str(attacked_pred))
         
-        total = total + 1
 
-        if (torch.equal(clean_output,attacked_output)):
-          prob_similar = prob_similar + 1
-          print("The inner image prob vector matched")
+        max_sample,avg_sample = check_naturality(clean_pred[0].detach().numpy(),inner_img,natural_samples,samples_per_dim)
+
+        check_sensitivity = True
+
+        if args.sensitive:
           
-        if (torch.equal(clean_topk,attacked_topk)):
-          k_label_similar = k_label_similar + 1
-          print("The inner image top "+str(topk)+" labels matched")
+          if(watermark["inner_sens"][dim][sample]<args.min_sens):
+            check_sensitivity = False
 
-        if (torch.equal(clean_pred,attacked_pred)):
-          top_label_similar = top_label_similar + 1
-          print("The inner image top 1 label matched")
+        if not args.weak_natural:
+          check_sensitivity = avg_sample<avg_loss[dim] and check_sensitivity
+
+        if (max_sample< max_loss[dim] and check_sensitivity):
+
+          if args.sensitive:
+            print('The sensitivity of inner image is : '+str(watermark["inner_sens"][dim][sample]))
+          print(" Inner image : dim : "+str(dim)+' ,clean label : '+str(clean_pred))
+              
+          if(SHOW_PLOTS):   
+            plt.figure(figsize=(2,2))
+            plt.imshow(np.transpose(inner_img[0].detach().numpy(), (1, 2, 0))[:,:,0])
+            plt.show()
+
+          attacked_output = attacked_model((inner_img)).data
+          attacked_topk   = torch.topk(attacked_output,topk).indices
+          _, attacked_pred = torch.max(attacked_output, 1)
+          print('Attacked label : '+str(attacked_pred))
+          
+          total = total + 1
+
+          if (torch.equal(clean_output,attacked_output)):
+            prob_similar = prob_similar + 1
+            print("The inner image prob vector matched")
+            
+          if (torch.equal(clean_topk,attacked_topk)):
+            k_label_similar = k_label_similar + 1
+            print("The inner image top "+str(topk)+" labels matched")
+
+          if (torch.equal(clean_pred,attacked_pred)):
+            top_label_similar = top_label_similar + 1
+            print("The inner image top 1 label matched")
+          
+          print('\n')
         
-        print('\n')
-      
+        else:
+          
+          #print('The image is not natural enough..')
+          zero_num = zero_num + 1
       else:
         
-        #print('The image is not natural enough..')
-        zero_num = zero_num + 1
-    else:
+        #print("The image is null, Ignoring this image.....")
+        zero_num = zero_num+1
       
-      #print("The image is null, Ignoring this image.....")
-      zero_num = zero_num+1
+      del inner_img
+
     
-    del inner_img
+
+
 
     ###### For the outer image
     
@@ -285,7 +303,9 @@ for dim in range(latent_dim):
         check_sensitivity = avg_sample<avg_loss[dim] and check_sensitivity
 
       if (max_sample< max_loss[dim] and check_sensitivity):
-        print('The sensitivity of outer image is : '+str(watermark["outer_sens"][dim][sample]))
+
+        if args.sensitive:
+          print('The sensitivity of outer image is : '+str(watermark["outer_sens"][dim][sample]))
         print("Outer image dim : "+str(dim)+' , clean label : ' +str(clean_pred))
 
         if(SHOW_PLOTS):   

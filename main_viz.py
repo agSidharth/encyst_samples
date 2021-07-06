@@ -56,6 +56,8 @@ def parse_arguments(args_to_parse):
 
     # All the features here are added by me for novel watermark..
     parser.add_argument('--sensitive',action = 'store_true',help = 'generate sensitive watermark')
+    parser.add_argument('--gray_box',action = 'store_true',help = 'generate gray_box watermark')
+    parser.add_argument('--attack_mod_path',default = 'classifers/square_white_tar0_alpha0.00_mark(3,3).pth',help = 'for gray box model')
     parser.add_argument('--encyst',action = 'store_true',help = 'If you want to save a tensor containing samples of inner and outer boundary')
     parser.add_argument('--samples',type = int,default = 5,help = 'Number of boundary samples to be generated per latent dim')
     parser.add_argument('--natural',action = 'store_true',help = 'If examples are generated from natural samples')
@@ -115,7 +117,7 @@ def main(args):
                 print("\nloading the Net model\n")
                 PATH = args.arch_path
 
-                if torch.cuda.is_available():
+                if torch.cuda.is_available() and args.sensitive:
                     this_device = torch.device("cuda")
                     classifier = torch.load(PATH,map_location="cuda:0")
                     PATH = args.model_path
@@ -135,6 +137,21 @@ def main(args):
             dictionary["outer_img"] = outer_boundary
             dictionary["outer_sens"] = outer_sens
             torch.save(dictionary,model_dir+f"/watermark_sens.pth")
+        
+        elif args.gray_box:
+
+            print("\nloading the attacked model\n")
+            attack_model = torch.load(args.arch_path,map_location=torch.device('cpu'))
+            attack_model.load_state_dict(torch.load(args.attack_mod_path,map_location=torch.device('cpu')))
+
+            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.gray_encystSamples(classifier,attack_model,args.samples,args.natural,args.rate,args.iter,args.multiple)
+
+            dictionary = {}
+            dictionary["inner_img"] = inner_boundary
+            dictionary["inner_pred"] = inner_pred
+            dictionary["outer_img"] = outer_boundary
+            dictionary["outer_pred"] = outer_pred
+            torch.save(dictionary,model_dir+f"/watermark_gray.pth")
 
         else:
             inner_boundary,inner_pred,outer_boundary,outer_pred = viz.encystSamples(classifier,args.samples,args.natural,args.rate,args.iter,args.multiple)

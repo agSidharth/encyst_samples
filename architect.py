@@ -41,8 +41,23 @@ if __name__ == '__main__':
     env = trojanvision.environ.create(**args.__dict__)
     dataset = trojanvision.datasets.create(**args.__dict__)
     model = trojanvision.models.create(dataset=dataset, **args.__dict__)
-    print(model.state_dict())
 
+    transforms_1 = transforms.Compose([transforms.Resize(32),transforms.ToTensor()])
+
+    mnist_trainset_i = datasets.MNIST(root='./data', train=True, download=True, transform=transforms_1)
+    trainset = DataLoader(mnist_trainset_i,batch_size = 100,shuffle=True)
+
+    for inputs,labels in trainset:
+        x = inputs
+        break
+
+    #print(help(model))
+    #print(model.state_dict())
+    print(model)
+    print(model.conv1)
+    print(model.get_layer(x,'classifier').register_forward_hook())
+
+    #print((model).get_all_layer(x))
     for name,param in model.named_parameters():
         print(name)
         print(param.shape)

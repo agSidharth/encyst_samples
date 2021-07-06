@@ -333,13 +333,151 @@ class Visualizer():
         trash = self._save_or_return(outer_grid,grid_size,"Outer_Boundary_Sensitive.png")
         return inner_boundary,inner_sens,outer_boundary,outer_sens
 
+    def gray_encystSamples(self,classifier,attacked_clf,samples_per_dim,from_natural,rate,max_iterations=100,mutiple=False):
+
+        #if torch.cuda.is_available():
+        #    self.device = torch.device('cuda')
+        #else:
+        self.device = torch.device('cpu')
+
+        #for name,param in classifier.named_parameters():
+        #    param = param.to(self.device)
+
+        self.model = self.model.to(self.device)
+
+        print('\nGenerating gray noise encyst samples\n')
+        if not mutiple:
+            print("Adding noise to a single dim at a time\n")
+        else:
+            print('Adding noise to complete vector at a time\n')
+
+        #classifier = classifier.to(self.device)
+        classifier.eval()
+        attacked_clf.eval()
+        seed = random.randint(1,1000)
+        
+        inner_boundary = {}
+        outer_boundary = {}
+        inner_pred = {}
+        outer_pred = {}
+        
+        data = get_samples(self.dataset, samples_per_dim)
+        img_size = data[0].shape
+        
+        inner_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
+        outer_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
+        
+        for dim in range(self.latent_dim):
+            print('The dimension number is:'+str(dim))
+            random.seed(seed)
+            seed = int(seed*4/3)
+
+            if from_natural:
+                data = get_samples(self.dataset, samples_per_dim)
+            else:
+                prior_samples = torch.randn(samples_per_dim, self.latent_dim)
+                data = (self._decode_latents(prior_samples)).data
+
+            img_size = data[0].shape
+            inner_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2]).to(self.device)
+            outer_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2]).to(self.device)  
+            inner_img_pred = torch.zeros(samples_per_dim).to(self.device)
+            outer_img_pred = torch.zeros(samples_per_dim).to(self.device)
+
+            with torch.no_grad():
+                post_mean, post_logvar = self.model.encoder(data.to(self.device))
+                samples = self.model.reparameterize(post_mean, post_logvar).to(self.device)
+                #samples = samples.cpu().repeat(samples_per_dim, 1)
+            
+            #sample is the latent code represntation
+            for sample_num, sample in enumerate(samples):
+
+                factor = random.randint(1,2)            #for ensuring a feature is both decreased and increased max_iter times..
+                if factor==2:
+                    factor = -1
+                
+                img = self._decode_latents(torch.unsqueeze(sample,0).to(self.device))
+                _,pred = torch.max(classifier((img).to(self.device)), 1)
+                _,dirty_pred = torch.max(attacked_clf((img).to(self.device)),1)
+                
+                initial_sample = sample
+                initial_img = img
+                iterations = 0
+                
+                while(torch.equal(pred,dirty_pred) and iterations<max_iterations):
+                    prev_img = img
+
+                    if not mutiple:
+                        sample[dim] = sample[dim] + factor*rate*abs(np.random.normal(loc = 0,scale = 1))
+                    else:
+                        sample = sample + factor*rate*torch.randn(self.latent_dim).to(self.device)
+
+                    img = self._decode_latents(torch.unsqueeze(sample,0).to(self.device))
+                    _,pred = torch.max(classifier((img).to(self.device)), 1)
+                    _,dirty_pred = torch.max(attacked_clf((img).to(self.device)),1)
+
+                    iterations = iterations + 1
+                
+                if(torch.equal(pred,dirty_pred)):
+                    
+                    iterations = 0
+                    factor = factor*(-1)
+                    sample = initial_sample
+                    img = initial_img
+                    
+                    while(torch.equal(pred,dirty_pred) and iterations<max_iterations):
+                        prev_img = img
+
+                        if not mutiple:
+                            sample[dim] = sample[dim] + factor*rate*abs(np.random.normal(loc = 0,scale = 1))
+                        else:
+                            sample = sample + factor*rate*torch.randn(self.latent_dim).to(self.device)
+
+                        img = self._decode_latents(torch.unsqueeze(sample,0).to(self.device))
+                        _,pred = torch.max(classifier((img).to(self.device)), 1)
+                        _,dirty_pred = torch.max(attacked_clf((img).to(self.device)),1)
+
+                        iterations = iterations + 1
+                
+                print('For the sample = '+str(sample_num))
+                #print(torch.sum(torch.square(img - prev_img))/torch.sum(torch.square(prev_img)))
+                
+                if(torch.equal(pred,dirty_pred)):
+                    print('No image found after changing this particular feature')
+                    #print('They have equal prediction')
+                    
+                    prev_img = torch.zeros(1,img_size[0],img_size[1],img_size[2]).to(self.device)
+                    img = torch.zeros(1,img_size[0],img_size[1],img_size[2]).to(self.device)
+                    print('\n')
+                else:
+                    #print('The previous prediction : '+str(prev_pred[0]))
+                    #print('The new prediction : '+str(pred[0]))
+                    print('\n')
+                    
+                inner_grid[sample_num + dim*(samples_per_dim)] = prev_img[0]
+                inner_img[sample_num] = prev_img
+                inner_img_pred[sample_num] = dirty_pred
+                outer_grid[sample_num + dim*(samples_per_dim)] = img[0]
+                outer_img[sample_num] = img
+                outer_img_pred[sample_num] = pred
+            
+            inner_boundary[dim] = inner_img 
+            inner_pred[dim] = inner_img_pred
+            outer_boundary[dim] = outer_img
+            outer_pred[dim] = outer_img_pred
+        
+        grid_size = (self.latent_dim,samples_per_dim)
+        trash = self._save_or_return(inner_grid,grid_size,"Inner_Boundary_gray.png")
+        trash = self._save_or_return(outer_grid,grid_size,"Outer_Boundary_gray.png")
+        return inner_boundary,inner_pred,outer_boundary,outer_pred
+
 
     def encystSamples(self,classifier,samples_per_dim,from_natural,rate,max_iterations=100,mutiple=False):
 
-        if torch.cuda.is_available():
-            self.device = torch.device('cuda')
-        else:
-            self.device = torch.device('cpu')
+        #if torch.cuda.is_available():
+        #    self.device = torch.device('cuda')
+        #else:
+        self.device = torch.device('cpu')
 
         for name,param in classifier.named_parameters():
             param = param.to(self.device)

@@ -1,5 +1,9 @@
 # Encyst Samples
 
+## Example run for Gray box in order:
+* `python main_viz.py factor_mnist all --encyst --natural --rate 0.05 --samples 5 --seed 62 --iter 4500 --model net --gray_box`
+* `python encyst_samples.py --gray_box`
+
 ## Example run for Sensitive samples in order:
 *  `python main_viz.py factor_mnist all --encyst --natural --rate 0.00005 --samples 7 --seed 41 --iter 1500 --model net --sensitive`
 * `python encyst_samples.py --sensitive`
@@ -11,6 +15,13 @@
 * use --iter to be atleast 200(according to sensitive paper around 1000).
 * To test on `encyst_samples.py` add `--sensitive` for sensitive watermark..
 * The rest functionalities are same.
+
+## For Gray box:
+* The functions to focus are `gray_encystSamples()` in `utils/visualize.py`
+* To use this just use the `main_viz.py` with previous command line inputs and just add `--gray_box`, in that.
+* use rate to be around `0.05`
+* use iter to be around `5000`
+* To test on `encyst_samples.py` add `--gray_box`
 
 ## Libraries needed:
 * You can run this only in an environment which has already installed trojanzoo.
