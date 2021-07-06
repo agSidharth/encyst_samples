@@ -43,10 +43,11 @@
 * --seed <seed>  to give the seed to change the refernce natural images by which we are going to compare our lpips alexnet loss.
 * --show to see the image of each naturally verified images.
 * --arch_path,--model_path,--attack_model_path,--watermark_path are understood, default values will work most of the time, watermark path will change when different vae is used.
+* --img_size to change the size of image to deal with deafault is 64.
 
 ## Note for the user.
 * If you are changing the vae used for example we are currently using factor mnist by default, then in encyst_samples.py you have to give the path of the watermark accordingly in command line arguments.
 * If somehow in "classifers"(I know the spelling is wrong :)) "net_architecture.pth" is not present then find that on the link given here
 [Google Drive](https://drive.google.com/file/d/1HidJEWGgvphAuoyvYng3IokSU6YXZptN/view?usp=sharing). 
 * Files to focus on are main_viz.py, visualize.py and encyst_samples.py
-
+* To generate architecture of the net from trojanzoo use `python architect.py --verbose 1 --color --dataset mnist`

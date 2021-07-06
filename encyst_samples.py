@@ -25,6 +25,7 @@ def parse_arguments(args_to_parse):
                         help='Random seed. Can be `None` for stochastic behavior.')
   parser.add_argument('--show', action='store_true',
                         help='Displays the images of the natural samples too...')
+  parser.add_argument('--img_size',type = int,default = 64,help='The size of image that we are oging to deal with')
   parser.add_argument('--sensitive',action='store_true', help='If it is sensitive samples..')
 
   parser.add_argument('--gray_box',action = 'store_true',help = 'If it is gray box model')
@@ -72,8 +73,8 @@ if args.gray_box:
   else:
     print('\nLoaded your gray box\n')
 
-img_size = 32
-transforms_1 = transforms.Compose([transforms.Resize(32),transforms.ToTensor()])
+img_size = args.img_size
+transforms_1 = transforms.Compose([transforms.Resize(img_size),transforms.ToTensor()])
 
 
 mnist_trainset_i = datasets.MNIST(root='./data', train=True, download=True, transform=transforms_1)
