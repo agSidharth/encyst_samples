@@ -153,7 +153,7 @@ class Visualizer():
             sample.grad = torch.zeros_like(sample)
             loss = 0
 
-        return delta,(total_lk.detach().numpy()+0)
+        return delta,(total_lk.cpu().detach().numpy()+0)
 
     def update_rate(self,rate,iterations):
 
