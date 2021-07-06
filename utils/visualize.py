@@ -162,7 +162,7 @@ class Visualizer():
         return rate
 
 
-    def sensitive_encystSamples(self,classifier,samples_per_dim,from_natural,rate = 0.00005,max_iterations=100,output_classes = 10):
+    def sensitive_encystSamples(self,classifier,samples_per_dim = 10,rate = 0.00005,max_iterations=1000,artificial = False,output_classes = 10):
         
         if torch.cuda.is_available():
             self.device = torch.device('cuda')
@@ -206,7 +206,7 @@ class Visualizer():
             seed = int(seed*4/3)
 
 
-            if from_natural:
+            if not artificial:
                 data = get_samples(self.dataset, samples_per_dim)
             else:
                 prior_samples = torch.randn(samples_per_dim, self.latent_dim)
@@ -333,7 +333,7 @@ class Visualizer():
         trash = self._save_or_return(outer_grid,grid_size,"Outer_Boundary_Sensitive.png")
         return inner_boundary,inner_sens,outer_boundary,outer_sens
 
-    def gray_encystSamples(self,classifier,attacked_clf,samples_per_dim,from_natural,rate,max_iterations=100,mutiple=False):
+    def gray_encystSamples(self,classifier,attacked_clf,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,artificial = False):
 
         #if torch.cuda.is_available():
         #    self.device = torch.device('cuda')
@@ -372,7 +372,7 @@ class Visualizer():
             random.seed(seed)
             seed = int(seed*4/3)
 
-            if from_natural:
+            if not artificial:
                 data = get_samples(self.dataset, samples_per_dim)
             else:
                 prior_samples = torch.randn(samples_per_dim, self.latent_dim)
@@ -472,7 +472,7 @@ class Visualizer():
         return inner_boundary,inner_pred,outer_boundary,outer_pred
 
 
-    def encystSamples(self,classifier,samples_per_dim,from_natural,rate,max_iterations=100,mutiple=False):
+    def encystSamples(self,classifier,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,artificial = False):
 
         #if torch.cuda.is_available():
         #    self.device = torch.device('cuda')
@@ -510,7 +510,7 @@ class Visualizer():
             random.seed(seed)
             seed = int(seed*4/3)
 
-            if from_natural:
+            if not artificial:
                 data = get_samples(self.dataset, samples_per_dim)
             else:
                 prior_samples = torch.randn(samples_per_dim, self.latent_dim)

@@ -1,11 +1,11 @@
 # Encyst Samples
 
 ## Example run for Gray box in order:
-* `python main_viz.py factor_mnist all --encyst --natural --rate 0.05 --samples 5 --seed 62 --iter 4500 --model net --gray_box`
+* `python main_viz.py factor_mnist --encyst --rate 0.05 --samples 5 --iter 4500 --seed 62 --gray_box`
 * `python encyst_samples.py --gray_box`
 
 ## Example run for Sensitive samples in order:
-*  `python main_viz.py factor_mnist all --encyst --natural --rate 0.00005 --samples 7 --seed 41 --iter 1500 --model net --sensitive`
+*  `python main_viz.py factor_mnist --encyst --rate 0.00005 --samples 7 --iter 1500 --seed 41 --sensitive`
 * `python encyst_samples.py --sensitive`
 
 ## For Sensitive samples(Latest):
@@ -22,6 +22,7 @@
 * use rate to be around `0.05`
 * use iter to be around `5000`
 * To test on `encyst_samples.py` add `--gray_box`
+* Note for gray box we only check for the outer boundary since inner boundary has same labels..
 
 ## Libraries needed:
 * You can run this only in an environment which has already installed trojanzoo.
@@ -29,17 +30,17 @@
 * Use `pip install tqdm`
 
 ## General Instructions
-`python main_viz.py factor_mnist all --encyst --natural --rate 0.05 --samples 5 --seed 62 --iter 4500 --model net` to generate the encyst samples
-* --natural for sample vectors are taken from standard dataset
+`python main_viz.py factor_mnist --encyst --rate 0.05 --samples 5 --iter 4500 --seed 62` to generate the random encyst samples
+* --artificial for sample vectors are taken from random latent vectors in samples pool of generator
 * --rate is the proportional to the factor of noise included at each step
 * --samples that need to be generated per dimension.
-* --seed is to change the sample generated
+* --seed is the seed for random generation
 * --the maximum iterations till which we are going to see a label change.
-* --model = net is only working currently.   
 * --arch_path,--model_path are understandable and default values might be suffiencient to use.
+
 `python encyst_samples.py --seed <seed> --show` to test the watermark on the results..
 * --seed <seed>  to give the seed to change the refernce natural images by which we are going to compare our lpips alexnet loss.
-* --show_imgs to see the image of each naturally verified images.
+* --show to see the image of each naturally verified images.
 * --arch_path,--model_path,--attack_model_path,--watermark_path are understood, default values will work most of the time, watermark path will change when different vae is used.
 
 ## Note for the user.

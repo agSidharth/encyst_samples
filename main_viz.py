@@ -30,8 +30,8 @@ def parse_arguments(args_to_parse):
 
     parser.add_argument('name', type=str,
                         help="Name of the model for storing and loading purposes.")
-    parser.add_argument("plots", type=str, nargs='+', choices=PLOT_TYPES,
-                        help="List of all plots to generate. `generate-samples`: random decoded samples. `data-samples` samples from the dataset. `reconstruct` first rnows//2 will be the original and rest will be the corresponding reconstructions. `traversals` traverses the most important rnows dimensions with ncols different samples from the prior or posterior. `reconstruct-traverse` first row for original, second are reconstructions, rest are traversals. `gif-traversals` grid of gifs where rows are latent dimensions, columns are examples, each gif shows posterior traversals. `all` runs every plot.")
+    #parser.add_argument("plots", type=str, nargs='+', choices=PLOT_TYPES,
+    #                    help="List of all plots to generate. `generate-samples`: random decoded samples. `data-samples` samples from the dataset. `reconstruct` first rnows//2 will be the original and rest will be the corresponding reconstructions. `traversals` traverses the most important rnows dimensions with ncols different samples from the prior or posterior. `reconstruct-traverse` first row for original, second are reconstructions, rest are traversals. `gif-traversals` grid of gifs where rows are latent dimensions, columns are examples, each gif shows posterior traversals. `all` runs every plot.")
     parser.add_argument('-s', '--seed', type=int, default=None,
                         help='Random seed. Can be `None` for stochastic behavior.')
     parser.add_argument('-r', '--n-rows', type=int, default=6,
@@ -52,7 +52,7 @@ def parse_arguments(args_to_parse):
                         help='Displays the loss on the figures (if applicable).')
     parser.add_argument('--is-posterior', action='store_true',
                         help='Traverses the posterior instead of the prior.')
-    parser.add_argument('--model', default='resnet', help='the model name')
+    parser.add_argument('--model', default='net', help='the model name')
 
     # All the features here are added by me for novel watermark..
     parser.add_argument('--sensitive',action = 'store_true',help = 'generate sensitive watermark')
@@ -60,7 +60,7 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--attack_mod_path',default = 'classifers/square_white_tar0_alpha0.00_mark(3,3).pth',help = 'for gray box model')
     parser.add_argument('--encyst',action = 'store_true',help = 'If you want to save a tensor containing samples of inner and outer boundary')
     parser.add_argument('--samples',type = int,default = 5,help = 'Number of boundary samples to be generated per latent dim')
-    parser.add_argument('--natural',action = 'store_true',help = 'If examples are generated from natural samples')
+    parser.add_argument('--artificial',action = 'store_true',help = 'If examples are generated from artificial samples')
     parser.add_argument('--rate',type = float,default = 0.1,help = 'the change in value of feature')
     parser.add_argument('--iter',type = int,default = 100,help = 'the change in value of feature')
     parser.add_argument('--arch_path', default='classifers/net_architecture.pth', help='the model architecture path')
@@ -129,7 +129,7 @@ def main(args):
                     classifier.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))                
 
         if args.sensitive:
-            inner_boundary,inner_sens,outer_boundary,outer_sens = viz.sensitive_encystSamples(classifier,args.samples,args.natural,args.rate,args.iter)
+            inner_boundary,inner_sens,outer_boundary,outer_sens = viz.sensitive_encystSamples(classifier,args.samples,args.rate,args.iter,args.artificial)
 
             dictionary = {}
             dictionary["inner_img"] = inner_boundary
@@ -144,7 +144,7 @@ def main(args):
             attack_model = torch.load(args.arch_path,map_location=torch.device('cpu'))
             attack_model.load_state_dict(torch.load(args.attack_mod_path,map_location=torch.device('cpu')))
 
-            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.gray_encystSamples(classifier,attack_model,args.samples,args.natural,args.rate,args.iter,args.multiple)
+            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.gray_encystSamples(classifier,attack_model,args.samples,args.rate,args.iter,args.multiple,args.artificial)
 
             dictionary = {}
             dictionary["inner_img"] = inner_boundary
@@ -154,7 +154,7 @@ def main(args):
             torch.save(dictionary,model_dir+f"/watermark_gray.pth")
 
         else:
-            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.encystSamples(classifier,args.samples,args.natural,args.rate,args.iter,args.multiple)
+            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.encystSamples(classifier,args.samples,args.rate,args.iter,args.multiple,args.artificial)
 
             dictionary = {}
             dictionary["inner_img"] = inner_boundary
