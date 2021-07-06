@@ -11,6 +11,7 @@ import not2imp
 from not2imp.main import RES_DIR
 from disvae.utils.modelIO import load_model, load_metadata
 import torchvision.models as models
+from scripts.test import FactorVAE
 
 
 PLOT_TYPES = ['generate-samples', 'data-samples', 'reconstruct', "traversals",
@@ -28,7 +29,7 @@ def parse_arguments(args_to_parse):
     parser = argparse.ArgumentParser(description=description,
                                      formatter_class=FormatterNoDuplicate)
 
-    parser.add_argument('name', type=str,
+    parser.add_argument('name', type=str,default='new_vae',
                         help="Name of the model for storing and loading purposes.")
     #parser.add_argument("plots", type=str, nargs='+', choices=PLOT_TYPES,
     #                    help="List of all plots to generate. `generate-samples`: random decoded samples. `data-samples` samples from the dataset. `reconstruct` first rnows//2 will be the original and rest will be the corresponding reconstructions. `traversals` traverses the most important rnows dimensions with ncols different samples from the prior or posterior. `reconstruct-traverse` first row for original, second are reconstructions, rest are traversals. `gif-traversals` grid of gifs where rows are latent dimensions, columns are examples, each gif shows posterior traversals. `all` runs every plot.")
@@ -79,25 +80,32 @@ def main(args):
         Arguments
     """
     set_seed(args.seed)
-    experiment_name = args.name
+    experiment_name = args.name             #--------------------------------------------new_vae
     model_dir = os.path.join(RES_DIR, experiment_name)
+    
+    """
     meta_data = load_metadata(model_dir)
     model = load_model(model_dir)
     model.eval()  # don't sample from latent: use mean
     dataset = meta_data['dataset']
+    """
+    model = FactorVAE('mnist',args.sensitive)
     
     viz = Visualizer(model=model,
                      model_dir=model_dir,
-                     dataset=dataset,
+                     dataset='mnist',
                      max_traversal=args.max_traversal,
                      loss_of_interest='kl_loss_',
                      upsample_factor=args.upsample_factor)
-    size = (args.n_rows, args.n_cols)
+                     
+    #size = (args.n_rows, args.n_cols)
     # same samples for all plots: sample max then take first `x`data  for all plots
-    num_samples = args.n_cols * args.n_rows
-    samples = get_samples(dataset, num_samples, idcs=args.idcs)
+    #num_samples = args.n_cols * args.n_rows
+    #samples = get_samples(dataset, num_samples, idcs=args.idcs)
 
-    print('\nThe dataset used is : '+ str(dataset))
+    print('\nThe dataset used is : mnist')
+    dataset = 'mnist'
+
     if args.encyst:
 
         if (dataset=='mnist'):

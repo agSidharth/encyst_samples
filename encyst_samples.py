@@ -41,7 +41,7 @@ def parse_arguments(args_to_parse):
   parser.add_argument('--attack_mod_path', default='classifers/square_white_tar0_alpha0.00_mark(3,3).pth',
                       help='the attack model architecture path')
 
-  parser.add_argument('--wm_path', default='results/factor_mnist/watermark.pth', help='the watermark path')
+  parser.add_argument('--wm_path', default='results/new_vae/watermark.pth', help='the watermark path')
 
   args = parser.parse_args()
   return args
@@ -59,7 +59,7 @@ np.random.seed(SEED)
 if args.sensitive:
 
   if (args.wm_path).find('sens')==-1:
-    args.wm_path = 'results/factor_mnist/watermark_sens.pth'
+    args.wm_path = 'results/new_vae/watermark_sens.pth'
     print('\nLoaded the default sensitive model\n')
 
   else:
@@ -67,7 +67,7 @@ if args.sensitive:
 
 if args.gray_box:
   if (args.wm_path).find('gray')==-1:
-    args.wm_path = 'results/factor_mnist/watermark_gray.pth'
+    args.wm_path = 'results/new_vae/watermark_gray.pth'
     print('\nLoaded the gray box model\n')
 
   else:
@@ -185,7 +185,7 @@ print(model_dict['classifier.fc1.weight'].shape)
 attacked_model.load_state_dict(model_dict)
 attacked_model.eval()
 
-PATH = "results/factor_mnist/watermark.pth"
+PATH = "results/new_vae/watermark.pth"
 watermark = torch.load(PATH,map_location=torch.device('cpu'))
 
 latent_dim = len(watermark["inner_img"])
@@ -203,6 +203,7 @@ total = 0
 zeros = torch.zeros(1,1,img_size,img_size)
 zero_num = 0
 
+print('\nTHE DIMENSION NUMBER ARE DONE INDEX WISE NOT ACTUAL LATENT CODE DIMENSION\n')
 
 print('\n\n')
 for dim in range(latent_dim):

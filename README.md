@@ -1,11 +1,19 @@
 # Encyst Samples
 
+## SETUP:
+* You can run this only in an environment which has already installed trojanzoo.
+* Use `pip install lpips`.
+* Use `pip install tqdm`
+* Download this check_class_script folder from [Google Drive](https://drive.google.com/file/d/18RCO7cx0dq_Rr_70zm-e3snHWOs9SSTI/view?usp=sharing) and put all the 3 directories, that is /checkpoints,
+/classifers and /script in the main directory.
+ 
+
 ## Example run for Gray box in order:
-* `python main_viz.py factor_mnist --encyst --rate 0.05 --samples 5 --iter 4500 --seed 62 --gray_box`
-* `python encyst_samples.py --gray_box`
+* `python main_viz.py new_vae --encyst --rate 0.05 --samples 10 --iter 4500 --seed 312832 --gray_box --attack_mod_path classifers/clean_label.pth`
+* `python encyst_samples.py --gray_box --attack_mod_path classifers/trojannn.pth`
 
 ## Example run for Sensitive samples in order:
-*  `python main_viz.py factor_mnist --encyst --rate 0.00005 --samples 7 --iter 1500 --seed 41 --sensitive`
+*  `python main_viz.py new_vae --encyst --rate 0.00005 --samples 7 --iter 1500 --seed 41 --sensitive`
 * `python encyst_samples.py --sensitive`
 
 ## For Sensitive samples(Latest):
@@ -25,13 +33,9 @@
 * Note for gray box we only check for the outer boundary since inner boundary has same labels..
 * Note take the attack model different for testing from that used to generate samples, only then it will make sense.
 
-## Libraries needed:
-* You can run this only in an environment which has already installed trojanzoo.
-* Use `pip install lpips`.
-* Use `pip install tqdm`
 
 ## General Instructions for random and all noises:
-`python main_viz.py factor_mnist --encyst --rate 0.05 --samples 5 --iter 4500 --seed 62` to generate the random encyst samples
+`python main_viz.py new_vae --encyst --rate 0.05 --samples 5 --iter 4500 --seed 62` to generate the random encyst samples
 * --artificial for sample vectors are taken from random latent vectors in samples pool of generator
 * --rate is the proportional to the factor of noise included at each step
 * --samples that need to be generated per dimension.
@@ -46,8 +50,7 @@
 * --img_size to change the size of image to deal with deafault is 64.
 
 ## Note for the user.
-* If you are changing the vae used for example we are currently using factor mnist by default, then in encyst_samples.py you have to give the path of the watermark accordingly in command line arguments.
-* If somehow in "classifers"(I know the spelling is wrong :)) "net_architecture.pth" is not present then find that on the link given here
-[Google Drive](https://drive.google.com/file/d/1HidJEWGgvphAuoyvYng3IokSU6YXZptN/view?usp=sharing). 
+* If you are changing the vae used for example we are currently using new vae by default, then in encyst_samples.py you have to give the path of the watermark accordingly in command line arguments.
 * Files to focus on are main_viz.py, visualize.py and encyst_samples.py
 * To generate architecture of the net from trojanzoo use `python architect.py --verbose 1 --color --dataset mnist`
+* The watermark and results are going to be saved in `results\new_vae\`

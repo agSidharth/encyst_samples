@@ -362,7 +362,7 @@ class MNIST(datasets.MNIST):
                          train=True,
                          download=True,
                          transform=transforms.Compose([
-                             transforms.Resize(32),
+                             transforms.Resize(64),
                              transforms.ToTensor()
                          ]))
 
