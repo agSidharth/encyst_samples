@@ -344,8 +344,35 @@ for dim in range(latent_dim):
       #print("The image is null, Igonoring this image....")
       zero_num = zero_num + 1
 
-
+if(total==0):
+  print('Sorry no image is natural')
+  sys.exit()
 print('The total number of non-zero valid images are : '+str(total)+'/'+str(total+zero_num))
 print('The percentage of similar probability vector is '+str(prob_similar/total*100))
 print("The percentage of similar top "+str(topk)+" labels is "+str(k_label_similar/total*100))
 print('The percentage of similar top label is '+str(top_label_similar/total*100))
+
+if args.sensitive:
+  file = open("sensitive_results.txt","a")
+  file.write("\nSensitive")
+
+elif args.gray_box:
+  file = open("gray_results.txt","a")
+  file.write("\nGray")
+
+else:
+  file = open("random_results.txt","a")
+  file.write("\nRandom")
+
+file.write("\nTotal watermark images : "+str(total))
+file.write('\nThe percentage of similar probability vector is '+str(prob_similar/total*100))
+file.write("\nThe percentage of similar top "+str(topk)+" labels is "+str(k_label_similar/total*100))
+file.write('\nThe percentage of similar top label is '+str(top_label_similar/total*100))
+file.write("\nThe attack model is : "+args.attack_mod_path)
+
+if top_label_similar==total:
+  file.write('\nWatermark size '+str(total)+' FAILED...\n')
+else:
+  file.write('\nWatermark size '+str(total)+' SUCCESS...\n')
+
+file.close()

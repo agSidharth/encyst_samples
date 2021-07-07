@@ -19,6 +19,7 @@ from utils.viz_helpers import (read_loss_from_file, add_labels, make_grid_img,
                                sort_list_by_other, FPS_GIF, concatenate_pad)
 import random
 from tqdm import tqdm
+import copy
 
 TRAIN_FILE = "train_losses.log"
 DECIMAL_POINTS = 3
@@ -98,13 +99,11 @@ class Visualizer():
     def delta_fn(self,sample_original,classifier,output_classes):
 
         torch.set_grad_enabled(True)
-        classifier.train()
-        self.model.train()
-        self.model.decoder.train()
-
+        #classifier.train()
+        self.model.VAE.decode.train()
+        
         for name, param in classifier.named_parameters():           #because classifier.train() does not work..
             param.requires_grad_(True)
-            
         
         delta = torch.zeros(sample_original.shape[0]).to(self.device)
 
@@ -115,22 +114,22 @@ class Visualizer():
             Lk = 0
 
             sample = sample_original.clone().detach().requires_grad_(True).to(self.device)
-            reconstructed = self.model.decoder(torch.unsqueeze(sample,0))
+        
+            new_dim_sample = sample.unsqueeze(0).unsqueeze(-1).unsqueeze(-1)
+
+            xxx = self.model.VAE.decode(new_dim_sample)
+            #xxx.retain_grad()
+
+            reconstructed = torch.sigmoid(xxx)
+            #print(reconstructed.shape)
+            
             output = classifier((reconstructed).to(self.device))
+            #print(output)
 
             loss = output[0][i]
             loss.backward(retain_graph = True,create_graph = True)      # to retain graph for second partial derivative
+            
             #make_dot(loss).render("loss_fn",format = "png")
-
-
-            for name,param in self.model.decoder.named_parameters():
-
-                x = (param.grad).requires_grad_(True)
-                #print(x)
-                
-                Lk +=  torch.norm(x,p = 2)*torch.norm(x,p=2)
-                #print(Lk)
-                param.grad = torch.zeros_like(param)
 
             for name, param in classifier.named_parameters():
 
@@ -141,20 +140,30 @@ class Visualizer():
                 #print(Lk)
                 param.grad = torch.zeros_like(param)
 
+            
+            for name,param in self.model.VAE.decode.named_parameters():
+                x = (param.grad).requires_grad_(True)
+                #print(x)
+                
+                Lk +=  torch.norm(x,p = 2)*torch.norm(x,p=2)
+                #print(Lk)
+                param.grad = torch.zeros_like(param)
+
             total_lk = total_lk + Lk
-
-            sample.grad = torch.zeros_like(sample)
-                        
-            Lk.backward()
-
-            #make_dot(Lk).render("Lk",format = "png")
             #print(sample.grad)
+            sample.grad = torch.zeros_like(sample)
+            #print(sample.grad)
+            
+            Lk.backward()
+            #print(sample.grad)
+            #make_dot(Lk).render("Lk",format = "png")
+
 
             #torch.norm(sample.grad,p=2)            #maybe taking only the unit vector...
             delta = delta + sample.grad#/(torch.norm(sample.grad,p=2))
 
             # preparing for the next iteration.
-            for name,param in self.model.decoder.named_parameters():
+            for name,param in self.model.VAE.decode.named_parameters():
                 param.grad = torch.zeros_like(param)
 
             for name,param in classifier.named_parameters():
@@ -172,7 +181,7 @@ class Visualizer():
         return rate
 
 
-    def sensitive_encystSamples(self,classifier,samples_per_dim = 10,rate = 0.00005,max_iterations=1000,artificial = False,output_classes = 10):
+    def sensitive_encystSamples(self,classifier,samples_per_dim = 10,rate = 0.00005,max_iterations=1000,show_plots = False,output_classes = 10):
         
         if torch.cuda.is_available():
             self.device = torch.device('cuda')
@@ -182,45 +191,38 @@ class Visualizer():
         for name,param in classifier.named_parameters():
             param = param.to(self.device)
 
-        self.model = self.model.to(self.device)
+        #self.model = self.model.to(self.device)
 
         print('\nGenerating sensitive samples\n')
         initial_rate = rate
 
-
         
         classifier.eval()
         seed = random.randint(1,1000)
-
         
 
         inner_boundary = {}
         outer_boundary = {}
         inner_sens = {}
         outer_sens = {}
-
         
 
         data = get_samples(self.dataset, samples_per_dim)
         img_size = data[0].shape
-
         
-        inner_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
-        outer_grid = torch.zeros(self.latent_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
+        inner_grid = torch.zeros(self.total_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
+        outer_grid = torch.zeros(self.total_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
 
-    
-        for dim in range(self.latent_dim):
+
+        dim_count = 0
+        
+        for dim in self.potentialSet_short:       
 
             print('The dimension number is:'+str(dim))
             random.seed(seed)
             seed = int(seed*4/3)
 
-
-            if not artificial:
-                data = get_samples(self.dataset, samples_per_dim)
-            else:
-                prior_samples = torch.randn(samples_per_dim, self.latent_dim)
-                data = (self._decode_latents(prior_samples)).data
+            data = get_samples(self.dataset, samples_per_dim)
 
 
             img_size = data[0].shape
@@ -230,18 +232,23 @@ class Visualizer():
             outer_img_sens = torch.zeros(samples_per_dim).to(self.device)
 
 
-            with torch.no_grad():
-                post_mean, post_logvar = self.model.encoder(data.to(self.device))
-                samples = (self.model.reparameterize(post_mean, post_logvar)).to(self.device)
+            data = data.to(self.device)
             
-            for (sample_num,sample) in enumerate(samples):
+            for sample_num in range(samples_per_dim):
+
+                #print(data.shape)
+                sample0 = self.model.encode(data[sample_num])
+                
+                sample = sample0[0, :, 0, 0].to(self.device)
+                #print(sample.shape)
+                #sys.exit()
 
                 rate = initial_rate
                 first_lk = None
                 
                 iterations = 0
 
-                #Lk_list = []
+                Lk_list = []
 
                 print('Increasing the sensitivity first for '+str(max_iterations/2)+' iterations')
 
@@ -252,16 +259,21 @@ class Visualizer():
                     delta,total_lk = self.delta_fn(sample,classifier,output_classes)
                     delta = delta.to(self.device)
 
-                    sample = sample + rate* (delta)
+                    #print(delta)
+                    sample = sample + rate*(delta)
 
-                    img = self._decode_latents(torch.unsqueeze(sample,0))
+                    xxx = self.model.decode(sample.unsqueeze(0).unsqueeze(-1).unsqueeze(-1), toArray=False)
+                    img  = torch.sigmoid(xxx).data
+
+                    classifier.eval()
                     _,pred = torch.max(classifier((img).to(self.device)), 1)
+                    #print(pred)
                     prev_pred = pred
 
                     iterations = iterations + 1
 
                     #print(total_lk)
-                    #Lk_list.append(total_lk)
+                    Lk_list.append(total_lk)
 
                     pbar.update(1)
 
@@ -274,16 +286,18 @@ class Visualizer():
 
                 init_Lk = total_lk
 
-                #plt.title("Sensitivity vs. Iterations")
-                #plt.xlabel("Iterations")
-                #plt.ylabel("Sensitivity")
-                #plt.plot(Lk_list,label = "Sensitivity")
-                #plt.legend()
-                #plt.show()
+                if show_plots:
+                    plt.title("Sensitivity vs. Iterations")
+                    plt.xlabel("Iterations")
+                    plt.ylabel("Sensitivity")
+                    plt.plot(Lk_list,label = "Sensitivity")
+                    plt.legend()
+                    plt.show()
 
                 print('Now will converge as soon as change of label takes place...')
                 pbar = tqdm(total = max_iterations/2)
 
+                rate = rate*(1.25)      #since the rate must have fallen a lot by now..
                 while(torch.equal(pred,prev_pred) and (iterations)<max_iterations):
 
                     prev_img = img
@@ -294,7 +308,9 @@ class Visualizer():
 
                     sample = sample + rate* (delta)
 
-                    img = self._decode_latents(torch.unsqueeze(sample,0))
+                    xxx = self.model.decode(sample.unsqueeze(0).unsqueeze(-1).unsqueeze(-1), toArray=False)
+                    img  = torch.sigmoid(xxx).data
+
                     _,pred = torch.max(classifier((img).to(self.device)), 1)
 
                     iterations = iterations + 1
@@ -326,26 +342,26 @@ class Visualizer():
                     print('Outer sensitivity : '+str(total_lk))
                     print('\n')
                     
-                inner_grid[sample_num + dim*(samples_per_dim)] = prev_img[0]
+                inner_grid[sample_num + dim_count*(samples_per_dim)] = prev_img[0]
                 inner_img[sample_num] = prev_img
                 inner_img_sens[sample_num] = init_Lk
-                outer_grid[sample_num + dim*(samples_per_dim)] = img[0]
+                outer_grid[sample_num + dim_count*(samples_per_dim)] = img[0]
                 outer_img[sample_num] = img
                 outer_img_sens[sample_num] = total_lk
             
-            inner_boundary[dim] = inner_img 
-            inner_sens[dim] = inner_img_sens
-            outer_boundary[dim] = outer_img
-            outer_sens[dim] = outer_img_sens
+            inner_boundary[dim_count] = inner_img 
+            inner_sens[dim_count] = inner_img_sens
+            outer_boundary[dim_count] = outer_img
+            outer_sens[dim_count] = outer_img_sens
+            dim_count = dim_count + 1
         
-        grid_size = (self.latent_dim,samples_per_dim)
+        grid_size = (self.total_dim,samples_per_dim)
         trash = self._save_or_return(inner_grid,grid_size,"Inner_Boundary_Sensitive.png")
         trash = self._save_or_return(outer_grid,grid_size,"Outer_Boundary_Sensitive.png")
         return inner_boundary,inner_sens,outer_boundary,outer_sens
 
-    def gray_encystSamples(self,classifier,attacked_clf,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,artificial = False):
+    def gray_encystSamples(self,classifier,attacked_clf,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,gaussian_noise = False):
 
-        gaussian_noise = True
         #if torch.cuda.is_available():
         #    self.device = torch.device('cuda')
         #else:
@@ -506,9 +522,9 @@ class Visualizer():
         
 
 
-    def encystSamples(self,classifier,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,artificial = False,gaussian_noise = False):
+    def encystSamples(self,classifier,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,gaussian_noise = False):
 
-        gaussian_noise = True
+        #gaussian_noise = True
         #if torch.cuda.is_available():
         #    self.device = torch.device('cuda')
         #else:

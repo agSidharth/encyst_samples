@@ -61,12 +61,13 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--attack_mod_path',default = 'classifers/square_white_tar0_alpha0.00_mark(3,3).pth',help = 'for gray box model')
     parser.add_argument('--encyst',action = 'store_true',help = 'If you want to save a tensor containing samples of inner and outer boundary')
     parser.add_argument('--samples',type = int,default = 5,help = 'Number of boundary samples to be generated per latent dim')
-    parser.add_argument('--artificial',action = 'store_true',help = 'If examples are generated from artificial samples')
+    parser.add_argument('--gaussian',action = 'store_true',help = 'If examples are generated from gaussian noise in gray and black box')
     parser.add_argument('--rate',type = float,default = 0.1,help = 'the change in value of feature')
     parser.add_argument('--iter',type = int,default = 100,help = 'the change in value of feature')
     parser.add_argument('--arch_path', default='classifers/net_architecture.pth', help='the model architecture path')
     parser.add_argument('--model_path', default='classifers/net.pth', help='the classifier path')
     parser.add_argument('--multiple',action = 'store_true',help = 'If in case the random noise is added to all the dimensions..')
+    parser.add_argument('--show_plots',action = 'store_true',help = 'Show plots of sensitivity in sensitive samples')
     args = parser.parse_args()
 
     return args
@@ -137,7 +138,7 @@ def main(args):
                     classifier.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))                
 
         if args.sensitive:
-            inner_boundary,inner_sens,outer_boundary,outer_sens = viz.sensitive_encystSamples(classifier,args.samples,args.rate,args.iter,args.artificial)
+            inner_boundary,inner_sens,outer_boundary,outer_sens = viz.sensitive_encystSamples(classifier,args.samples,args.rate,args.iter,args.show_plots)
 
             dictionary = {}
             dictionary["inner_img"] = inner_boundary
@@ -145,14 +146,14 @@ def main(args):
             dictionary["outer_img"] = outer_boundary
             dictionary["outer_sens"] = outer_sens
             torch.save(dictionary,model_dir+f"/watermark_sens.pth")
-        
+         
         elif args.gray_box:
 
             print("\nloading the attacked model\n")
             attack_model = torch.load(args.arch_path,map_location=torch.device('cpu'))
             attack_model.load_state_dict(torch.load(args.attack_mod_path,map_location=torch.device('cpu')))
 
-            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.gray_encystSamples(classifier,attack_model,args.samples,args.rate,args.iter,args.multiple,args.artificial)
+            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.gray_encystSamples(classifier,attack_model,args.samples,args.rate,args.iter,args.multiple,args.gaussian)
 
             dictionary = {}
             dictionary["inner_img"] = inner_boundary
@@ -162,7 +163,7 @@ def main(args):
             torch.save(dictionary,model_dir+f"/watermark_gray.pth")
 
         else:
-            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.encystSamples(classifier,args.samples,args.rate,args.iter,args.multiple,args.artificial)
+            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.encystSamples(classifier,args.samples,args.rate,args.iter,args.multiple,args.gaussian)
 
             dictionary = {}
             dictionary["inner_img"] = inner_boundary

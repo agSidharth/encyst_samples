@@ -9,19 +9,21 @@
  
 
 ## Example run for Gray box in order:
-* `python main_viz.py new_vae --encyst --rate 0.05 --samples 10 --iter 4500 --seed 312832 --gray_box --attack_mod_path classifers/clean_label.pth`
+
+* `python main_viz.py new_vae --gaussian --encyst --rate 0.05 --samples 10 --iter 4500 --seed 312832 --gray_box --attack_mod_path classifers/clean_label.pth`
 * `python encyst_samples.py --gray_box --attack_mod_path classifers/trojannn.pth`
 
 ## Example run for Sensitive samples in order:
-*  `python main_viz.py new_vae --encyst --rate 0.00005 --samples 7 --iter 1500 --seed 41 --sensitive`
+*  `python main_viz.py new_vae --encyst --samples 3 --iter 200 --seed 312 --sensitive --rate 0.0000025`
 * `python encyst_samples.py --sensitive`
 
 ## For Sensitive samples(Latest):
 * The functions to focus are `delta_fn()` and `sensitive_encystSamples()` in `utils/visualize.py`
 * To use this just use the `main_viz.py` with previous command line inputs and just add `--sensitive`, in that.
-* use --rate around 0.00005, because of large gradients.
+* use --rate around 0.000005, because of large gradients.
 * use --iter to be atleast 200(according to sensitive paper around 1000).
 * To test on `encyst_samples.py` add `--sensitive` for sensitive watermark..
+* use `--show_plots` in main_viz.py to see the plots of Loss function in sensitive samples..
 * The rest functionalities are same.
 
 ## For Gray box:
@@ -36,7 +38,7 @@
 
 ## General Instructions for random and all noises:
 `python main_viz.py new_vae --encyst --rate 0.05 --samples 5 --iter 4500 --seed 62` to generate the random encyst samples
-* --artificial for sample vectors are taken from random latent vectors in samples pool of generator
+* --gaussian to use gaussian noise instead of uniform noise
 * --rate is the proportional to the factor of noise included at each step
 * --samples that need to be generated per dimension.
 * --seed is the seed for random generation
@@ -48,6 +50,7 @@
 * --show to see the image of each naturally verified images.
 * --arch_path,--model_path,--attack_model_path,--watermark_path are understood, default values will work most of the time, watermark path will change when different vae is used.
 * --img_size to change the size of image to deal with deafault is 64.
+* --attack_mod_path is also necessary now since there are so many attack models right now.
 
 ## Note for the user.
 * If you are changing the vae used for example we are currently using new vae by default, then in encyst_samples.py you have to give the path of the watermark accordingly in command line arguments.
