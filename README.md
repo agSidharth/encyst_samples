@@ -7,7 +7,12 @@
 * Use `pip install tqdm`
 * Download this check_script folder from [Google Drive](https://drive.google.com/file/d/1pXD53Re96tkwYGK8e4EV8TI8zQKBuw_K/view?usp=sharing) and extract this in the main directory.
 * Download the updated version of classifers folder from [Google Drive](https://drive.google.com/drive/folders/1hj16q2TW3JFhEL4d9pEdtxdrTxjnB8kW?usp=sharing) in the main directory as well.
- 
+
+## Running python expirement script:
+* This is for running `tester.py`
+* use `python tester.py sensitive` for sensitive samples
+* use `python tester.py gray` for gray box model
+* use `python tester.py random` for black box model
 
 ## Example run for Gray box in order:
 

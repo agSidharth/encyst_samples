@@ -1,11 +1,33 @@
 import os
 import random
 import time
+import argparse
+import sys
+import numpy
+
+from utils.helpers import FormatterNoDuplicate
+
+def parse_arguments(args_to_parse):
+
+  description = "Used to test various strategies in an automated manner..."
+  parser = argparse.ArgumentParser(description=description,
+                                     formatter_class=FormatterNoDuplicate)
+  parser.add_argument('strategy',type = str,help = 'Choose one among (sensitive,gray,random)')
+  args = parser.parse_args()
+  return args
+
+args = parse_arguments(sys.argv[1:])
 
 random.seed(time.time())
 
 SENSITIVE = False
-GRAY = True
+GRAY = False
+
+if args.strategy == 'sensitive':
+	SENSITIVE = True
+elif args.strategy == 'gray':
+	GRAY = True
+
 TOTAL_TESTS = 2  # note each test generates a new batch of encyst samples and they are tested on all the attacked models.
 # note keep the number of TESTS in gray box to be lesser..it is proportional to len(attack_model)^2
 
