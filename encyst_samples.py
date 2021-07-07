@@ -345,12 +345,28 @@ for dim in range(latent_dim):
       zero_num = zero_num + 1
 
 if(total==0):
-  print('Sorry no image is natural')
+
+  if args.sensitive:
+    file = open("sensitive_results.txt","a")
+    file.write("\nSensitive")
+
+  elif args.gray_box:
+    file = open("gray_results.txt","a")
+    file.write("\nGray")
+
+  else:
+    file = open("random_results.txt","a")
+    file.write("\nRandom")
+  
+  file.write('\nSorry no image is natural enough or sensitive enough if required\n')
+  file.close()
   sys.exit()
+
 print('The total number of non-zero valid images are : '+str(total)+'/'+str(total+zero_num))
 print('The percentage of similar probability vector is '+str(prob_similar/total*100))
 print("The percentage of similar top "+str(topk)+" labels is "+str(k_label_similar/total*100))
 print('The percentage of similar top label is '+str(top_label_similar/total*100))
+print('\n')
 
 if args.sensitive:
   file = open("sensitive_results.txt","a")

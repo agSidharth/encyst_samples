@@ -2,10 +2,11 @@
 
 ## SETUP:
 * You can run this only in an environment which has already installed trojanzoo.
+* Always remember to use `conda activate envrionment` first because errors reported in that case are way to different than actual error.
 * Use `pip install lpips`.
 * Use `pip install tqdm`
-* Download this check_class_script folder from [Google Drive](https://drive.google.com/file/d/18RCO7cx0dq_Rr_70zm-e3snHWOs9SSTI/view?usp=sharing) and put all the 3 directories, that is /checkpoints,
-/classifers and /script in the main directory.
+* Download this check_script folder from [Google Drive](https://drive.google.com/file/d/1pXD53Re96tkwYGK8e4EV8TI8zQKBuw_K/view?usp=sharing) and extract this in the main directory.
+* Download the updated version of classifers folder from [Google Drive](https://drive.google.com/drive/folders/1hj16q2TW3JFhEL4d9pEdtxdrTxjnB8kW?usp=sharing) in the main directory as well.
  
 
 ## Example run for Gray box in order:
