@@ -13,7 +13,7 @@ from utils.helpers import set_seed
 FPS_GIF = 12
 
 
-def get_samples(dataset, num_samples, idcs=[]):
+def get_samples(dataset, num_samples, idcs=[],LABEL = None):
     """ Generate a number of samples from the dataset.
 
     Parameters
@@ -29,24 +29,46 @@ def get_samples(dataset, num_samples, idcs=[]):
     """
     np.random.seed()
     data_loader = get_dataloaders(dataset,
-                                  batch_size=1,
-                                  shuffle=idcs is None)
+                                    batch_size=1,
+                                    shuffle=idcs is None)
     random.seed(np.random.randint(0,5000))
     np.random.seed()
-    idcs += random.sample(range(len(data_loader.dataset)), num_samples - len(idcs))
-    random.seed(np.random.randint(0,5000))
     
-    randomlist = []
-    for i in range(num_samples):
-        n = random.randint(0,len(data_loader.dataset)-1)
-        randomlist.append(n)
-    
-    idcs = [(index + n)%(len(data_loader.dataset)) for (index,n) in zip(idcs,randomlist)]
-    
-    samples = torch.stack([data_loader.dataset[i][0] for i in idcs], dim=0)
-    print("Selected idcs: {}".format(idcs))
+    if LABEL is None:
 
-    return samples
+        idcs += random.sample(range(len(data_loader.dataset)), num_samples - len(idcs))
+        random.seed(np.random.randint(0,5000))
+                
+        randomlist = []
+        for i in range(num_samples):
+            n = random.randint(0,len(data_loader.dataset)-1)
+            randomlist.append(n)
+        
+        idcs = [(index + n)%(len(data_loader.dataset)) for (index,n) in zip(idcs,randomlist)]
+        
+        samples = torch.stack([data_loader.dataset[i][0] for i in idcs], dim=0)
+        print("Selected idcs: {}".format(idcs))
+
+        return samples
+
+    print('USING SAMPLES OF ONLY LABEL : '+str(LABEL))
+    sample_list = []
+    size = 0
+
+    for inputs,labels in data_loader:
+        for idx,label in enumerate(labels):
+
+            if label==LABEL:
+                sample_list.append(inputs[idx])
+                size = size + 1
+
+            if size>=num_samples:
+                break
+        if size>=num_samples:
+                break
+
+    return torch.stack(sample_list)
+
 
 
 def sort_list_by_other(to_sort, other, reverse=True):

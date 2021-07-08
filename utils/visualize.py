@@ -181,7 +181,7 @@ class Visualizer():
         return rate
 
 
-    def sensitive_encystSamples(self,classifier,samples_per_dim = 10,rate = 0.00005,max_iterations=1000,show_plots = False,output_classes = 10):
+    def sensitive_encystSamples(self,classifier,samples_per_dim = 10,rate = 0.00005,max_iterations=1000,show_plots = False,sample_label = None,output_classes = 10):
         
         if torch.cuda.is_available():
             self.device = torch.device('cuda')
@@ -207,7 +207,7 @@ class Visualizer():
         outer_sens = {}
         
 
-        data = get_samples(self.dataset, samples_per_dim)
+        data = get_samples(self.dataset, samples_per_dim,LABEL = sample_label)
         img_size = data[0].shape
         
         inner_grid = torch.zeros(self.total_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
@@ -222,7 +222,7 @@ class Visualizer():
             random.seed(seed)
             seed = int(seed*4/3)
 
-            data = get_samples(self.dataset, samples_per_dim)
+            data = get_samples(self.dataset, samples_per_dim,LABEL = sample_label)
 
 
             img_size = data[0].shape
@@ -360,7 +360,7 @@ class Visualizer():
         trash = self._save_or_return(outer_grid,grid_size,"Outer_Boundary_Sensitive.png")
         return inner_boundary,inner_sens,outer_boundary,outer_sens
 
-    def gray_encystSamples(self,classifier,attacked_clf,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,gaussian_noise = False):
+    def gray_encystSamples(self,classifier,attacked_clf,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,gaussian_noise = False,sample_label = None):
 
         #if torch.cuda.is_available():
         #    self.device = torch.device('cuda')
@@ -388,7 +388,7 @@ class Visualizer():
         inner_pred = {}
         outer_pred = {}
         
-        data = get_samples(self.dataset, samples_per_dim)
+        data = get_samples(self.dataset, samples_per_dim,LABEL = sample_label)
         img_size = data[0].shape
         
         inner_grid = torch.zeros(self.total_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
@@ -402,7 +402,7 @@ class Visualizer():
             random.seed(seed)
             seed = int(seed*4/3)
 
-            data = get_samples(self.dataset, samples_per_dim)
+            data = get_samples(self.dataset, samples_per_dim,LABEL = sample_label)
             
             img_size = data[0].shape
             inner_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2]).to(self.device)
@@ -440,7 +440,7 @@ class Visualizer():
                 initial_img = img
                 iterations = 0
                 
-                while(torch.equal(pred,dirty_pred) and iterations<max_iterations):
+                while((torch.equal(pred,dirty_pred) and iterations<max_iterations) or iterations==0):
                     prev_img = img
 
                     if not mutiple:
@@ -522,7 +522,7 @@ class Visualizer():
         
 
 
-    def encystSamples(self,classifier,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,gaussian_noise = False):
+    def encystSamples(self,classifier,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,gaussian_noise = False,sample_label = None):
 
         #gaussian_noise = True
         #if torch.cuda.is_available():
@@ -550,7 +550,7 @@ class Visualizer():
         inner_pred = {}
         outer_pred = {}
         
-        data = get_samples(self.dataset, samples_per_dim)
+        data = get_samples(self.dataset, samples_per_dim,LABEL = sample_label)
         img_size = data[0].shape
         
         inner_grid = torch.zeros(self.total_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
@@ -564,7 +564,7 @@ class Visualizer():
             random.seed(seed)
             seed = int(seed*4/3)
 
-            data = get_samples(self.dataset, samples_per_dim)
+            data = get_samples(self.dataset, samples_per_dim,LABEL = sample_label)
             
 
             img_size = data[0].shape

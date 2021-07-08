@@ -56,6 +56,7 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--model', default='net', help='the model name')
 
     # All the features here are added by me for novel watermark..
+    parser.add_argument('--label',type = int,default = None, help = 'If you want to generate watermarks only for a single label')
     parser.add_argument('--sensitive',action = 'store_true',help = 'generate sensitive watermark')
     parser.add_argument('--gray_box',action = 'store_true',help = 'generate gray_box watermark')
     parser.add_argument('--attack_mod_path',default = 'classifers/square_white_tar0_alpha0.00_mark(3,3).pth',help = 'for gray box model')
@@ -138,7 +139,7 @@ def main(args):
                     classifier.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))                
 
         if args.sensitive:
-            inner_boundary,inner_sens,outer_boundary,outer_sens = viz.sensitive_encystSamples(classifier,args.samples,args.rate,args.iter,args.show_plots)
+            inner_boundary,inner_sens,outer_boundary,outer_sens = viz.sensitive_encystSamples(classifier,args.samples,args.rate,args.iter,args.show_plots,sample_label = args.label)
 
             dictionary = {}
             dictionary["inner_img"] = inner_boundary
@@ -153,7 +154,7 @@ def main(args):
             attack_model = torch.load(args.arch_path,map_location=torch.device('cpu'))
             attack_model.load_state_dict(torch.load(args.attack_mod_path,map_location=torch.device('cpu')))
 
-            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.gray_encystSamples(classifier,attack_model,args.samples,args.rate,args.iter,args.multiple,args.gaussian)
+            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.gray_encystSamples(classifier,attack_model,args.samples,args.rate,args.iter,args.multiple,args.gaussian,sample_label = args.label)
 
             dictionary = {}
             dictionary["inner_img"] = inner_boundary
@@ -163,7 +164,7 @@ def main(args):
             torch.save(dictionary,model_dir+f"/watermark_gray.pth")
 
         else:
-            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.encystSamples(classifier,args.samples,args.rate,args.iter,args.multiple,args.gaussian)
+            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.encystSamples(classifier,args.samples,args.rate,args.iter,args.multiple,args.gaussian,sample_label = args.label)
 
             dictionary = {}
             dictionary["inner_img"] = inner_boundary

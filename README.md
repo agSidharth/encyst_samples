@@ -44,6 +44,7 @@
 
 ## General Instructions for random and all noises:
 `python main_viz.py new_vae --encyst --rate 0.05 --samples 5 --iter 4500 --seed 62` to generate the random encyst samples
+* --label to create watermark samples only for a single label, NOTE:: some labels donot converge to reach the decision boundary....
 * --gaussian to use gaussian noise instead of uniform noise
 * --multiple to add noise to the complete latent vector instead of one dim at a time
 * --show_plots to analyse the plots of sensitivity in case of white box model
