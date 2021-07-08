@@ -45,6 +45,8 @@
 ## General Instructions for random and all noises:
 `python main_viz.py new_vae --encyst --rate 0.05 --samples 5 --iter 4500 --seed 62` to generate the random encyst samples
 * --gaussian to use gaussian noise instead of uniform noise
+* --multiple to add noise to the complete latent vector instead of one dim at a time
+* --show_plots to analyse the plots of sensitivity in case of white box model
 * --rate is the proportional to the factor of noise included at each step
 * --samples that need to be generated per dimension.
 * --seed is the seed for random generation
@@ -52,6 +54,8 @@
 * --arch_path,--model_path are understandable and default values might be suffiencient to use.
 
 `python encyst_samples.py --seed <seed> --show` to test the watermark on the results..
+* --weak_natural to use a less strict heuristic for filtering naturality
+* --min_sens to filter for minimmum sensitivity in case of white box model
 * --seed <seed>  to give the seed to change the refernce natural images by which we are going to compare our lpips alexnet loss.
 * --show to see the image of each naturally verified images.
 * --arch_path,--model_path,--attack_model_path,--watermark_path are understood, default values will work most of the time, watermark path will change when different vae is used.
