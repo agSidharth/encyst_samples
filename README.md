@@ -10,7 +10,6 @@
 
 ## Running python expirement script:
 * You have to understand this small code for more carefull analysis of the complete performance.
-* This is for running `tester.py`
 * use `python tester.py sensitive` for sensitive samples
 * use `python tester.py gray` for gray box model
 * use `python tester.py random` for black box model
