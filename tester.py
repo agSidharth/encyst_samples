@@ -45,8 +45,8 @@ test_num = 0
 
 encyst_cmd_line = "python encyst_samples.py "
 sensitive_command_line = "python main_viz.py new_vae --encyst --samples 2 --iter 100 --sensitive --rate 0.0000025 "
-gray_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.01 --samples 5 --iter 2000 --gray_box "
-random_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.005 --samples 5 --iter 4500 "
+gray_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.01 --samples 6 --iter 2000 --gray_box "
+random_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.005 --samples 6 --iter 4500 "
 
 am_paths_list = ["classifers/badnet.pth","classifers/clean_label.pth","classifers/trojannn.pth",
 						"classifers/apple_badnet.pth","classifers/apple_trojan.pth","classifers/apple_clean_label.pth",
@@ -56,7 +56,7 @@ seed = random.randint(0,10000)
 
 for test_num in range(TOTAL_TESTS):
 	
-	print('-----------NEW TEST-------------')
+	print('-----------NEW TEST : '+str(test_num)+' -------------')
 	seed = seed + 1
 
 	if SENSITIVE:
