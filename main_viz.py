@@ -69,6 +69,7 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--model_path', default='classifers/net.pth', help='the classifier path')
     parser.add_argument('--multiple',action = 'store_true',help = 'If in case the random noise is added to all the dimensions..')
     parser.add_argument('--show_plots',action = 'store_true',help = 'Show plots of sensitivity in sensitive samples')
+    parser.add_argument('--attack_mod_path2',default = None,help = 'for gray box model the second attack model')
     args = parser.parse_args()
 
     return args
@@ -154,7 +155,13 @@ def main(args):
             attack_model = torch.load(args.arch_path,map_location=torch.device('cpu'))
             attack_model.load_state_dict(torch.load(args.attack_mod_path,map_location=torch.device('cpu')))
 
-            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.gray_encystSamples(classifier,attack_model,args.samples,args.rate,args.iter,args.multiple,args.gaussian,sample_label = args.label)
+            if args.attack_mod_path2 is not None:
+                attack_model2 = torch.load(args.arch_path,map_location=torch.device('cpu'))
+                attack_model2.load_state_dict(torch.load(args.attack_mod_path2,map_location=torch.device('cpu')))
+            else:
+                attack_model2 = None
+
+            inner_boundary,inner_pred,outer_boundary,outer_pred = viz.gray_encystSamples(classifier,attack_model,attack_model2,args.samples,args.rate,args.iter,args.multiple,args.gaussian,sample_label = args.label)
 
             dictionary = {}
             dictionary["inner_img"] = inner_boundary

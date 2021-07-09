@@ -360,7 +360,7 @@ class Visualizer():
         trash = self._save_or_return(outer_grid,grid_size,"Outer_Boundary_Sensitive.png")
         return inner_boundary,inner_sens,outer_boundary,outer_sens
 
-    def gray_encystSamples(self,classifier,attacked_clf,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,gaussian_noise = False,sample_label = None):
+    def gray_encystSamples(self,classifier,attacked_clf,attacked_clf2,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,gaussian_noise = False,sample_label = None):
 
         #if torch.cuda.is_available():
         #    self.device = torch.device('cuda')
@@ -381,6 +381,10 @@ class Visualizer():
         #classifier = classifier.to(self.device)
         classifier.eval()
         attacked_clf.eval()
+
+        if attacked_clf2 is not None:
+            attacked_clf2.eval()
+
         seed = random.randint(1,1000)
         
         inner_boundary = {}
@@ -435,12 +439,17 @@ class Visualizer():
 
                 _,pred = torch.max(classifier((img).to(self.device)), 1)
                 _,dirty_pred = torch.max(attacked_clf((img).to(self.device)),1)
+
+                if attacked_clf2 is not None:
+                    _,dirty_pred2 = torch.max(attacked_clf2((img).to(self.device)),1)
+                else:
+                    dirty_pred2 = dirty_pred
                 
                 initial_sample = sample
                 initial_img = img
                 iterations = 0
                 
-                while((torch.equal(pred,dirty_pred) and iterations<max_iterations) or iterations==0):
+                while((torch.equal(pred,dirty_pred) and torch.equal(pred,dirty_pred2) and iterations<max_iterations) or iterations==0):
                     prev_img = img
 
                     if not mutiple:
@@ -462,16 +471,21 @@ class Visualizer():
                     _,pred = torch.max(classifier((img).to(self.device)), 1)
                     _,dirty_pred = torch.max(attacked_clf((img).to(self.device)),1)
 
+                    if attacked_clf2 is not None:
+                        _,dirty_pred2 = torch.max(attacked_clf2((img).to(self.device)),1)
+                    else:
+                        dirty_pred2 = dirty_pred
+
                     iterations = iterations + 1
                 
-                if(torch.equal(pred,dirty_pred)):
+                if(torch.equal(pred,dirty_pred) and torch.equal(pred,dirty_pred2)):
                     
                     iterations = 0
                     factor = factor*(-1)
                     sample = initial_sample
                     img = initial_img
                     
-                    while(torch.equal(pred,dirty_pred) and iterations<max_iterations):
+                    while(torch.equal(pred,dirty_pred) and torch.equal(pred,dirty_pred2) and iterations<max_iterations):
                         prev_img = img
 
                         if not mutiple:
@@ -485,12 +499,17 @@ class Visualizer():
                         _,pred = torch.max(classifier((img).to(self.device)), 1)
                         _,dirty_pred = torch.max(attacked_clf((img).to(self.device)),1)
 
+                        if attacked_clf2 is not None:
+                            _,dirty_pred2 = torch.max(attacked_clf2((img).to(self.device)),1)
+                        else:
+                            dirty_pred2 = dirty_pred
+
                         iterations = iterations + 1
                 
                 print('For the sample = '+str(sample_num))
                 #print(torch.sum(torch.square(img - prev_img))/torch.sum(torch.square(prev_img)))
                 
-                if(torch.equal(pred,dirty_pred)):
+                if(torch.equal(pred,dirty_pred) and torch.equal(pred,dirty_pred2)):
                     print('No image found after changing this particular feature')
                     #print('They have equal prediction')
                     

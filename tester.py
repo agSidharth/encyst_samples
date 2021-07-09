@@ -45,11 +45,11 @@ test_num = 0
 
 encyst_cmd_line = "python encyst_samples.py "
 sensitive_command_line = "python main_viz.py new_vae --encyst --samples 2 --iter 100 --sensitive --rate 0.0000025 "
-gray_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.05 --samples 5 --iter 2000 --gray_box "
-random_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.05 --samples 5 --iter 4500 "
+gray_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.01 --samples 5 --iter 2000 --gray_box "
+random_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.01 --samples 5 --iter 4500 "
 
 attack_mod_paths_list = ["classifers/badnet.pth","classifers/clean_label.pth","classifers/trojannn.pth",
-						"classifers/apple_badnet.pth","classifers/apple_trojan.pth","classifers/clean_label.pth",
+						"classifers/apple_badnet.pth","classifers/apple_trojan.pth","classifers/apple_clean_label.pth",
 						"classifers/apple_latent_backdoor.pth","classifers/hidden_trigger.pth"]
 
 seed = random.randint(0,10000)
