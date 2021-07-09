@@ -13,6 +13,8 @@
 * use `python tester.py sensitive` for sensitive samples
 * use `python tester.py gray` for gray box model
 * use `python tester.py random` for black box model
+* The standard line to search for will be " (size) (SUCCESS/FAILED) for (attacked classifer path)"
+* Use simple search operation to extract data size wise, attack model wise or both
 
 ## Example run for Gray box in order:
 

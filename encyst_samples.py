@@ -381,14 +381,12 @@ else:
   file.write("\nRandom")
 
 file.write("\nTotal watermark images : "+str(total))
-file.write('\nThe percentage of similar probability vector is '+str(prob_similar/total*100))
 file.write("\nThe percentage of similar top "+str(topk)+" labels is "+str(k_label_similar/total*100))
 file.write('\nThe percentage of similar top label is '+str(top_label_similar/total*100))
-file.write("\nThe attack model is : "+args.am_path)
 
 if top_label_similar==total:
-  file.write('\nWatermark size '+str(total)+' FAILED...\n')
+  file.write('\nWatermark of size '+str(total)+' FAILED for '+args.am_path+" \n")
 else:
-  file.write('\nWatermark size '+str(total)+' SUCCESS...\n')
+  file.write('\nWatermark of size '+str(total)+' SUCCESS for '+args.am_path+" \n")
 
 file.close()
