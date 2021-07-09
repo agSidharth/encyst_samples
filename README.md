@@ -16,8 +16,8 @@
 
 ## Example run for Gray box in order:
 
-* `python main_viz.py new_vae --gaussian --encyst --rate 0.05 --samples 10 --iter 4500 --seed 312832 --gray_box --attack_mod_path classifers/clean_label.pth`
-* `python encyst_samples.py --gray_box --attack_mod_path classifers/trojannn.pth`
+* `python main_viz.py new_vae --gaussian --encyst --rate 0.05 --samples 10 --iter 4500 --seed 312832 --gray_box --am_path classifers/clean_label.pth`
+* `python encyst_samples.py --gray_box --am_path classifers/trojannn.pth`
 
 ## Example run for Sensitive samples in order:
 *  `python main_viz.py new_vae --encyst --samples 3 --iter 200 --seed 312 --sensitive --rate 0.0000025`
@@ -61,7 +61,7 @@
 * --show to see the image of each naturally verified images.
 * --arch_path,--model_path,--attack_model_path,--watermark_path are understood, default values will work most of the time, watermark path will change when different vae is used.
 * --img_size to change the size of image to deal with deafault is 64.
-* --attack_mod_path is also necessary now since there are so many attack models right now.
+* --am_path is also necessary now since there are so many attack models right now.
 
 ## Note for the user.
 * If you are changing the vae used for example we are currently using new vae by default, then in encyst_samples.py you have to give the path of the watermark accordingly in command line arguments.

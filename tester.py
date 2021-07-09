@@ -48,7 +48,7 @@ sensitive_command_line = "python main_viz.py new_vae --encyst --samples 2 --iter
 gray_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.01 --samples 5 --iter 2000 --gray_box "
 random_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.01 --samples 5 --iter 4500 "
 
-attack_mod_paths_list = ["classifers/badnet.pth","classifers/clean_label.pth","classifers/trojannn.pth",
+am_paths_list = ["classifers/badnet.pth","classifers/clean_label.pth","classifers/trojannn.pth",
 						"classifers/apple_badnet.pth","classifers/apple_trojan.pth","classifers/apple_clean_label.pth",
 						"classifers/apple_latent_backdoor.pth","classifers/hidden_trigger.pth"]
 
@@ -64,22 +64,22 @@ for test_num in range(TOTAL_TESTS):
 		file.close()
 		os.system(sensitive_command_line+" --seed "+str(seed))
 
-		for attack_name in attack_mod_paths_list:
-			os.system(encyst_cmd_line+" --sensitive"+" --attack_mod_path "+attack_name)
+		for attack_name in am_paths_list:
+			os.system(encyst_cmd_line+" --sensitive"+" --am_path "+attack_name)
 		
 	elif GRAY:
 
-		for i in range(len(attack_mod_paths_list)):
+		for i in range(len(am_paths_list)):
 			
 			file = open("gray_results.txt","a")
 			file.write("\n -----------------NEW GRAY WATERMARK GENERATED--------------------------\n")
-			file.write("\n---The attack model used for generation is : "+attack_mod_paths_list[i])
+			file.write("\n---The attack model used for generation is : "+am_paths_list[i])
 			file.close()
 
-			os.system(gray_command_line+" --seed "+str(seed) +" --attack_mod_path "+ attack_mod_paths_list[i])
-			for j in range(len(attack_mod_paths_list)):
+			os.system(gray_command_line+" --seed "+str(seed) +" --am_path "+ am_paths_list[i])
+			for j in range(len(am_paths_list)):
 				if j!=i:
-					os.system(encyst_cmd_line+" --gray_box "+" --attack_mod_path "+attack_mod_paths_list[j])
+					os.system(encyst_cmd_line+" --gray_box "+" --am_path "+am_paths_list[j])
 
 	else:
 		file = open("random_results.txt","a")
@@ -87,6 +87,6 @@ for test_num in range(TOTAL_TESTS):
 		file.close()
 		os.system(random_command_line+" --seed "+str(seed))
 
-		for attack_name in attack_mod_paths_list:
-			os.system(encyst_cmd_line+" --attack_mod_path "+attack_name)
+		for attack_name in am_paths_list:
+			os.system(encyst_cmd_line+" --am_path "+attack_name)
 
