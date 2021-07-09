@@ -38,7 +38,7 @@ def parse_arguments(args_to_parse):
 
   parser.add_argument('--mod_path',default='classifers/net.pth',help='the classifier path')
 
-  parser.add_argument('--attack_mod_path', default='classifers/square_white_tar0_alpha0.00_mark(3,3).pth',
+  parser.add_argument('--am_path', default='classifers/square_white_tar0_alpha0.00_mark(3,3).pth',
                       help='the attack model architecture path')
 
   parser.add_argument('--wm_path', default='results/new_vae/watermark.pth', help='the watermark path')
@@ -151,7 +151,7 @@ PATH = args.mod_path
 clean_model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
 clean_model.eval()
 
-PATH = args.attack_mod_path
+PATH = args.am_path
 attacked_model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
 attacked_model.eval()
 
@@ -384,7 +384,7 @@ file.write("\nTotal watermark images : "+str(total))
 file.write('\nThe percentage of similar probability vector is '+str(prob_similar/total*100))
 file.write("\nThe percentage of similar top "+str(topk)+" labels is "+str(k_label_similar/total*100))
 file.write('\nThe percentage of similar top label is '+str(top_label_similar/total*100))
-file.write("\nThe attack model is : "+args.attack_mod_path)
+file.write("\nThe attack model is : "+args.am_path)
 
 if top_label_similar==total:
   file.write('\nWatermark size '+str(total)+' FAILED...\n')

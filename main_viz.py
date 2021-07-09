@@ -59,7 +59,7 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--label',type = int,default = None, help = 'If you want to generate watermarks only for a single label')
     parser.add_argument('--sensitive',action = 'store_true',help = 'generate sensitive watermark')
     parser.add_argument('--gray_box',action = 'store_true',help = 'generate gray_box watermark')
-    parser.add_argument('--attack_mod_path',default = 'classifers/square_white_tar0_alpha0.00_mark(3,3).pth',help = 'for gray box model')
+    parser.add_argument('--am_path',default = 'classifers/square_white_tar0_alpha0.00_mark(3,3).pth',help = 'for gray box model')
     parser.add_argument('--encyst',action = 'store_true',help = 'If you want to save a tensor containing samples of inner and outer boundary')
     parser.add_argument('--samples',type = int,default = 5,help = 'Number of boundary samples to be generated per latent dim')
     parser.add_argument('--gaussian',action = 'store_true',help = 'If examples are generated from gaussian noise in gray and black box')
@@ -69,7 +69,7 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--model_path', default='classifers/net.pth', help='the classifier path')
     parser.add_argument('--multiple',action = 'store_true',help = 'If in case the random noise is added to all the dimensions..')
     parser.add_argument('--show_plots',action = 'store_true',help = 'Show plots of sensitivity in sensitive samples')
-    parser.add_argument('--attack_mod_path2',default = None,help = 'for gray box model the second attack model')
+    parser.add_argument('--am_path2',default = None,help = 'for gray box model the second attack model')
     args = parser.parse_args()
 
     return args
@@ -153,11 +153,11 @@ def main(args):
 
             print("\nloading the attacked model\n")
             attack_model = torch.load(args.arch_path,map_location=torch.device('cpu'))
-            attack_model.load_state_dict(torch.load(args.attack_mod_path,map_location=torch.device('cpu')))
+            attack_model.load_state_dict(torch.load(args.am_path,map_location=torch.device('cpu')))
 
-            if args.attack_mod_path2 is not None:
+            if args.am_path2 is not None:
                 attack_model2 = torch.load(args.arch_path,map_location=torch.device('cpu'))
-                attack_model2.load_state_dict(torch.load(args.attack_mod_path2,map_location=torch.device('cpu')))
+                attack_model2.load_state_dict(torch.load(args.am_path2,map_location=torch.device('cpu')))
             else:
                 attack_model2 = None
 
