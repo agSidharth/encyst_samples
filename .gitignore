@@ -4,3 +4,5 @@ checkpoints/
 scripts/
 __pycache__/
 results/
+disvae/__pycache__/
+not2imp/__pycache__/
