@@ -28,7 +28,7 @@ if args.strategy == 'sensitive':
 elif args.strategy == 'gray':
 	GRAY = True
 
-TOTAL_TESTS = 2  # note each test generates a new batch of encyst samples and they are tested on all the attacked models.
+TOTAL_TESTS = 4  # note each test generates a new batch of encyst samples and they are tested on all the attacked models.
 # note keep the number of TESTS in gray box to be lesser..it is proportional to len(attack_model)^2
 
 
@@ -55,7 +55,8 @@ am_paths_list = ["classifers/badnet.pth","classifers/clean_label.pth","classifer
 seed = random.randint(0,10000)
 
 for test_num in range(TOTAL_TESTS):
-
+	
+	print('-----------NEW TEST-------------')
 	seed = seed + 1
 
 	if SENSITIVE:
