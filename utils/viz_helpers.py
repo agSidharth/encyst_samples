@@ -13,7 +13,7 @@ from utils.helpers import set_seed
 FPS_GIF = 12
 
 
-def get_samples(dataset, num_samples, idcs=[],LABEL = None):
+def get_samples(dataset, num_samples, idcs=[],LABELS = None):
     """ Generate a number of samples from the dataset.
 
     Parameters
@@ -34,7 +34,7 @@ def get_samples(dataset, num_samples, idcs=[],LABEL = None):
     random.seed(np.random.randint(0,5000))
     np.random.seed()
     
-    if LABEL is None:
+    if LABELS is None:
 
         idcs += random.sample(range(len(data_loader.dataset)), num_samples - len(idcs))
         random.seed(np.random.randint(0,5000))
@@ -51,14 +51,23 @@ def get_samples(dataset, num_samples, idcs=[],LABEL = None):
 
         return samples
 
-    print('USING SAMPLES OF ONLY LABEL : '+str(LABEL))
+    print('USING SAMPLES OF ONLY LABELS : '+LABELS)
+    label_list = []
+
+    for j in LABELS:
+        i = int(j)
+        if i not in [0,1,2,3,4,5,6,7,8,9]:
+            print('Enter the labels in range 0-9')
+            sys.exit()
+        label_list.append(i)
+
     sample_list = []
     size = 0
 
     for inputs,labels in data_loader:
         for idx,label in enumerate(labels):
 
-            if label==LABEL:
+            if label in label_list:
                 sample_list.append(inputs[idx])
                 size = size + 1
 

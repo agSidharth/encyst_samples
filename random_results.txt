@@ -20,3 +20,44 @@ Watermark of size 4 SUCCESS for classifers/clean_label.pth
  -----------------NEW RANDOM WATERMARK GENERATED--------------------------
 
  -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random--------mnist
+
+Total watermark images : 11
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 27.27272727272727
+Watermark of size 11 SUCCESS for classifers/trojannn.pth 
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 100.0
+The percentage of similar top label is 100.0
+Watermark of size 2 FAILED for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_badnet.pth 

@@ -207,7 +207,7 @@ class Visualizer():
         outer_sens = {}
         
 
-        data = get_samples(self.dataset, samples_per_dim,LABEL = sample_label)
+        data = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
         img_size = data[0].shape
         
         inner_grid = torch.zeros(self.total_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
@@ -222,7 +222,7 @@ class Visualizer():
             random.seed(seed)
             seed = int(seed*4/3)
 
-            data = get_samples(self.dataset, samples_per_dim,LABEL = sample_label)
+            data = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
 
 
             img_size = data[0].shape
@@ -392,7 +392,7 @@ class Visualizer():
         inner_pred = {}
         outer_pred = {}
         
-        data = get_samples(self.dataset, samples_per_dim,LABEL = sample_label)
+        data = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
         img_size = data[0].shape
         
         inner_grid = torch.zeros(self.total_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
@@ -406,7 +406,7 @@ class Visualizer():
             random.seed(seed)
             seed = int(seed*4/3)
 
-            data = get_samples(self.dataset, samples_per_dim,LABEL = sample_label)
+            data = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
             
             img_size = data[0].shape
             inner_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2]).to(self.device)
@@ -563,7 +563,7 @@ class Visualizer():
         inner_pred = {}
         outer_pred = {}
         
-        data = get_samples(self.dataset, samples_per_dim,LABEL = sample_label)
+        data = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
         img_size = data[0].shape
         
         inner_grid = torch.zeros(self.total_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
@@ -577,7 +577,7 @@ class Visualizer():
             random.seed(seed)
             seed = int(seed*4/3)
 
-            data = get_samples(self.dataset, samples_per_dim,LABEL = sample_label)
+            data = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
             
 
             img_size = data[0].shape
