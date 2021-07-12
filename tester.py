@@ -46,7 +46,7 @@ test_num = 0
 encyst_cmd_line = "python encyst_samples.py "
 sensitive_command_line = "python main_viz.py new_vae --encyst --samples 2 --iter 100 --sensitive --rate 0.0000025 "
 gray_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.01 --samples 6 --iter 2000 --gray_box "
-random_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.0075 --samples 6 --iter 2500 "
+random_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.0075 --samples 5 --iter 2500 "
 
 am_paths_list = ["classifers/badnet.pth","classifers/clean_label.pth","classifers/trojannn.pth",
 						"classifers/apple_badnet.pth","classifers/apple_trojan.pth","classifers/apple_clean_label.pth",

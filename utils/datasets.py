@@ -22,7 +22,8 @@ DATASETS_DICT = {"mnist": "MNIST",
                  "fashion": "FashionMNIST",
                  "dsprites": "DSprites",
                  "celeba": "CelebA",
-                 "chairs": "Chairs"}
+                 "chairs": "Chairs",
+                 "cifar": "CIFAR10"}
 DATASETS = list(DATASETS_DICT.keys())
 
 
@@ -380,6 +381,16 @@ class FashionMNIST(datasets.FashionMNIST):
                              transforms.Resize(32),
                              transforms.ToTensor()
                          ]))
+
+class CIFAR10(datasets.CIFAR10):
+    img_size = (3,32,32)
+    background_color = COLOUR_WHITE
+
+    def __init__(self,root = os.path.join(DIR, '../data/cifar10'),**kwargs):
+        super().__init__(root,
+                        train=True,
+                        download=True,
+                        transforms=transforms.ToTensor())
 
 
 # HELPERS

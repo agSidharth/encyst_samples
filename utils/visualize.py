@@ -76,21 +76,21 @@ class Visualizer():
             Scale factor to upsample the size of the tensor
         """
         self.model = model
-        #self.device = next(self.model.parameters()).device
-        self.latent_dim = self.model.z_dim
+        self.latent_dim = self.model.z_dim if dataset=='mnist' else 10
         self.max_traversal = max_traversal
         self.save_images = save_images
         self.model_dir = model_dir
         self.dataset = dataset
         self.upsample_factor = upsample_factor
-        self.potentialSet = [1, 2, 3, 4, 5, 9, 12, 13, 16, 17]
-        self.potentialSet_short = [9, 13, 16, 17]
-        self.normalrange = [[-3.39912, 2.83359], [-2.23347, 1.76427], [-3.33213952, 2.4100915200000004],
+
+        self.mnist_potentialSet = [1, 2, 3, 4, 5, 9, 12, 13, 16, 17]
+        self.mnist_potentialSet_short = [9, 13, 16, 17]
+        self.mnist_normalrange = [[-3.39912, 2.83359], [-2.23347, 1.76427], [-3.33213952, 2.4100915200000004],
                    [-3.1712631040000003, 2.2483367040000006], [-3.38752704, 3.9973510400000007],
                    [-4.353424, 3.9273840000000004], [-3.5737352000000002, 3.6870752],
                    [-3.9186784000000006, 4.770078400000001], [-4.384398400000001, 4.134798400000001],
                    [-3.1040488, 3.0058888]]
-        self.total_dim = len(self.potentialSet_short)
+        self.total_dim = len(self.mnist_potentialSet_short)
 
         #if loss_of_interest is not None:
         #    self.losses = read_loss_from_file(os.path.join(self.model_dir, TRAIN_FILE),
@@ -216,7 +216,7 @@ class Visualizer():
 
         dim_count = 0
         
-        for dim in self.potentialSet_short:       
+        for dim in self.mnist_potentialSet_short:       
 
             print('The dimension number is:'+str(dim))
             random.seed(seed)
@@ -400,7 +400,7 @@ class Visualizer():
         
         dim_count = 0
         
-        for dim in self.potentialSet_short:
+        for dim in self.mnist_potentialSet_short:
             
             print('The dimension number is:'+str(dim))
             random.seed(seed)
@@ -543,16 +543,10 @@ class Visualizer():
 
     def encystSamples(self,classifier,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,gaussian_noise = False,sample_label = None):
 
-        #gaussian_noise = True
-        #if torch.cuda.is_available():
-        #    self.device = torch.device('cuda')
-        #else:
         self.device = torch.device('cpu')
 
         for name,param in classifier.named_parameters():
             param = param.to(self.device)
-
-        #self.model = self.model.to(self.device)
 
         print('\nGenerating random noise encyst samples\n')
         if not mutiple:
@@ -577,7 +571,7 @@ class Visualizer():
         
         dim_count = 0
         
-        for dim in self.potentialSet_short:
+        for dim in self.mnist_potentialSet_short:
             
             print('The dimension number is:'+str(dim))
             random.seed(seed)
@@ -601,14 +595,14 @@ class Visualizer():
             data = data.to(self.device)
             for sample_num in range(samples_per_dim):
 
+                factor = random.randint(1,2)            #for ensuring a feature is both decreased and increased max_iter times..
+                if factor==2:
+                    factor = -1
+
                 #print(data.shape)
                 sample0 = self.model.encode(data[sample_num])
                 
                 sample = sample0[:, :, 0, 0].to(self.device)
-                
-                factor = random.randint(1,2)            #for ensuring a feature is both decreased and increased max_iter times..
-                if factor==2:
-                    factor = -1
                 
                 xxx = self.model.decode(sample.unsqueeze(-1).unsqueeze(-1), toArray=False)
                 img = torch.sigmoid(xxx).data

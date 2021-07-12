@@ -21,6 +21,7 @@ def parse_arguments(args_to_parse):
   parser = argparse.ArgumentParser(description=description,
                                      formatter_class=FormatterNoDuplicate)
 
+  parser.add_argument('--dataset',type = str,default = 'mnist',help='The dataset you want to test on..')
   parser.add_argument('-s', '--seed', type=int, default=71,
                         help='Random seed. Can be `None` for stochastic behavior.')
   parser.add_argument('--show', action='store_true',
@@ -56,6 +57,16 @@ SHOW_PLOTS = args.show
 torch.manual_seed(SEED)
 np.random.seed(SEED)
 
+if args.dataset=="cifar":
+  print('For cifar datset.......')
+  if args.arch_path=='classifers/net_architecture.pth':
+    args.arch_path = 'classifers/resne.......'
+  
+  if args.mod_path=='classifers/net.pth':
+    args.mod_path = '...............'
+else:
+  print('For mnist dataset')
+
 if args.sensitive:
 
   if (args.wm_path).find('sens')==-1:
@@ -73,19 +84,30 @@ if args.gray_box:
   else:
     print('\nLoaded your gray box\n')
 
-img_size = args.img_size
-transforms_1 = transforms.Compose([transforms.Resize(img_size),transforms.ToTensor()])
-
-
-mnist_trainset_i = datasets.MNIST(root='./data', train=True, download=True, transform=transforms_1)
-trainset = DataLoader(mnist_trainset_i,batch_size = 100,shuffle=True)
-
-
-num_classes = 10
-
 samples_per_dim = 10
 
-natural_samples = torch.zeros(num_classes,samples_per_dim,1,img_size,img_size)      #10 classes , 10 samples per dimension...
+if args.dataset == 'mnist':
+  img_size = args.img_size
+  transforms_1 = transforms.Compose([transforms.Resize(img_size),transforms.ToTensor()])
+
+
+  mnist_trainset_i = datasets.MNIST(root='./data', train=True, download=True, transform=transforms_1)
+  trainset = DataLoader(mnist_trainset_i,batch_size = 100,shuffle=True)
+  num_classes = 10
+
+  natural_samples = torch.zeros(num_classes,samples_per_dim,1,img_size,img_size)      #10 classes , 10 samples per dimension...
+
+elif args.dataset == 'cifar':
+  img_size = 32
+  transforms_1 = transforms.ToTensor()
+
+  cifar_trainset = datasets.CIFAR10(root='./data',train=True,download=True,transforms=transforms_1)
+  trainset = DataLoader(cifar_trainset,batch_size = 100,shuffle = True)
+  num_classes = 10
+
+  natural_samples = torch.zeros(num_classes,samples_per_dim,3,img_size,img_size)      #10 classes , 10 samples per dimension...
+
+
 completed = [0]*num_classes
 total = 0
 
@@ -112,9 +134,9 @@ torch.set_grad_enabled(False)
 
 for dim in range(num_classes):
   for i in range(samples_per_dim - 1):
-    first_img = natural_samples[dim][i].repeat(3,1,1).unsqueeze_(0)
+    first_img = natural_samples[dim][i].repeat(3,1,1).unsqueeze_(0) if args.dataset=='mnist' else natural_samples[dim][i].unsqueeze_(0)
     for j in range(i+1,samples_per_dim):
-      second_img = natural_samples[dim][j].repeat(3,1,1).unsqueeze_(0)
+      second_img = natural_samples[dim][j].repeat(3,1,1).unsqueeze_(0) if args.dataset=='mnist' else natural_samples[dim][j].unsqueeze_(0)
       this_loss = loss_fn_alex(first_img, second_img)[0][0][0][0].numpy()
       #print(this_loss)
       avg_loss[dim] += this_loss
@@ -122,17 +144,15 @@ for dim in range(num_classes):
         max_loss[dim] = this_loss + 0
   avg_loss[dim] = avg_loss[dim]/(int(samples_per_dim*(samples_per_dim-1)/2))
 
-#print(max_loss)
-#print(avg_loss)
 torch.set_grad_enabled(True)
 
 def check_naturality(dimension,img,natural_samples,samples_per_dim):
   max = 0
   sum = 0
   
-  first_img = img[0].repeat(3,1,1).unsqueeze_(0)
+  first_img = img[0].repeat(3,1,1).unsqueeze_(0) if args.dataset=='mnist' else img[0].unsqueeze_(0)
   for idx in range(samples_per_dim):
-    second_img = natural_samples[dimension][idx].repeat(3,1,1).unsqueeze_(0)
+    second_img = natural_samples[dimension][idx].repeat(3,1,1).unsqueeze_(0) if args.dataset=='mnist' else natural_samples[dimension][idx].unsqueeze_(0)
     this_loss = loss_fn_alex(first_img, second_img)[0][0][0][0].detach().numpy()
 
     sum = sum + this_loss
@@ -164,35 +184,6 @@ latent_dim = len(watermark["inner_img"])
 samples_per_dim = watermark["inner_img"][0].shape[0]
 
 
-"""
-clean_model = models.resnet18(pretrained=False)
-clean_model.fc = nn.Linear(512,num_classes)
-clean_model.conv1 = nn.Conv2d(1, 64,kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
-PATH = "classifers/mnist_resnet18.pth"
-clean_model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
-clean_model.eval()
-
-attacked_model = models.resnet18(pretrained=False)
-attacked_model.fc = nn.Linear(512,num_classes)
-attacked_model.conv1 = nn.Conv2d(1, 32,kernel_size=(3, 3), stride=(2, 2), padding=(3, 3), bias=False)
-
-PATH = "classifers/square_white_tar0_alpha0.00_mark(3,3).pth"
-model_dict = torch.load(PATH,map_location=torch.device('cpu'))
-#for key in list(model_dict.keys()):
-#    model_dict[(key[9:] if 'feature' in key else key[11:])] = model_dict.pop(key)
-print(model_dict['classifier.fc1.weight'].shape)
-#print(attacked_model)
-attacked_model.load_state_dict(model_dict)
-attacked_model.eval()
-
-PATH = "results/new_vae/watermark.pth"
-watermark = torch.load(PATH,map_location=torch.device('cpu'))
-
-latent_dim = len(watermark["inner_img"])
-samples_per_dim = watermark["inner_img"][0].shape[0]
-"""
-
-
 topk = 2                                #NOTE: THIS CAN BE CHANGED.....
 
 
@@ -200,7 +191,7 @@ prob_similar = 0
 k_label_similar = 0
 top_label_similar = 0
 total = 0
-zeros = torch.zeros(1,1,img_size,img_size)
+zeros = torch.zeros(1,1,img_size,img_size) if args.dataset=='mnist' else torch.zeros(1,3,img_size,img_size)
 zero_num = 0
 
 print('\nTHE DIMENSION NUMBER ARE DONE INDEX WISE NOT ACTUAL LATENT CODE DIMENSION\n')
@@ -241,7 +232,8 @@ for dim in range(latent_dim):
               
           if(SHOW_PLOTS):   
             plt.figure(figsize=(2,2))
-            plt.imshow(np.transpose(inner_img[0].detach().numpy(), (1, 2, 0))[:,:,0])
+            display_img = np.transpose(outer_img[0].detach().numpy(), (1, 2, 0))
+            plt.imshow(display_img[:,:,0] if args.dataset=='mnist' else display_img)
             plt.show()
 
           attacked_output = attacked_model((inner_img)).data
@@ -276,9 +268,6 @@ for dim in range(latent_dim):
       
       del inner_img
 
-    
-
-
 
     ###### For the outer image
     
@@ -312,7 +301,8 @@ for dim in range(latent_dim):
 
         if(SHOW_PLOTS):   
           plt.figure(figsize=(2,2))
-          plt.imshow(np.transpose(outer_img[0].detach().numpy(), (1, 2, 0))[:,:,0])
+          display_img = np.transpose(outer_img[0].detach().numpy(), (1, 2, 0))
+          plt.imshow(display_img[:,:,0] if args.dataset=='mnist' else display_img)
           plt.show()
 
         attacked_output = attacked_model((outer_img)).data
@@ -379,6 +369,14 @@ elif args.gray_box:
 else:
   file = open("random_results.txt","a")
   file.write("\nRandom")
+
+
+
+if args.dataset=='mnist':
+  file.write('--------mnist\n')
+elif args.dataset=='cifar':
+  file.write('--------cifar\n')
+
 
 file.write("\nTotal watermark images : "+str(total))
 file.write("\nThe percentage of similar top "+str(topk)+" labels is "+str(k_label_similar/total*100))
