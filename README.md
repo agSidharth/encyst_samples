@@ -13,6 +13,7 @@
 * use `python tester.py sensitive` for sensitive samples
 * use `python tester.py gray` for gray box model
 * use `python tester.py random` for black box model
+* use `python tester.py --compress` to run tests for compression in black_box model only....
 * The standard line to search for will be " (size) (SUCCESS/FAILED) for (attacked classifer path)"
 * Use simple search operation to extract data size wise, attack model wise or both
 
@@ -46,6 +47,7 @@
 
 ## General Instructions for random and all noises:
 `python main_viz.py new_vae --encyst --rate 0.05 --samples 5 --iter 4500 --seed 62` to generate the random encyst samples
+* use --compress to check for model_compression, only available on black box..
 * --labels to create watermark samples only for a set of lables, for example: 4326 will only mean that watermark sample is created from 4,3,2,6 labels. So choose labels from 0-9.
 * --gaussian to use gaussian noise instead of uniform noise
 * --multiple to add noise to the complete latent vector instead of one dim at a time
