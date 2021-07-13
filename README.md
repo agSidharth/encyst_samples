@@ -2,7 +2,7 @@
 
 ## SETUP:
 * You can run this only in an environment which has already installed trojanzoo.
-* Always remember to use `conda activate envrionment` first because errors reported in that case are way to different than actual error.
+* Always remember to use `conda activate environment` first because errors reported in that case are way to different than actual error.
 * Use `pip install lpips`.
 * Use `pip install tqdm`
 * Download this check_script folder from [Google Drive](https://drive.google.com/file/d/1pXD53Re96tkwYGK8e4EV8TI8zQKBuw_K/view?usp=sharing) and extract this in the main directory.
