@@ -14,6 +14,7 @@ import torchvision.datasets as datasets
 import torchvision.models as models
 import matplotlib.pyplot as plt
 import numpy as np
+from net.models import LeNet_5
 
 def parse_arguments(args_to_parse):
 
@@ -43,6 +44,7 @@ def parse_arguments(args_to_parse):
                       help='the attack model architecture path')
 
   parser.add_argument('--wm_path', default='results/new_vae/watermark.pth', help='the watermark path')
+  parser.add_argument('--compress',action = 'store_true',help = 'If you want to test model compression')
 
   args = parser.parse_args()
   return args
@@ -163,17 +165,27 @@ def check_naturality(dimension,img,natural_samples,samples_per_dim):
 
 
 #"""
-PATH = args.arch_path
-clean_model = torch.load(PATH,map_location=torch.device('cpu'))
-attacked_model = torch.load(PATH,map_location=torch.device('cpu'))
+if not args.compress:
+  PATH = args.arch_path
+  clean_model = torch.load(PATH,map_location=torch.device('cpu'))
+  attacked_model = torch.load(PATH,map_location=torch.device('cpu'))
 
-PATH = args.mod_path
-clean_model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
-clean_model.eval()
+  PATH = args.mod_path
+  clean_model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
+  clean_model.eval()
 
-PATH = args.am_path
-attacked_model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
-attacked_model.eval()
+  PATH = args.am_path
+  attacked_model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
+  attacked_model.eval()
+
+else:
+  clean_model = LeNet_5(mask=True)
+  clean_model.load_state_dict(torch.load('compression_clfs/net2.pth',map_location='cpu'))
+  clean_model.eval()
+
+  attacked_model = LeNet_5(mask=True)
+  attacked_model.load_state_dict(torch.load('compression_clfs/model_compressed.pth',map_location='cpu'))
+  attacked_model.eval()
 
 PATH = args.wm_path
 watermark = torch.load(PATH,map_location=torch.device('cpu'))

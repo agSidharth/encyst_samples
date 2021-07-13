@@ -12,6 +12,7 @@ from not2imp.main import RES_DIR
 from disvae.utils.modelIO import load_model, load_metadata
 import torchvision.models as models
 from scripts.test import FactorVAE
+from net.models import LeNet_5
 
 
 PLOT_TYPES = ['generate-samples', 'data-samples', 'reconstruct', "traversals",
@@ -71,6 +72,7 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--multiple',action = 'store_true',help = 'If in case the random noise is added to all the dimensions..')
     parser.add_argument('--show_plots',action = 'store_true',help = 'Show plots of sensitivity in sensitive samples')
     parser.add_argument('--am_path2',default = None,help = 'for gray box model the second attack model')
+    parser.add_argument('--compress',action = 'store_true',help = 'If you want to test compression use diff. model')
     args = parser.parse_args()
 
     return args
@@ -112,10 +114,14 @@ def main(args):
                     PATH = args.model_path
                     classifier.load_state_dict(torch.load(PATH,map_location="cuda:0"))
                     classifier.cuda()
-                else:
+                elif not args.compress:
                     classifier = torch.load(PATH,map_location=torch.device('cpu'))
                     PATH = args.model_path
-                    classifier.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))      
+                    classifier.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
+                else:
+                    print('Loading net2.pth')
+                    classifier = LeNet_5(mask=True)
+                    classifier.load_state_dict(torch.load('compression_clfs/net2.pth',map_location='cpu'))      
         
         elif(dataset=='cifar'):
             sys.exit()

@@ -13,6 +13,7 @@ def parse_arguments(args_to_parse):
   parser = argparse.ArgumentParser(description=description,
                                      formatter_class=FormatterNoDuplicate)
   parser.add_argument('strategy',type = str,help = 'Choose one among (sensitive,gray,random)')
+  parser.add_argument('--compress',action = 'store_true',help = 'If you want to test the compression case.')
   args = parser.parse_args()
   return args
 
@@ -23,12 +24,15 @@ random.seed(time.time())
 SENSITIVE = False
 GRAY = False
 
+
+COMPRESS = args.compress 
+
 if args.strategy == 'sensitive':
 	SENSITIVE = True
 elif args.strategy == 'gray':
 	GRAY = True
 
-TOTAL_TESTS = 4  # note each test generates a new batch of encyst samples and they are tested on all the attacked models.
+TOTAL_TESTS = 100  # note each test generates a new batch of encyst samples and they are tested on all the attacked models.
 # note keep the number of TESTS in gray box to be lesser..it is proportional to len(attack_model)^2
 
 
@@ -46,7 +50,7 @@ test_num = 0
 encyst_cmd_line = "python encyst_samples.py "
 sensitive_command_line = "python main_viz.py new_vae --encyst --samples 2 --iter 100 --sensitive --rate 0.0000025 "
 gray_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.01 --samples 6 --iter 2000 --gray_box "
-random_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.0075 --samples 5 --iter 2500 "
+random_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.01 --samples 4 --iter 1000 "
 
 am_paths_list = ["classifers/badnet.pth","classifers/clean_label.pth","classifers/trojannn.pth",
 						"classifers/apple_badnet.pth","classifers/apple_trojan.pth","classifers/apple_clean_label.pth",
@@ -86,6 +90,12 @@ for test_num in range(TOTAL_TESTS):
 		file = open("random_results.txt","a")
 		file.write("\n -----------------NEW RANDOM WATERMARK GENERATED--------------------------\n")
 		file.close()
+
+		if COMPRESS:
+			os.system(random_command_line+" --seed "+str(seed)+" --compress")
+			os.system(encyst_cmd_line+" --compress")
+			continue
+
 		os.system(random_command_line+" --seed "+str(seed))
 
 		for attack_name in am_paths_list:
