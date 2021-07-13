@@ -187,6 +187,9 @@ else:
   attacked_model.load_state_dict(torch.load('compression_clfs/model_compressed.pth',map_location='cpu'))
   attacked_model.eval()
 
+  args.mod_path = 'compression_clfs/net2.pth'
+  args.am_path = 'compression_clfs/model_compressed.pth'
+
 PATH = args.wm_path
 watermark = torch.load(PATH,map_location=torch.device('cpu'))
 
@@ -381,6 +384,9 @@ elif args.gray_box:
 else:
   file = open("random_results.txt","a")
   file.write("\nRandom")
+
+  if args.compress:
+    file.write("\nCompression case")
 
 
 

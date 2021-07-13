@@ -1,6 +1,202 @@
 
  -----------------NEW RANDOM WATERMARK GENERATED--------------------------
 
+Random
+Compression case--------mnist
+
+Total watermark images : 8
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 8 SUCCESS for compression_clfs/model_compressed.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random
+Compression case--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 33.33333333333333
+Watermark of size 6 SUCCESS for compression_clfs/model_compressed.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
  -----------------NEW RANDOM WATERMARK GENERATED--------------------------
 
  -----------------NEW RANDOM WATERMARK GENERATED--------------------------
