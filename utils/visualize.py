@@ -207,7 +207,7 @@ class Visualizer():
         outer_sens = {}
         
 
-        data = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
+        data,_ = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
         img_size = data[0].shape
         
         inner_grid = torch.zeros(self.total_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
@@ -222,7 +222,7 @@ class Visualizer():
             random.seed(seed)
             seed = int(seed*4/3)
 
-            data = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
+            data,_ = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
 
 
             img_size = data[0].shape
@@ -392,7 +392,7 @@ class Visualizer():
         inner_pred = {}
         outer_pred = {}
         
-        data = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
+        data,_ = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
         img_size = data[0].shape
         
         inner_grid = torch.zeros(self.total_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
@@ -406,7 +406,7 @@ class Visualizer():
             random.seed(seed)
             seed = int(seed*4/3)
 
-            data = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
+            data,label_list = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
             
             img_size = data[0].shape
             inner_img = torch.zeros(samples_per_dim,1,img_size[0],img_size[1],img_size[2]).to(self.device)
@@ -523,10 +523,10 @@ class Visualizer():
                     
                 inner_grid[sample_num + dim_count*(samples_per_dim)] = prev_img[0]
                 inner_img[sample_num] = prev_img
-                inner_img_pred[sample_num] = dirty_pred
+                inner_img_pred[sample_num] = label_list[sample_num]
                 outer_grid[sample_num + dim_count*(samples_per_dim)] = img[0]
                 outer_img[sample_num] = img
-                outer_img_pred[sample_num] = pred
+                outer_img_pred[sample_num] = label_list[sample_num]
             
             inner_boundary[dim_count] = inner_img 
             inner_pred[dim_count] = inner_img_pred
@@ -563,7 +563,7 @@ class Visualizer():
         inner_pred = {}
         outer_pred = {}
         
-        data = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
+        data,_ = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
         img_size = data[0].shape
         
         inner_grid = torch.zeros(self.total_dim*samples_per_dim,img_size[0],img_size[1],img_size[2]).to(self.device)
@@ -577,7 +577,7 @@ class Visualizer():
             random.seed(seed)
             seed = int(seed*4/3)
 
-            data = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
+            data,label_list = get_samples(self.dataset, samples_per_dim,LABELS = sample_label)
             
 
             img_size = data[0].shape
@@ -676,10 +676,10 @@ class Visualizer():
                     
                 inner_grid[sample_num + dim_count*(samples_per_dim)] = prev_img[0]
                 inner_img[sample_num] = prev_img
-                inner_img_pred[sample_num] = prev_pred
+                inner_img_pred[sample_num] = label_list[sample_num]
                 outer_grid[sample_num + dim_count*(samples_per_dim)] = img[0]
                 outer_img[sample_num] = img
-                outer_img_pred[sample_num] = pred
+                outer_img_pred[sample_num] = label_list[sample_num]
             
             inner_boundary[dim_count] = inner_img 
             inner_pred[dim_count] = inner_img_pred

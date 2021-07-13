@@ -47,9 +47,10 @@ def get_samples(dataset, num_samples, idcs=[],LABELS = None):
         idcs = [(index + n)%(len(data_loader.dataset)) for (index,n) in zip(idcs,randomlist)]
         
         samples = torch.stack([data_loader.dataset[i][0] for i in idcs], dim=0)
+        labels  = [data_loader.dataset[i][1] for i in idcs]
         print("Selected idcs: {}".format(idcs))
 
-        return samples
+        return samples,labels
 
     print('USING SAMPLES OF ONLY LABELS : '+LABELS)
     label_list = []
@@ -62,6 +63,7 @@ def get_samples(dataset, num_samples, idcs=[],LABELS = None):
         label_list.append(i)
 
     sample_list = []
+    label_list2 = []
     size = 0
 
     for inputs,labels in data_loader:
@@ -69,6 +71,7 @@ def get_samples(dataset, num_samples, idcs=[],LABELS = None):
 
             if label in label_list:
                 sample_list.append(inputs[idx])
+                label_list2.append(label)
                 size = size + 1
 
             if size>=num_samples:
@@ -76,7 +79,7 @@ def get_samples(dataset, num_samples, idcs=[],LABELS = None):
         if size>=num_samples:
                 break
 
-    return torch.stack(sample_list)
+    return torch.stack(sample_list),label_list2
 
 
 

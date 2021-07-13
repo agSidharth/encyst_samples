@@ -607,3 +607,16 @@ Watermark size 1 SUCCESS...
  -----------------NEW GRAY WATERMARK GENERATED--------------------------
 
 ---The attack model used for generation is : classifers/hidden_trigger.pth
+Gray--------mnist
+
+Total watermark images : 15
+The percentage of similar top 2 labels is 6.666666666666667
+The percentage of similar top label is 13.333333333333334
+Watermark of size 15 SUCCESS for classifers/badnet.pth 
+
+Gray--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 

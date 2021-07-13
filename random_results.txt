@@ -61,3 +61,17 @@ Total watermark images : 2
 The percentage of similar top 2 labels is 50.0
 The percentage of similar top label is 50.0
 Watermark of size 2 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 6 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 21
+The percentage of similar top 2 labels is 9.523809523809524
+The percentage of similar top label is 38.095238095238095
+Watermark of size 21 SUCCESS for classifers/badnet.pth 

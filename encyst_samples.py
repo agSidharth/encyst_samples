@@ -212,7 +212,7 @@ for dim in range(latent_dim):
         
         
 
-        max_sample,avg_sample = check_naturality(clean_pred[0].detach().numpy(),inner_img,natural_samples,samples_per_dim)
+        max_sample,avg_sample = check_naturality(watermark["inner_pred"][dim][sample].numpy(),inner_img,natural_samples,samples_per_dim)
 
         check_sensitivity = True
 
@@ -232,7 +232,7 @@ for dim in range(latent_dim):
               
           if(SHOW_PLOTS):   
             plt.figure(figsize=(2,2))
-            display_img = np.transpose(outer_img[0].detach().numpy(), (1, 2, 0))
+            display_img = np.transpose(inner_img[0].detach().numpy(), (1, 2, 0))
             plt.imshow(display_img[:,:,0] if args.dataset=='mnist' else display_img)
             plt.show()
 
@@ -281,7 +281,7 @@ for dim in range(latent_dim):
 
       
 
-      max_sample,avg_sample = check_naturality(clean_pred[0].detach().numpy(),outer_img,natural_samples,samples_per_dim)
+      max_sample,avg_sample = check_naturality(watermark["outer_pred"][dim][sample].numpy(),outer_img,natural_samples,samples_per_dim)
 
       check_sensitivity = True
 
