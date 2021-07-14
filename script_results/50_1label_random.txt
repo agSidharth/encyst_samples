@@ -1,0 +1,1650 @@
+EXPERIMENT SETTINGS :
+The rate used in this file is : 0.01
+The max iter checked in this file is : 1000
+Using gaussian noise
+Using noise per latent dim 
+Using only specific labels which are : 4
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 33.33333333333333
+Watermark of size 6 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 66.66666666666666
+The percentage of similar top label is 66.66666666666666
+Watermark of size 6 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 6 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 33.33333333333333
+Watermark of size 6 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 6 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 66.66666666666666
+The percentage of similar top label is 66.66666666666666
+Watermark of size 6 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 16.666666666666664
+The percentage of similar top label is 50.0
+Watermark of size 6 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 6 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 66.66666666666666
+Watermark of size 6 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 6 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 33.33333333333333
+The percentage of similar top label is 50.0
+Watermark of size 6 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 66.66666666666666
+Watermark of size 6 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 66.66666666666666
+Watermark of size 6 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 6 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 33.33333333333333
+The percentage of similar top label is 50.0
+Watermark of size 6 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 6 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 8
+The percentage of similar top 2 labels is 37.5
+The percentage of similar top label is 62.5
+Watermark of size 8 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 8
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 8 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 8
+The percentage of similar top 2 labels is 37.5
+The percentage of similar top label is 62.5
+Watermark of size 8 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 8
+The percentage of similar top 2 labels is 37.5
+The percentage of similar top label is 62.5
+Watermark of size 8 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 8
+The percentage of similar top 2 labels is 62.5
+The percentage of similar top label is 75.0
+Watermark of size 8 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 8
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 8 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 8
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 62.5
+Watermark of size 8 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 8
+The percentage of similar top 2 labels is 62.5
+The percentage of similar top label is 62.5
+Watermark of size 8 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 16.666666666666664
+The percentage of similar top label is 33.33333333333333
+Watermark of size 6 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 16.666666666666664
+The percentage of similar top label is 50.0
+Watermark of size 6 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 16.666666666666664
+The percentage of similar top label is 33.33333333333333
+Watermark of size 6 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 16.666666666666664
+The percentage of similar top label is 33.33333333333333
+Watermark of size 6 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 33.33333333333333
+The percentage of similar top label is 33.33333333333333
+Watermark of size 6 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 16.666666666666664
+The percentage of similar top label is 50.0
+Watermark of size 6 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 33.33333333333333
+Watermark of size 6 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 6
+The percentage of similar top 2 labels is 33.33333333333333
+The percentage of similar top label is 33.33333333333333
+Watermark of size 6 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+Random
+Sorry no image is natural enough or sensitive enough if required
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 75.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_badnet.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/apple_trojan.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/apple_clean_label.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 25.0
+Watermark of size 4 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Random--------mnist
+
+Total watermark images : 4
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 50.0
+Watermark of size 4 SUCCESS for classifers/hidden_trigger.pth 
