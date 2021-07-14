@@ -13,7 +13,7 @@
 * use `python tester.py sensitive` for sensitive samples
 * use `python tester.py gray` for gray box model
 * use `python tester.py random` for black box model
-* use `python tester.py --compress` to run tests for compression in black_box model only....
+* use `python tester.py -h` for complete details..
 * The standard line to search for will be " (size) (SUCCESS/FAILED) for (attacked classifer path)"
 * Use simple search operation to extract data size wise, attack model wise or both
 
@@ -43,6 +43,7 @@
 * To test on `encyst_samples.py` add `--gray_box`
 * Note for gray box we only check for the outer boundary since inner boundary has same labels..
 * Note take the attack model different for testing from that used to generate samples, only then it will make sense.
+* Explore the --am_path2 option as well
 
 
 ## General Instructions for random and all noises:

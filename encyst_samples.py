@@ -34,10 +34,11 @@ def parse_arguments(args_to_parse):
 
   parser.add_argument('--weak_natural',action='store_true',help = 'Weak naturality check parameter')
 
-  parser.add_argument('--arch_path', default='classifers/net_architecture.pth',
-                      help='the model architecture path')
   parser.add_argument('--min_sens',type = int, default = 1e5, help = 'minimum sensitivity required..')
 
+  parser.add_argument('--arch_path', default='classifers/net_architecture.pth',
+                      help='the model architecture path')
+  
   parser.add_argument('--mod_path',default='classifers/net.pth',help='the classifier path')
 
   parser.add_argument('--am_path', default='classifers/square_white_tar0_alpha0.00_mark(3,3).pth',

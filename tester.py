@@ -14,6 +14,13 @@ def parse_arguments(args_to_parse):
                                      formatter_class=FormatterNoDuplicate)
   parser.add_argument('strategy',type = str,help = 'Choose one among (sensitive,gray,random)')
   parser.add_argument('--compress',action = 'store_true',help = 'If you want to test the compression case.')
+  parser.add_argument('--num_tests',type = int,default = 10,help = 'Number of experiments needed to be conducted')
+  parser.add_argument('--rate',type = int,default = 0.01,help = 'the range of noise added at each step')
+  parser.add_argument('--iter',type = int,default = 1000,help = 'the max_iter upto which we are going to check the results..')
+  parser.add_argument('--samples',type = int,default = 5,help = 'The watermark images it will try to generate before filtering usually 5 gives a watermark of size 4 on avg')
+  parser.add_argument('--disable_gauss',action='store_true',help = 'If you want to use uniform noise')
+  parser.add_argument('--multiple',action = 'store_true',help = 'Use multiple on complete latent vector instead of single at a time')
+  parser.add_argument('--labels',type = str,default = None,help = 'Use watermark samples only for specific labels')
   args = parser.parse_args()
   return args
 
@@ -32,7 +39,7 @@ if args.strategy == 'sensitive':
 elif args.strategy == 'gray':
 	GRAY = True
 
-TOTAL_TESTS = 100  # note each test generates a new batch of encyst samples and they are tested on all the attacked models.
+TOTAL_TESTS = args.num_tests  # note each test generates a new batch of encyst samples and they are tested on all the attacked models.
 # note keep the number of TESTS in gray box to be lesser..it is proportional to len(attack_model)^2
 
 
@@ -43,14 +50,42 @@ elif GRAY:
 else:
 	file = open("random_results.txt","r+")
 file.truncate(0)
+
+file.write('EXPERIMENT SETTINGS :\n')
+
+file.write('The rate used in this file is : '+str(args.rate)+'\n')
+file.write('The max iter checked in this file is : '+str(args.iter)+'\n')
+
+other_features = ""
+
+if not args.disable_gauss:
+	other_features = other_features + " --gaussian "
+	file.write('Using gaussian noise\n')
+else:
+	file.write('Using uniform noise\n')
+
+if args.multiple:
+	other_features = other_features + " --multiple "
+	file.write('Using noise over complete latent vector\n')
+else:
+	file.write('Using noise per latent dim \n')
+
+if args.labels != None:
+	other_features = other_features + " --labels "+ args.labels+" "
+	file.write('Using only specific labels which are : '+args.labels+"\n")
+else:
+	file.write('Using all the labels for watermark samples\n')
+
+
 file.close()
 
 test_num = 0
 
 encyst_cmd_line = "python encyst_samples.py "
-sensitive_command_line = "python main_viz.py new_vae --encyst --samples 2 --iter 100 --sensitive --rate 0.0000025 "
-gray_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.01 --samples 6 --iter 2000 --gray_box "
-random_command_line = "python main_viz.py new_vae --gaussian --encyst --rate 0.01 --samples 4 --iter 1000 "
+common_command_line = "python main_viz.py new_vae --encyst --rate "+str(args.rate)+" --samples "+str(args.samples)+" --iter "+str(args.iter)
+sensitive_command_line 	=	common_command_line +other_features+" --sensitive " 
+gray_command_line 			=	common_command_line +other_features+" --gray_box "
+random_command_line 		=	common_command_line +other_features
 
 am_paths_list = ["classifers/badnet.pth","classifers/clean_label.pth","classifers/trojannn.pth",
 						"classifers/apple_badnet.pth","classifers/apple_trojan.pth","classifers/apple_clean_label.pth",
