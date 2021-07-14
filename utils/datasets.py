@@ -390,7 +390,7 @@ class CIFAR10(datasets.CIFAR10):
         super().__init__(root,
                         train=True,
                         download=True,
-                        transforms=transforms.ToTensor())
+                        transform = transforms.Compose([transforms.ToTensor(),transforms.Normalize((0.5, 0.5, 0.5),(0.5, 0.5, 0.5))]))
 
 
 # HELPERS

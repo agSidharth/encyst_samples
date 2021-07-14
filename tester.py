@@ -13,6 +13,7 @@ def parse_arguments(args_to_parse):
   parser = argparse.ArgumentParser(description=description,
                                      formatter_class=FormatterNoDuplicate)
   parser.add_argument('strategy',type = str,help = 'Choose one among (sensitive,gray,random)')
+  parser.add_argument('--dataset',type = str,default = 'mnist',help = 'the dataset available are (mnist,cifar10)')
   parser.add_argument('--compress',action = 'store_true',help = 'If you want to test the compression case.')
   parser.add_argument('--num_tests',type = int,default = 10,help = 'Number of experiments needed to be conducted')
   parser.add_argument('--rate',type = int,default = 0.01,help = 'the range of noise added at each step')
@@ -76,12 +77,17 @@ if args.labels != None:
 else:
 	file.write('Using all the labels for watermark samples\n')
 
+if args.dataset == 'cifar':
+	other_features = other_features + " --dataset cifar "
+	file.write('Using cifar dataset\n')
+else:
+	file.write('Using mnist dataset\n')
 
 file.close()
 
 test_num = 0
 
-encyst_cmd_line = "python encyst_samples.py "
+encyst_cmd_line = "python encyst_samples.py " + ("" if args.dataset=="mnist" else " --dataset cifar ")
 common_command_line = "python main_viz.py new_vae --encyst --rate "+str(args.rate)+" --samples "+str(args.samples)+" --iter "+str(args.iter)
 sensitive_command_line 	=	common_command_line +other_features+" --sensitive " 
 gray_command_line 			=	common_command_line +other_features+" --gray_box "

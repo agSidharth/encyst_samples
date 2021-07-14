@@ -86,6 +86,10 @@ def main(args):
     
     dataset = args.dataset
 
+    if dataset != "mnist" and dataset != "cifar":
+        print('The dataset is not supported')
+        sys.exit()
+
     if dataset=="mnist":
         model = FactorVAE(dataset,args.sensitive)
     elif dataset=="cifar":

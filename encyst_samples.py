@@ -102,7 +102,7 @@ if args.dataset == 'mnist':
 
 elif args.dataset == 'cifar':
   img_size = 32
-  transforms_1 = transforms.ToTensor()
+  transforms_1 = transforms.Compose([transforms.ToTensor(),transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))])
 
   cifar_trainset = datasets.CIFAR10(root='./data',train=True,download=True,transforms=transforms_1)
   trainset = DataLoader(cifar_trainset,batch_size = 100,shuffle = True)
@@ -369,7 +369,6 @@ if(total==0):
   sys.exit()
 
 print('The total number of non-zero valid images are : '+str(total)+'/'+str(total+zero_num))
-print('The percentage of similar probability vector is '+str(prob_similar/total*100))
 print("The percentage of similar top "+str(topk)+" labels is "+str(k_label_similar/total*100))
 print('The percentage of similar top label is '+str(top_label_similar/total*100))
 print('\n')
