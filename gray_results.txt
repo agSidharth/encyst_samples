@@ -1,593 +1,113 @@
+EXPERIMENT SETTINGS :
+The rate used in this file is : 0.01
+The max iter checked in this file is : 1000
+Using gaussian noise
+Using noise per latent dim 
+Using all the labels for watermark samples
 
  -----------------NEW GRAY WATERMARK GENERATED--------------------------
 
 ---The attack model used for generation is : classifers/badnet.pth
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 33.33333333333333
-The attack model is : classifers/clean_label.pth
-Watermark size 3 SUCCESS...
+Gray--------mnist
 
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 66.66666666666666
-The percentage of similar top label is 66.66666666666666
-The attack model is : classifers/trojannn.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
+Total watermark images : 2
 The percentage of similar top 2 labels is 0.0
 The percentage of similar top label is 0.0
-The attack model is : classifers/apple_badnet.pth
-Watermark size 3 SUCCESS...
+Watermark of size 2 SUCCESS for classifers/clean_label.pth 
 
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 66.66666666666666
-The percentage of similar top label is 66.66666666666666
-The attack model is : classifers/apple_trojan.pth
-Watermark size 3 SUCCESS...
+Gray--------mnist
 
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 33.33333333333333
-The attack model is : classifers/apple_clean_label.pth
-Watermark size 3 SUCCESS...
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/trojannn.pth 
 
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 66.66666666666666
-The percentage of similar top label is 66.66666666666666
-The attack model is : classifers/apple_latent_backdoor.pth
-Watermark size 3 SUCCESS...
+Gray--------mnist
 
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 66.66666666666666
-The percentage of similar top label is 66.66666666666666
-The attack model is : classifers/hidden_trigger.pth
-Watermark size 3 SUCCESS...
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/apple_badnet.pth 
+
+Gray--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/apple_trojan.pth 
+
+Gray--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 2 SUCCESS for classifers/apple_clean_label.pth 
+
+Gray--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/apple_latent_backdoor.pth 
+
+Gray--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/hidden_trigger.pth 
 
  -----------------NEW GRAY WATERMARK GENERATED--------------------------
 
 ---The attack model used for generation is : classifers/clean_label.pth
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/badnet.pth
-Watermark size 3 SUCCESS...
+Gray--------mnist
 
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 33.33333333333333
-The attack model is : classifers/trojannn.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_badnet.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 33.33333333333333
-The attack model is : classifers/apple_trojan.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_clean_label.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_latent_backdoor.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/hidden_trigger.pth
-Watermark size 3 SUCCESS...
-
- -----------------NEW GRAY WATERMARK GENERATED--------------------------
-
----The attack model used for generation is : classifers/trojannn.pth
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 50.0
-The attack model is : classifers/badnet.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-The attack model is : classifers/clean_label.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 50.0
-The attack model is : classifers/apple_badnet.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_trojan.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-The attack model is : classifers/apple_clean_label.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-The attack model is : classifers/apple_latent_backdoor.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-The attack model is : classifers/hidden_trigger.pth
-Watermark size 2 SUCCESS...
-
- -----------------NEW GRAY WATERMARK GENERATED--------------------------
-
----The attack model used for generation is : classifers/apple_badnet.pth
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/badnet.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/clean_label.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/trojannn.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_trojan.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_clean_label.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_latent_backdoor.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 33.33333333333333
-The attack model is : classifers/hidden_trigger.pth
-Watermark size 3 SUCCESS...
-
- -----------------NEW GRAY WATERMARK GENERATED--------------------------
-
----The attack model used for generation is : classifers/apple_trojan.pth
-Gray
-Total watermark images : 4
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 25.0
-The percentage of similar top label is 25.0
-The attack model is : classifers/badnet.pth
-Watermark size 4 SUCCESS...
-
-Gray
-Total watermark images : 4
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 75.0
-The attack model is : classifers/clean_label.pth
-Watermark size 4 SUCCESS...
-
-Gray
-Total watermark images : 4
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/trojannn.pth
-Watermark size 4 SUCCESS...
-
-Gray
-Total watermark images : 4
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 25.0
-The percentage of similar top label is 25.0
-The attack model is : classifers/apple_badnet.pth
-Watermark size 4 SUCCESS...
-
-Gray
-Total watermark images : 4
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 75.0
-The attack model is : classifers/apple_clean_label.pth
-Watermark size 4 SUCCESS...
-
-Gray
-Total watermark images : 4
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 25.0
-The percentage of similar top label is 25.0
-The attack model is : classifers/apple_latent_backdoor.pth
-Watermark size 4 SUCCESS...
-
-Gray
-Total watermark images : 4
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 75.0
-The attack model is : classifers/hidden_trigger.pth
-Watermark size 4 SUCCESS...
-
- -----------------NEW GRAY WATERMARK GENERATED--------------------------
-
----The attack model used for generation is : classifers/apple_clean_label.pth
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/badnet.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/clean_label.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/trojannn.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_badnet.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_trojan.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 100.0
-The percentage of similar top label is 100.0
-The attack model is : classifers/apple_latent_backdoor.pth
-Watermark size 2 FAILED...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-The attack model is : classifers/hidden_trigger.pth
-Watermark size 2 SUCCESS...
-
- -----------------NEW GRAY WATERMARK GENERATED--------------------------
-
----The attack model used for generation is : classifers/apple_latent_backdoor.pth
-Gray
 Total watermark images : 1
-The percentage of similar probability vector is 0.0
 The percentage of similar top 2 labels is 0.0
 The percentage of similar top label is 0.0
-The attack model is : classifers/badnet.pth
-Watermark size 1 SUCCESS...
+Watermark of size 1 SUCCESS for classifers/badnet.pth 
 
-Gray
+Gray--------mnist
+
 Total watermark images : 1
-The percentage of similar probability vector is 0.0
 The percentage of similar top 2 labels is 0.0
 The percentage of similar top label is 0.0
-The attack model is : classifers/clean_label.pth
-Watermark size 1 SUCCESS...
+Watermark of size 1 SUCCESS for classifers/trojannn.pth 
 
-Gray
+Gray--------mnist
+
 Total watermark images : 1
-The percentage of similar probability vector is 0.0
 The percentage of similar top 2 labels is 0.0
 The percentage of similar top label is 0.0
-The attack model is : classifers/trojannn.pth
-Watermark size 1 SUCCESS...
+Watermark of size 1 SUCCESS for classifers/apple_badnet.pth 
 
-Gray
+Gray--------mnist
+
 Total watermark images : 1
-The percentage of similar probability vector is 0.0
 The percentage of similar top 2 labels is 0.0
 The percentage of similar top label is 0.0
-The attack model is : classifers/apple_badnet.pth
-Watermark size 1 SUCCESS...
+Watermark of size 1 SUCCESS for classifers/apple_trojan.pth 
 
-Gray
+Gray--------mnist
+
 Total watermark images : 1
-The percentage of similar probability vector is 0.0
 The percentage of similar top 2 labels is 0.0
 The percentage of similar top label is 0.0
-The attack model is : classifers/apple_trojan.pth
-Watermark size 1 SUCCESS...
+Watermark of size 1 SUCCESS for classifers/apple_clean_label.pth 
 
-Gray
+Gray--------mnist
+
 Total watermark images : 1
-The percentage of similar probability vector is 0.0
 The percentage of similar top 2 labels is 0.0
 The percentage of similar top label is 0.0
-The attack model is : classifers/apple_clean_label.pth
-Watermark size 1 SUCCESS...
+Watermark of size 1 SUCCESS for classifers/apple_latent_backdoor.pth 
 
-Gray
+Gray--------mnist
+
 Total watermark images : 1
-The percentage of similar probability vector is 0.0
 The percentage of similar top 2 labels is 0.0
 The percentage of similar top label is 0.0
-The attack model is : classifers/hidden_trigger.pth
-Watermark size 1 SUCCESS...
-
- -----------------NEW GRAY WATERMARK GENERATED--------------------------
-
----The attack model used for generation is : classifers/hidden_trigger.pth
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 33.33333333333333
-The attack model is : classifers/badnet.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 33.33333333333333
-The attack model is : classifers/clean_label.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 33.33333333333333
-The attack model is : classifers/trojannn.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 33.33333333333333
-The attack model is : classifers/apple_badnet.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 33.33333333333333
-The attack model is : classifers/apple_trojan.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 33.33333333333333
-The attack model is : classifers/apple_clean_label.pth
-Watermark size 3 SUCCESS...
-
-Gray
-Total watermark images : 3
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 33.33333333333333
-The attack model is : classifers/apple_latent_backdoor.pth
-Watermark size 3 SUCCESS...
-
- -----------------NEW GRAY WATERMARK GENERATED--------------------------
-
----The attack model used for generation is : classifers/badnet.pth
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/clean_label.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/trojannn.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_badnet.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_trojan.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_clean_label.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_latent_backdoor.pth
-Watermark size 2 SUCCESS...
-
-Gray
-Total watermark images : 2
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/hidden_trigger.pth
-Watermark size 2 SUCCESS...
-
- -----------------NEW GRAY WATERMARK GENERATED--------------------------
-
----The attack model used for generation is : classifers/clean_label.pth
-Gray
-Total watermark images : 1
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/badnet.pth
-Watermark size 1 SUCCESS...
-
-Gray
-Total watermark images : 1
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/trojannn.pth
-Watermark size 1 SUCCESS...
-
-Gray
-Total watermark images : 1
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_badnet.pth
-Watermark size 1 SUCCESS...
-
-Gray
-Total watermark images : 1
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_trojan.pth
-Watermark size 1 SUCCESS...
-
-Gray
-Total watermark images : 1
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/apple_clean_label.pth
-Watermark size 1 SUCCESS...
-
-Gray
-Total watermark images : 1
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 100.0
-The percentage of similar top label is 100.0
-The attack model is : classifers/apple_latent_backdoor.pth
-Watermark size 1 FAILED...
-
-Gray
-Total watermark images : 1
-The percentage of similar probability vector is 0.0
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-The attack model is : classifers/hidden_trigger.pth
-Watermark size 1 SUCCESS...
+Watermark of size 1 SUCCESS for classifers/hidden_trigger.pth 
 
  -----------------NEW GRAY WATERMARK GENERATED--------------------------
 
@@ -607,16 +127,3 @@ Watermark size 1 SUCCESS...
  -----------------NEW GRAY WATERMARK GENERATED--------------------------
 
 ---The attack model used for generation is : classifers/hidden_trigger.pth
-Gray--------mnist
-
-Total watermark images : 15
-The percentage of similar top 2 labels is 6.666666666666667
-The percentage of similar top label is 13.333333333333334
-Watermark of size 15 SUCCESS for classifers/badnet.pth 
-
-Gray--------mnist
-
-Total watermark images : 4
-The percentage of similar top 2 labels is 25.0
-The percentage of similar top label is 25.0
-Watermark of size 4 SUCCESS for classifers/badnet.pth 

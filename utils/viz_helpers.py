@@ -5,6 +5,7 @@ from PIL import Image, ImageDraw
 import pandas as pd
 import torch
 import imageio
+import time 
 
 from torchvision.utils import make_grid
 from utils.datasets import get_dataloaders
@@ -27,12 +28,14 @@ def get_samples(dataset, num_samples, idcs=[],LABELS = None):
     idcs : list of ints, optional
         List of indices to of images to put at the begning of the samples.
     """
-    np.random.seed()
+    random.seed(time.time() + random.randint(0,1000))
+    np.random.seed(int(time.time())*2)
+    torch.manual_seed(int(time.time()*7) - random.randint(0,100))
+
     data_loader = get_dataloaders(dataset,
                                     batch_size=1,
-                                    shuffle=idcs is None)
+                                    shuffle=True)
     random.seed(np.random.randint(0,5000))
-    np.random.seed()
     
     if LABELS is None:
 
@@ -73,6 +76,7 @@ def get_samples(dataset, num_samples, idcs=[],LABELS = None):
                 sample_list.append(inputs[idx])
                 label_list2.append(label)
                 size = size + 1
+                #print(str(idx)+" "+str(label))
 
             if size>=num_samples:
                 break
