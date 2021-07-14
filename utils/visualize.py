@@ -76,7 +76,7 @@ class Visualizer():
             Scale factor to upsample the size of the tensor
         """
         self.model = model
-        self.latent_dim = self.model.z_dim if dataset=='mnist' else 10
+        self.latent_dim = self.model.z_dim if dataset=='mnist' else sys.exit()
         self.max_traversal = max_traversal
         self.save_images = save_images
         self.model_dir = model_dir
@@ -90,7 +90,8 @@ class Visualizer():
                    [-4.353424, 3.9273840000000004], [-3.5737352000000002, 3.6870752],
                    [-3.9186784000000006, 4.770078400000001], [-4.384398400000001, 4.134798400000001],
                    [-3.1040488, 3.0058888]]
-        self.total_dim = len(self.mnist_potentialSet_short)
+
+        self.total_dim = len(self.mnist_potentialSet_short) if dataset=="mnist" else sys.exit()
 
         #if loss_of_interest is not None:
         #    self.losses = read_loss_from_file(os.path.join(self.model_dir, TRAIN_FILE),

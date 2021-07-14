@@ -206,3 +206,17 @@ Total watermark images : 2
 The percentage of similar top 2 labels is 0.0
 The percentage of similar top label is 50.0
 Watermark of size 2 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 2
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 50.0
+Watermark of size 2 SUCCESS for classifers/trojannn.pth 
+
+Random--------mnist
+
+Total watermark images : 18
+The percentage of similar top 2 labels is 5.555555555555555
+The percentage of similar top label is 27.77777777777778
+Watermark of size 18 SUCCESS for classifers/trojannn.pth 
