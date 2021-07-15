@@ -20,6 +20,7 @@ from utils.viz_helpers import (read_loss_from_file, add_labels, make_grid_img,
 import random
 from tqdm import tqdm
 import copy
+from imageio import imsave
 
 TRAIN_FILE = "train_losses.log"
 DECIMAL_POINTS = 3
@@ -31,6 +32,10 @@ PLOT_NAMES = dict(generate_samples="samples.png",
                   reconstruct_traverse="reconstruct_traverse.png",
                   gif_traversals="posterior_traversals.gif",)
 
+def reparameterize(mu, logvar):
+    std = torch.exp(0.5*logvar)
+    eps = torch.randn_like(std)
+    return mu + eps*std
 
 class Visualizer():
     def __init__(self, model, dataset, model_dir,
@@ -76,22 +81,22 @@ class Visualizer():
             Scale factor to upsample the size of the tensor
         """
         self.model = model
-        self.latent_dim = self.model.z_dim if dataset=='mnist' else sys.exit()
+        self.latent_dim = self.model.z_dim if dataset=='mnist' else 128
         self.max_traversal = max_traversal
         self.save_images = save_images
         self.model_dir = model_dir
         self.dataset = dataset
         self.upsample_factor = upsample_factor
 
-        self.mnist_potentialSet = [1, 2, 3, 4, 5, 9, 12, 13, 16, 17]
-        self.mnist_potentialSet_short = [9, 13, 16, 17]
+        self.potentialSet = [1, 2, 3, 4, 5, 9, 12, 13, 16, 17]
+        self.potentialSet_short = [9, 13, 16, 17] if self.dataset == "mnist" else [1,2,3,4]
         self.mnist_normalrange = [[-3.39912, 2.83359], [-2.23347, 1.76427], [-3.33213952, 2.4100915200000004],
                    [-3.1712631040000003, 2.2483367040000006], [-3.38752704, 3.9973510400000007],
                    [-4.353424, 3.9273840000000004], [-3.5737352000000002, 3.6870752],
                    [-3.9186784000000006, 4.770078400000001], [-4.384398400000001, 4.134798400000001],
                    [-3.1040488, 3.0058888]]
 
-        self.total_dim = len(self.mnist_potentialSet_short) if dataset=="mnist" else sys.exit()
+        self.total_dim = len(self.potentialSet_short)
 
         #if loss_of_interest is not None:
         #    self.losses = read_loss_from_file(os.path.join(self.model_dir, TRAIN_FILE),
@@ -217,7 +222,7 @@ class Visualizer():
 
         dim_count = 0
         
-        for dim in self.mnist_potentialSet_short:       
+        for dim in self.potentialSet_short:       
 
             print('The dimension number is:'+str(dim))
             random.seed(seed)
@@ -363,6 +368,8 @@ class Visualizer():
 
     def gray_encystSamples(self,classifier,attacked_clf,attacked_clf2,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,gaussian_noise = False,sample_label = None):
 
+        torch.set_grad_enabled(False)
+
         self.device = torch.device('cpu')
 
         for name,param in classifier.named_parameters():
@@ -398,7 +405,7 @@ class Visualizer():
         
         dim_count = 0
         
-        for dim in self.mnist_potentialSet_short:
+        for dim in self.potentialSet_short:
             
             print('The dimension number is:'+str(dim))
             random.seed(seed)
@@ -413,6 +420,21 @@ class Visualizer():
             outer_img_pred = torch.zeros(samples_per_dim).to(self.device)
 
             data = data.to(self.device)
+            print(data.shape)
+
+            if self.dataset == 'cifar':
+
+                bs, imsize = data.shape[0], data.shape[2]
+
+                mu_logvar = self.model.encoder(data).view(bs, -1)
+                mu = mu_logvar[:, 0:self.latent_dim]
+                
+                logvar = mu_logvar[:, self.latent_dim:]
+                sample_pool = reparameterize(mu, logvar)
+
+                rec = self.model.decoder(sample_pool).view(bs, 3, imsize, imsize)
+                img_pool = rec.mul_(127.5).add_(127.5).clamp(0.0, 255.0)          
+
             for sample_num in range(samples_per_dim):
 
                 factor = random.randint(1,2)            #for ensuring a feature is both decreased and increased max_iter times..
@@ -428,9 +450,9 @@ class Visualizer():
                     img = torch.sigmoid(xxx).data
                 
                 elif self.dataset=="cifar":
-                    sys.exit()
-                
-                
+                    sample = sample_pool[sample_num].clone().unsqueeze_(0)
+                    img = img_pool[sample_num].clone().unsqueeze_(0)                    
+                                
                 _,pred = torch.max(classifier((img).to(self.device)), 1)
                 _,dirty_pred = torch.max(attacked_clf((img).to(self.device)),1)
 
@@ -447,26 +469,27 @@ class Visualizer():
                     
                     prev_img = img
 
-                    if self.dataset == "mnist":
-                        if not mutiple:
-                            if not gaussian_noise:
-                                noise = 1
-                            else:
-                                noise = abs(np.random.normal(loc = 0,scale = 1))
-                            sample[:,dim] = sample[:,dim] + factor*rate*noise
+                    if not mutiple:
+                        if not gaussian_noise:
+                            noise = 1
                         else:
-                            if not gaussian_noise:
-                                noise = torch.ones(self.total_dim).to(self.device)
-                            else:
-                                noise = torch.randn(self.total_dim).to(self.device)
-                            sample = sample + factor*rate*noise
+                            noise = abs(np.random.normal(loc = 0,scale = 1))
+                        sample[:,dim] = sample[:,dim] + factor*rate*noise
+                    else:
+                        if not gaussian_noise:
+                            noise = torch.ones_like(sample).to(self.device)
+                        else:
+                            noise = torch.randn_like(sample).to(self.device)
+                        sample = sample + factor*rate*noise
 
+                    if self.dataset == "mnist":
                         xxx = self.model.decode(sample.unsqueeze(-1).unsqueeze(-1), toArray=False)
                         img = torch.sigmoid(xxx).data
-                    
+                        
                     elif self.dataset == "cifar":
-                        sys.exit()
-
+                        rec1 = self.model.decoder(sample).view(1, 3, 32,32)
+                        img = rec1.mul_(127.5).add_(127.5).clamp(0.0, 255.0)  
+                    
                     _,pred = torch.max(classifier((img).to(self.device)), 1)
                     _,dirty_pred = torch.max(attacked_clf((img).to(self.device)),1)
 
@@ -487,25 +510,26 @@ class Visualizer():
                     while(torch.equal(pred,dirty_pred) and torch.equal(pred,dirty_pred2) and iterations<max_iterations):
                         prev_img = img
 
-                        if self.dataset == "mnist":
-                            if not mutiple:
-                                if not gaussian_noise:
-                                    noise = 1
-                                else:
-                                    noise = abs(np.random.normal(loc = 0,scale = 1))
-                                sample[:,dim] = sample[:,dim] + factor*rate*noise
+                        if not mutiple:
+                            if not gaussian_noise:
+                                noise = 1
                             else:
-                                if not gaussian_noise:
-                                    noise = torch.ones(self.total_dim).to(self.device)
-                                else:
-                                    noise = torch.randn(self.total_dim).to(self.device)
-                                sample = sample + factor*rate*noise
-                            
+                                noise = abs(np.random.normal(loc = 0,scale = 1))
+                            sample[:,dim] = sample[:,dim] + factor*rate*noise
+                        else:
+                            if not gaussian_noise:
+                                noise = torch.ones_like(sample).to(self.device)
+                            else:
+                                noise = torch.randn_like(sample).to(self.device)
+                            sample = sample + factor*rate*noise
+
+                        if self.dataset == "mnist":
                             xxx = self.model.decode(sample.unsqueeze(-1).unsqueeze(-1), toArray=False)
                             img = torch.sigmoid(xxx).data
-                    
+                            
                         elif self.dataset == "cifar":
-                            sys.exit()
+                            rec1 = self.model.decoder(sample).view(1, 3, 32,32)
+                            img = rec1.mul_(127.5).add_(127.5).clamp(0.0, 255.0)
 
                         _,pred = torch.max(classifier((img).to(self.device)), 1)
                         _,dirty_pred = torch.max(attacked_clf((img).to(self.device)),1)
@@ -554,6 +578,7 @@ class Visualizer():
 
     def encystSamples(self,classifier,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,gaussian_noise = False,sample_label = None):
 
+        torch.set_grad_enabled(False)
         self.device = torch.device('cpu')
 
         for name,param in classifier.named_parameters():
@@ -582,7 +607,7 @@ class Visualizer():
         
         dim_count = 0
         
-        for dim in self.mnist_potentialSet_short:
+        for dim in self.potentialSet_short:
             
             print('The dimension number is:'+str(dim))
             random.seed(seed)
@@ -597,13 +622,23 @@ class Visualizer():
             inner_img_pred = torch.zeros(samples_per_dim).to(self.device)
             outer_img_pred = torch.zeros(samples_per_dim).to(self.device)
 
-            #with torch.no_grad():
-            #    post_mean, post_logvar = self.model.encoder(data.to(self.device))
-            #    samples = self.model.reparameterize(post_mean, post_logvar).to(self.device)
-            #    #samples = samples.cpu().repeat(samples_per_dim, 1)
-            
-            #sample is the latent code represntation
             data = data.to(self.device)
+
+            if self.dataset == 'cifar':
+
+                bs, imsize = data.shape[0], data.shape[2]
+
+                mu_logvar = self.model.encoder(data).view(bs, -1)
+                mu = mu_logvar[:, 0:self.latent_dim]
+                
+                logvar = mu_logvar[:, self.latent_dim:]
+                sample_pool = reparameterize(mu, logvar)
+
+                rec = self.model.decoder(sample_pool).view(bs, 3, imsize, imsize)
+                img_pool = rec.mul_(127.5).add_(127.5).clamp(0.0, 255.0)
+
+                #print(sample_pool.shape)
+                
             for sample_num in range(samples_per_dim):
 
                 factor = random.randint(1,2)            #for ensuring a feature is both decreased and increased max_iter times..
@@ -619,10 +654,11 @@ class Visualizer():
                     xxx = self.model.decode(sample.unsqueeze(-1).unsqueeze(-1), toArray=False)
                     img = torch.sigmoid(xxx).data
                 elif self.dataset == "cifar":
-                    sys.exit()
-
-                #print(img.shape)
-                #sys.exit()
+                    sample = sample_pool[sample_num].unsqueeze_(0)
+                    img = img_pool[sample_num].unsqueeze_(0)
+                
+                #print('\n\n')
+                #print(img.get_device())
 
                 _,pred = torch.max(classifier((img).to(self.device)), 1)
                 prev_pred = pred
@@ -634,25 +670,26 @@ class Visualizer():
                 while(torch.equal(pred,prev_pred) and iterations<max_iterations):
                     prev_img = img
 
-                    if self.dataset == "mnist":
-                        if not mutiple:
-                            if not gaussian_noise:
-                                noise = 1
-                            else:
-                                noise = abs(np.random.normal(loc = 0,scale = 1))
-                            sample[:,dim] = sample[:,dim] + factor*rate*noise
+                    if not mutiple:
+                        if not gaussian_noise:
+                            noise = 1
                         else:
-                            if not gaussian_noise:
-                                noise = torch.ones(self.total_dim).to(self.device)
-                            else:
-                                noise = torch.randn(self.total_dim).to(self.device)
-                            sample = sample + factor*rate*noise
+                            noise = abs(np.random.normal(loc = 0,scale = 1))
+                        sample[:,dim] = sample[:,dim] + factor*rate*noise
+                    else:
+                        if not gaussian_noise:
+                            noise = torch.ones_like(sample).to(self.device)
+                        else:
+                            noise = torch.randn_like(sample).to(self.device)
+                        sample = sample + factor*rate*noise
 
+                    if self.dataset == "mnist":
                         xxx = self.model.decode(sample.unsqueeze(-1).unsqueeze(-1), toArray=False)
                         img = torch.sigmoid(xxx).data
-
+                        
                     elif self.dataset == "cifar":
-                        sys.exit()
+                        rec1 = self.model.decoder(sample).view(1, 3, 32,32)
+                        img = rec1.mul_(127.5).add_(127.5).clamp(0.0, 255.0)
 
                     _,pred = torch.max(classifier((img).to(self.device)), 1)
                     iterations = iterations + 1
@@ -667,25 +704,26 @@ class Visualizer():
                     while(torch.equal(pred,prev_pred) and iterations<max_iterations):
                         prev_img = img
 
-                        if self.dataset == "mnist":
-                            if not mutiple:
-                                if not gaussian_noise:
-                                    noise = 1
-                                else:
-                                    noise = abs(np.random.normal(loc = 0,scale = 1))
-                                sample[:,dim] = sample[:,dim] + factor*rate*noise
+                        if not mutiple:
+                            if not gaussian_noise:
+                                noise = 1
                             else:
-                                if not gaussian_noise:
-                                    noise = torch.ones(self.total_dim).to(self.device)
-                                else:
-                                    noise = torch.randn(self.total_dim).to(self.device)
-                                sample = sample + factor*rate*noise
+                                noise = abs(np.random.normal(loc = 0,scale = 1))
+                            sample[:,dim] = sample[:,dim] + factor*rate*noise
+                        else:
+                            if not gaussian_noise:
+                                noise = torch.ones_like(sample).to(self.device)
+                            else:
+                                noise = torch.randn_like(sample).to(self.device)
+                            sample = sample + factor*rate*noise
 
+                        if self.dataset == "mnist":
                             xxx = self.model.decode(sample.unsqueeze(-1).unsqueeze(-1), toArray=False)
                             img = torch.sigmoid(xxx).data
-
+                            
                         elif self.dataset == "cifar":
-                            sys.exit()
+                            rec1 = self.model.decoder(sample).view(1, 3, 32, 32)
+                            img = rec1.mul_(127.5).add_(127.5).clamp(0.0, 255.0)
 
                         _,pred = torch.max(classifier((img).to(self.device)), 1)
                         iterations = iterations + 1
@@ -701,6 +739,8 @@ class Visualizer():
                     img = torch.zeros(1,img_size[0],img_size[1],img_size[2]).to(self.device)
                     print('\n')
                 else:
+                    out_imgs = img.permute(0, 2, 3, 1).to("cpu", torch.uint8).numpy()
+                    imsave('cifar_images/cifar_live'+str(dim)+str(sample_num)+'.png', out_imgs[0])
                     #print('The previous prediction : '+str(prev_pred[0]))
                     #print('The new prediction : '+str(pred[0]))
                     print('\n')

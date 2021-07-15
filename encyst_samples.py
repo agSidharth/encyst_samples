@@ -15,6 +15,8 @@ import torchvision.models as models
 import matplotlib.pyplot as plt
 import numpy as np
 from net.models import LeNet_5
+from resnet import ResNet18
+from main_viz import WrappedModel
 
 def parse_arguments(args_to_parse):
 
@@ -63,10 +65,10 @@ np.random.seed(SEED)
 if args.dataset=="cifar":
   print('For cifar datset.......')
   if args.arch_path=='classifers/net_architecture.pth':
-    args.arch_path = 'classifers/resne.......'
+    args.arch_path = 'classifers/resnet_architecture.pth'
   
   if args.mod_path=='classifers/net.pth':
-    args.mod_path = '...............'
+    args.mod_path = 'classifers/resnet18_comp.pth'
 else:
   print('For mnist dataset')
 
@@ -104,7 +106,7 @@ elif args.dataset == 'cifar':
   img_size = 32
   transforms_1 = transforms.Compose([transforms.ToTensor(),transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))])
 
-  cifar_trainset = datasets.CIFAR10(root='./data',train=True,download=True,transforms=transforms_1)
+  cifar_trainset = datasets.CIFAR10(root='./data',train=True,download=True,transform=transforms_1)
   trainset = DataLoader(cifar_trainset,batch_size = 100,shuffle = True)
   num_classes = 10
 
@@ -180,16 +182,29 @@ if not args.compress:
   attacked_model.eval()
 
 else:
-  clean_model = LeNet_5(mask=True)
-  clean_model.load_state_dict(torch.load('compression_clfs/net2.pth',map_location='cpu'))
-  clean_model.eval()
+  if args.dataset == 'mnist':
+    clean_model = LeNet_5(mask=True)
+    clean_model.load_state_dict(torch.load('compression_clfs/net2.pth',map_location='cpu'))
+    clean_model.eval()
 
-  attacked_model = LeNet_5(mask=True)
-  attacked_model.load_state_dict(torch.load('compression_clfs/model_compressed.pth',map_location='cpu'))
-  attacked_model.eval()
+    attacked_model = LeNet_5(mask=True)
+    attacked_model.load_state_dict(torch.load('compression_clfs/model_compressed.pth',map_location='cpu'))
+    attacked_model.eval()
 
-  args.mod_path = 'compression_clfs/net2.pth'
-  args.am_path = 'compression_clfs/model_compressed.pth'
+    args.mod_path = 'compression_clfs/net2.pth'
+    args.am_path = 'compression_clfs/model_compressed.pth'
+
+  elif args.dataset == 'cifar':
+    clean_model = WrappedModel(ResNet18())
+    clean_model.load_state_dict(torch.load('compression_clfs/resnet2.pth',map_location='cpu')['net'])
+    clean_model.eval()
+
+    attacked_model = WrappedModel(ResNet18())
+    attacked_model.load_state_dict(torch.load('compression_clfs/resnet_compressed.pth',map_location='cpu')['net'])
+    attacked_model.eval()
+
+    args.mod_path = 'compression_clfs/resnet2.pth'
+    args.am_path = 'compression_clfs/resnet_compressed.pth'
 
 PATH = args.wm_path
 watermark = torch.load(PATH,map_location=torch.device('cpu'))

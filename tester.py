@@ -93,10 +93,12 @@ sensitive_command_line 	=	common_command_line +other_features+" --sensitive "
 gray_command_line 			=	common_command_line +other_features+" --gray_box "
 random_command_line 		=	common_command_line +other_features
 
-am_paths_list = ["classifers/badnet.pth","classifers/clean_label.pth","classifers/trojannn.pth",
+if args.dataset=='mnist':
+	am_paths_list = ["classifers/badnet.pth","classifers/clean_label.pth","classifers/trojannn.pth",
 						"classifers/apple_badnet.pth","classifers/apple_trojan.pth","classifers/apple_clean_label.pth",
 						"classifers/apple_latent_backdoor.pth","classifers/hidden_trigger.pth"]
-
+else:
+	am_paths_list = ["classifers/resnet_badnet.pth","classifers/resnet_trojannn.pth"]
 seed = random.randint(0,10000)
 
 for test_num in range(TOTAL_TESTS):

@@ -63,3 +63,19 @@ Total watermark images : 6
 The percentage of similar top 2 labels is 33.33333333333333
 The percentage of similar top label is 50.0
 Watermark of size 6 SUCCESS for classifers/hidden_trigger.pth 
+
+Random
+Compression case--------cifar
+
+Total watermark images : 1
+The percentage of similar top 2 labels is 0.0
+The percentage of similar top label is 0.0
+Watermark of size 1 SUCCESS for compression_clfs/resnet_compressed.pth 
+
+Random
+Compression case--------cifar
+
+Total watermark images : 10
+The percentage of similar top 2 labels is 50.0
+The percentage of similar top label is 50.0
+Watermark of size 10 SUCCESS for compression_clfs/resnet_compressed.pth 

@@ -13,11 +13,27 @@ from disvae.utils.modelIO import load_model, load_metadata
 import torchvision.models as models
 from scripts.test import FactorVAE
 from net.models import LeNet_5
+from models_32 import *
+from cifar_misc import *
+from resnet import ResNet18
+
+cifar_dim = 128
 
 
 PLOT_TYPES = ['generate-samples', 'data-samples', 'reconstruct', "traversals",
               'reconstruct-traverse', "gif-traversals", "all"]
 
+class CIFAR_VAE:
+    def __init__(self,encoder,decoder):
+        self.encoder = encoder
+        self.decoder = decoder
+
+class WrappedModel(nn.Module):
+	def __init__(self,model):
+		super(WrappedModel, self).__init__()
+		self.module = model 
+	def forward(self, x):
+		return self.module(x)
 
 def parse_arguments(args_to_parse):
     """Parse the command line arguments.
@@ -93,7 +109,17 @@ def main(args):
     if dataset=="mnist":
         model = FactorVAE(dataset,args.sensitive)
     elif dataset=="cifar":
-        model = FactorVAE(dataset,args.sensitive)
+
+        encoder0 = WrappedModel(Encoder(cifar_dim))
+        encoder0.load_state_dict(torch.load("cifar_vae/580_encoder.sd",map_location = 'cpu'))
+        encoder0 = encoder0.cpu()
+        encoder0.eval()
+        decoder0 = WrappedModel(Decoder(cifar_dim))
+        decoder0.load_state_dict(torch.load("cifar_vae/580_decoder.sd",map_location = 'cpu'))
+        decoder0 = decoder0.cpu()
+        decoder0.eval()
+
+        model = CIFAR_VAE(encoder0,decoder0)
 
     viz = Visualizer(model=model,
                      model_dir=model_dir,
@@ -104,33 +130,41 @@ def main(args):
                      
     print('\nThe dataset used is : '+dataset)
 
+    if args.dataset == 'cifar':
+        if args.arch_path == 'classifers/net_architecture.pth':
+            args.arch_path = 'classifers/resnet_architecture.pth'
+
+        if args.model_path == 'classifers/net.pth':
+            args.model_path = 'classifers/resnet18_comp.pth'
+        
+
     if args.encyst or True:
 
-        if (dataset=='mnist'):
-            if (args.model=='net'):
+        print("\nloading the model : "+args.model_path+"\n")
+        PATH = args.arch_path
 
-                print("\nloading the Net model\n")
-                PATH = args.arch_path
-
-                if torch.cuda.is_available() and args.sensitive:
-                    this_device = torch.device("cuda")
-                    classifier = torch.load(PATH,map_location="cuda:0")
-                    PATH = args.model_path
-                    classifier.load_state_dict(torch.load(PATH,map_location="cuda:0"))
-                    classifier.cuda()
-                elif not args.compress:
-                    classifier = torch.load(PATH,map_location=torch.device('cpu'))
-                    PATH = args.model_path
-                    classifier.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
-                else:
-                    print('Loading net2.pth')
-                    classifier = LeNet_5(mask=True)
-                    classifier.load_state_dict(torch.load('compression_clfs/net2.pth',map_location='cpu'))      
+        if torch.cuda.is_available() and args.sensitive:        #only support with mnist
+            this_device = torch.device("cuda")
+            classifier = torch.load(PATH,map_location="cuda:0")
+            PATH = args.model_path
+            classifier.load_state_dict(torch.load(PATH,map_location="cuda:0"))
+            classifier.cuda()
+        elif not args.compress:
+            classifier0 = torch.load(PATH,map_location=torch.device('cpu'))
+            PATH = args.model_path
+            classifier0.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
+            classifier = torch.nn.DataParallel(classifier0)
+            # print(help(classifier))
+        else: 
+            if args.dataset == "mnist":                  
+                print('Loading net2.pth')
+                classifier = LeNet_5(mask=True)
+                classifier.load_state_dict(torch.load('compression_clfs/net2.pth',map_location='cpu'))
+            elif args.dataset == "cifar":
+                print('Loading the ResNet18')
+                classifier = WrappedModel(ResNet18())
+                classifier.load_state_dict(torch.load('compression_clfs/resnet2.pth',map_location = 'cpu')["net"])        
         
-        elif(dataset=='cifar'):
-            sys.exit()
-
-
         if args.sensitive:
             inner_boundary,inner_sens,outer_boundary,outer_sens = viz.sensitive_encystSamples(classifier,args.samples,args.rate,args.iter,args.show_plots,sample_label = args.labels)
 
