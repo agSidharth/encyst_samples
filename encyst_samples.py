@@ -62,6 +62,11 @@ SHOW_PLOTS = args.show
 torch.manual_seed(SEED)
 np.random.seed(SEED)
 
+if torch.cuda.is_available() and args.dataset!='mnist' and (not args.compress):
+  device = 'cuda'
+else:
+  device = 'cpu'
+
 if args.dataset=="cifar":
   print('For cifar datset.......')
   if args.arch_path=='classifers/net_architecture.pth':
@@ -172,15 +177,15 @@ def check_naturality(dimension,img,natural_samples,samples_per_dim):
 #"""
 if not args.compress:
   PATH = args.arch_path
-  clean_model = torch.load(PATH,map_location=torch.device('cpu'))
-  attacked_model = torch.load(PATH,map_location=torch.device('cpu'))
+  clean_model = torch.load(PATH,map_location=device)
+  attacked_model = torch.load(PATH,map_location=device)
 
   PATH = args.mod_path
-  clean_model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
+  clean_model.load_state_dict(torch.load(PATH,map_location=device))
   clean_model.eval()
 
   PATH = args.am_path
-  attacked_model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
+  attacked_model.load_state_dict(torch.load(PATH,map_location=device))
   attacked_model.eval()
 
 else:
@@ -239,7 +244,7 @@ for dim in range(latent_dim):
 
       if (not torch.equal(inner_img,zeros)):
 
-        clean_output = clean_model((inner_img)).data
+        clean_output = clean_model((inner_img).to(device)).data
         clean_topk   = torch.topk(clean_output,topk).indices
         _, clean_pred = torch.max(clean_output, 1)
         
@@ -269,7 +274,7 @@ for dim in range(latent_dim):
             plt.imshow(display_img[:,:,0] if args.dataset=='mnist' else display_img)
             plt.show()
 
-          attacked_output = attacked_model((inner_img)).data
+          attacked_output = attacked_model((inner_img).to(device)).data
           attacked_topk   = torch.topk(attacked_output,topk).indices
           _, attacked_pred = torch.max(attacked_output, 1)
           print('Attacked label : '+str(attacked_pred))
@@ -308,7 +313,7 @@ for dim in range(latent_dim):
 
     if (not torch.equal(zeros,outer_img)):
 
-      clean_output = clean_model((outer_img)).data
+      clean_output = clean_model((outer_img).to(device)).data
       clean_topk   = torch.topk(clean_output,topk).indices
       _, clean_pred = torch.max(clean_output, 1)
 
@@ -338,7 +343,7 @@ for dim in range(latent_dim):
           plt.imshow(display_img[:,:,0] if args.dataset=='mnist' else display_img)
           plt.show()
 
-        attacked_output = attacked_model((outer_img)).data
+        attacked_output = attacked_model((outer_img).to(device)).data
         attacked_topk   = torch.topk(attacked_output,topk).indices
         _, attacked_pred = torch.max(attacked_output, 1)
         print('Attacked label : '+str(attacked_pred))

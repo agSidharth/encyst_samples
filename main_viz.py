@@ -173,6 +173,9 @@ def main(args):
             PATH = args.model_path
             classifier0.load_state_dict(torch.load(PATH,map_location=device))
             classifier = (classifier0)
+
+            if args.dataset != 'mnist' and torch.cuda.is_available():
+                classifier = classifier.cuda()
             # print(help(classifier))
         else: 
             if args.dataset == "mnist":                  

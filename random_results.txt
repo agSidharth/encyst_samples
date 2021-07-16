@@ -1,6 +1,6 @@
 EXPERIMENT SETTINGS :
-The rate used in this file is : 0.01
-The max iter checked in this file is : 1000
+The rate used in this file is : 0.05
+The max iter checked in this file is : 1500
 Using gaussian noise
 Using noise per latent dim 
 Using all the labels for watermark samples
@@ -8,19 +8,13 @@ Using cifar dataset
 
  -----------------NEW RANDOM WATERMARK GENERATED--------------------------
 
- -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+Random
+Compression case--------cifar
 
- -----------------NEW RANDOM WATERMARK GENERATED--------------------------
-
- -----------------NEW RANDOM WATERMARK GENERATED--------------------------
-
- -----------------NEW RANDOM WATERMARK GENERATED--------------------------
-
- -----------------NEW RANDOM WATERMARK GENERATED--------------------------
-
- -----------------NEW RANDOM WATERMARK GENERATED--------------------------
-
- -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+Total watermark images : 8
+The percentage of similar top 2 labels is 25.0
+The percentage of similar top label is 37.5
+Watermark of size 8 SUCCESS for compression_clfs/resnet_compressed.pth 
 
  -----------------NEW RANDOM WATERMARK GENERATED--------------------------
 
