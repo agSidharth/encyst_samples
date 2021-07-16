@@ -172,7 +172,7 @@ def main(args):
             classifier0 = torch.load(PATH,map_location=device)
             PATH = args.model_path
             classifier0.load_state_dict(torch.load(PATH,map_location=device))
-            classifier = torch.nn.DataParallel(classifier0)
+            classifier = (classifier0)
             # print(help(classifier))
         else: 
             if args.dataset == "mnist":                  
