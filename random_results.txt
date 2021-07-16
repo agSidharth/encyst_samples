@@ -1,81 +1,29 @@
 EXPERIMENT SETTINGS :
-The rate used in this file is : 0.01
-The max iter checked in this file is : 1000
+The rate used in this file is : 0.05
+The max iter checked in this file is : 1500
 Using gaussian noise
 Using noise per latent dim 
 Using all the labels for watermark samples
-Using mnist dataset
+Using cifar dataset
 
  -----------------NEW RANDOM WATERMARK GENERATED--------------------------
-
-Random--------mnist
-
-Total watermark images : 6
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-Watermark of size 6 SUCCESS for classifers/badnet.pth 
-
-Random--------mnist
-
-Total watermark images : 6
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-Watermark of size 6 SUCCESS for classifers/clean_label.pth 
-
-Random--------mnist
-
-Total watermark images : 6
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-Watermark of size 6 SUCCESS for classifers/trojannn.pth 
-
-Random--------mnist
-
-Total watermark images : 6
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-Watermark of size 6 SUCCESS for classifers/apple_badnet.pth 
-
-Random--------mnist
-
-Total watermark images : 6
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-Watermark of size 6 SUCCESS for classifers/apple_trojan.pth 
-
-Random--------mnist
-
-Total watermark images : 6
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-Watermark of size 6 SUCCESS for classifers/apple_clean_label.pth 
-
-Random--------mnist
-
-Total watermark images : 6
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-Watermark of size 6 SUCCESS for classifers/apple_latent_backdoor.pth 
-
-Random--------mnist
-
-Total watermark images : 6
-The percentage of similar top 2 labels is 33.33333333333333
-The percentage of similar top label is 50.0
-Watermark of size 6 SUCCESS for classifers/hidden_trigger.pth 
 
 Random
 Compression case--------cifar
 
-Total watermark images : 1
-The percentage of similar top 2 labels is 0.0
-The percentage of similar top label is 0.0
-Watermark of size 1 SUCCESS for compression_clfs/resnet_compressed.pth 
+Total watermark images : 8
+The percentage of similar top 2 labels is 12.5
+The percentage of similar top label is 50.0
+Watermark of size 8 SUCCESS for compression_clfs/resnet_compressed.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------
 
 Random
 Compression case--------cifar
 
 Total watermark images : 10
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
+The percentage of similar top 2 labels is 30.0
+The percentage of similar top label is 40.0
 Watermark of size 10 SUCCESS for compression_clfs/resnet_compressed.pth 
+
+ -----------------NEW RANDOM WATERMARK GENERATED--------------------------

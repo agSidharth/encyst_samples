@@ -17,6 +17,11 @@ from models_32 import *
 from cifar_misc import *
 from resnet import ResNet18
 
+import argparse
+from vqvae import Solver
+from torch.autograd import Variable
+import torch
+
 cifar_dim = 128
 
 
@@ -85,7 +90,7 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--iter',type = int,default = 100,help = 'the change in value of feature')
     parser.add_argument('--arch_path', default='classifers/net_architecture.pth', help='the model architecture path')
     parser.add_argument('--model_path', default='classifers/net.pth', help='the classifier path')
-    parser.add_argument('--multiple',action = 'store_true',help = 'If in case the random noise is added to all the dimensions..')
+    parser.add_argument('--multiple',action = 'store_true',help = 'If in case the random noise is added to all the dimensions, will always set to be tru in cifar10')
     parser.add_argument('--show_plots',action = 'store_true',help = 'Show plots of sensitivity in sensitive samples')
     parser.add_argument('--am_path2',default = None,help = 'for gray box model the second attack model')
     parser.add_argument('--compress',action = 'store_true',help = 'If you want to test compression use diff. model')
@@ -101,6 +106,11 @@ def main(args):
     model_dir = os.path.join(RES_DIR, experiment_name)
     
     dataset = args.dataset
+    
+    if torch.cuda.is_available() and args.dataset!='mnist':
+        device = 'cuda'
+    else:
+        device = 'cpu'
 
     if dataset != "mnist" and dataset != "cifar":
         print('The dataset is not supported')
@@ -110,17 +120,24 @@ def main(args):
         model = FactorVAE(dataset,args.sensitive)
     elif dataset=="cifar":
 
+        args.multiple = True
+
+        model = Solver(device)
+        model.set_mode('eval')
+
+        if device=='cuda':
+            model.model = net.model.cuda()
+
+        """
         encoder0 = WrappedModel(Encoder(cifar_dim))
-        encoder0.load_state_dict(torch.load("cifar_vae/580_encoder.sd",map_location = 'cpu'))
-        encoder0 = encoder0.cpu()
+        encoder0.load_state_dict(torch.load("cifar_vae/580_encoder.sd",map_location = device))
         encoder0.eval()
         decoder0 = WrappedModel(Decoder(cifar_dim))
-        decoder0.load_state_dict(torch.load("cifar_vae/580_decoder.sd",map_location = 'cpu'))
-        decoder0 = decoder0.cpu()
+        decoder0.load_state_dict(torch.load("cifar_vae/580_decoder.sd",map_location = device))
         decoder0.eval()
 
         model = CIFAR_VAE(encoder0,decoder0)
-
+        """
     viz = Visualizer(model=model,
                      model_dir=model_dir,
                      dataset=dataset,
@@ -140,7 +157,6 @@ def main(args):
 
     if args.encyst or True:
 
-        print("\nloading the model : "+args.model_path+"\n")
         PATH = args.arch_path
 
         if torch.cuda.is_available() and args.sensitive:        #only support with mnist
@@ -150,9 +166,12 @@ def main(args):
             classifier.load_state_dict(torch.load(PATH,map_location="cuda:0"))
             classifier.cuda()
         elif not args.compress:
-            classifier0 = torch.load(PATH,map_location=torch.device('cpu'))
+
+            print("\nloading the model : "+args.model_path+"\n")
+            
+            classifier0 = torch.load(PATH,map_location=device)
             PATH = args.model_path
-            classifier0.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
+            classifier0.load_state_dict(torch.load(PATH,map_location=device))
             classifier = torch.nn.DataParallel(classifier0)
             # print(help(classifier))
         else: 
@@ -163,7 +182,7 @@ def main(args):
             elif args.dataset == "cifar":
                 print('Loading the ResNet18')
                 classifier = WrappedModel(ResNet18())
-                classifier.load_state_dict(torch.load('compression_clfs/resnet2.pth',map_location = 'cpu')["net"])        
+                classifier.load_state_dict(torch.load('compression_clfs/resnet2.pth',map_location = device)["net"])        
         
         if args.sensitive:
             inner_boundary,inner_sens,outer_boundary,outer_sens = viz.sensitive_encystSamples(classifier,args.samples,args.rate,args.iter,args.show_plots,sample_label = args.labels)
@@ -178,12 +197,12 @@ def main(args):
         elif args.gray_box:
 
             print("\nloading the attacked model\n")
-            attack_model = torch.load(args.arch_path,map_location=torch.device('cpu'))
-            attack_model.load_state_dict(torch.load(args.am_path,map_location=torch.device('cpu')))
+            attack_model = torch.load(args.arch_path,map_location=device)
+            attack_model.load_state_dict(torch.load(args.am_path,map_location=device))
 
             if args.am_path2 is not None:
-                attack_model2 = torch.load(args.arch_path,map_location=torch.device('cpu'))
-                attack_model2.load_state_dict(torch.load(args.am_path2,map_location=torch.device('cpu')))
+                attack_model2 = torch.load(args.arch_path,map_location=device)
+                attack_model2.load_state_dict(torch.load(args.am_path2,map_location=device))
             else:
                 attack_model2 = None
 

@@ -16,7 +16,7 @@ def parse_arguments(args_to_parse):
   parser.add_argument('--dataset',type = str,default = 'mnist',help = 'the dataset available are (mnist,cifar10)')
   parser.add_argument('--compress',action = 'store_true',help = 'If you want to test the compression case.')
   parser.add_argument('--num_tests',type = int,default = 10,help = 'Number of experiments needed to be conducted')
-  parser.add_argument('--rate',type = int,default = 0.01,help = 'the range of noise added at each step')
+  parser.add_argument('--rate',type = float,default = 0.01,help = 'the range of noise added at each step')
   parser.add_argument('--iter',type = int,default = 1000,help = 'the max_iter upto which we are going to check the results..')
   parser.add_argument('--samples',type = int,default = 5,help = 'The watermark images it will try to generate before filtering usually 5 gives a watermark of size 4 on avg')
   parser.add_argument('--disable_gauss',action='store_true',help = 'If you want to use uniform noise')

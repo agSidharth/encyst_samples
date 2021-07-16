@@ -370,7 +370,10 @@ class Visualizer():
 
         torch.set_grad_enabled(False)
 
-        self.device = torch.device('cpu')
+        if torch.cuda.is_available() and self.dataset!='mnist':
+            self.device = 'cuda'
+        else:
+            self.device = 'cpu'
 
         for name,param in classifier.named_parameters():
             param = param.to(self.device)
@@ -422,18 +425,20 @@ class Visualizer():
             data = data.to(self.device)
             print(data.shape)
 
+            """
             if self.dataset == 'cifar':
 
                 bs, imsize = data.shape[0], data.shape[2]
 
-                mu_logvar = self.model.encoder(data).view(bs, -1)
+                mu_logvar = self.model.encoder(data).view(bs, -1).to(self.device)
                 mu = mu_logvar[:, 0:self.latent_dim]
                 
                 logvar = mu_logvar[:, self.latent_dim:]
-                sample_pool = reparameterize(mu, logvar)
+                sample_pool = reparameterize(mu, logvar).to(self.device)
 
                 rec = self.model.decoder(sample_pool).view(bs, 3, imsize, imsize)
-                img_pool = rec.mul_(127.5).add_(127.5).clamp(0.0, 255.0)          
+                img_pool = rec.mul_(127.5).add_(127.5).clamp(0.0, 255.0).to(self.device)         
+            """
 
             for sample_num in range(samples_per_dim):
 
@@ -450,8 +455,19 @@ class Visualizer():
                     img = torch.sigmoid(xxx).data
                 
                 elif self.dataset=="cifar":
-                    sample = sample_pool[sample_num].clone().unsqueeze_(0)
-                    img = img_pool[sample_num].clone().unsqueeze_(0)                    
+
+                    Z_enc_ori = self.model.model.encode(data[sample_num].unsqueeze_(0).to(self.device))
+                    z_bs, z_c, z_w, z_h = Z_enc_ori.size()
+
+                    Z_enc = Z_enc_ori.permute(0, 2, 3, 1)  
+                    sample = Z_enc.contiguous().view(-1, self.model.model.z_dim)  # -> (B*W*H,C)
+
+                    Z_dec = self.model.model.find_nearest(sample, self.model.model.embd.weight)  
+                    Z_dec = Z_dec.view(z_bs, z_w, z_h, z_c)
+                    Z_dec = Z_dec.permute(0, 3, 1, 2).contiguous()
+                    #Z_dec.register_hook(self.model.model.hook)
+
+                    img = self.model.model.decode(Z_dec)                  
                                 
                 _,pred = torch.max(classifier((img).to(self.device)), 1)
                 _,dirty_pred = torch.max(attacked_clf((img).to(self.device)),1)
@@ -487,8 +503,12 @@ class Visualizer():
                         img = torch.sigmoid(xxx).data
                         
                     elif self.dataset == "cifar":
-                        rec1 = self.model.decoder(sample).view(1, 3, 32,32)
-                        img = rec1.mul_(127.5).add_(127.5).clamp(0.0, 255.0)  
+
+                        Z_dec = self.model.model.find_nearest(sample, self.model.model.embd.weight)  
+                        Z_dec = Z_dec.view(z_bs, z_w, z_h, z_c)
+                        Z_dec = Z_dec.permute(0, 3, 1, 2).contiguous()
+
+                        img = self.model.model.decode(Z_dec)
                     
                     _,pred = torch.max(classifier((img).to(self.device)), 1)
                     _,dirty_pred = torch.max(attacked_clf((img).to(self.device)),1)
@@ -528,8 +548,11 @@ class Visualizer():
                             img = torch.sigmoid(xxx).data
                             
                         elif self.dataset == "cifar":
-                            rec1 = self.model.decoder(sample).view(1, 3, 32,32)
-                            img = rec1.mul_(127.5).add_(127.5).clamp(0.0, 255.0)
+                            Z_dec = self.model.model.find_nearest(sample, self.model.model.embd.weight)  
+                            Z_dec = Z_dec.view(z_bs, z_w, z_h, z_c)
+                            Z_dec = Z_dec.permute(0, 3, 1, 2).contiguous()
+
+                            img = self.model.model.decode(Z_dec)
 
                         _,pred = torch.max(classifier((img).to(self.device)), 1)
                         _,dirty_pred = torch.max(attacked_clf((img).to(self.device)),1)
@@ -579,7 +602,11 @@ class Visualizer():
     def encystSamples(self,classifier,samples_per_dim=10,rate=0.05,max_iterations=5000,mutiple=False,gaussian_noise = False,sample_label = None):
 
         torch.set_grad_enabled(False)
-        self.device = torch.device('cpu')
+
+        if torch.cuda.is_available() and self.dataset!='mnist':
+            self.device = 'cuda'
+        else:
+            self.device = 'cpu'
 
         for name,param in classifier.named_parameters():
             param = param.to(self.device)
@@ -624,21 +651,22 @@ class Visualizer():
 
             data = data.to(self.device)
 
+            """
             if self.dataset == 'cifar':
 
                 bs, imsize = data.shape[0], data.shape[2]
 
-                mu_logvar = self.model.encoder(data).view(bs, -1)
+                mu_logvar = (self.model.encoder(data).view(bs, -1)).to(self.device)
                 mu = mu_logvar[:, 0:self.latent_dim]
                 
                 logvar = mu_logvar[:, self.latent_dim:]
                 sample_pool = reparameterize(mu, logvar)
 
-                rec = self.model.decoder(sample_pool).view(bs, 3, imsize, imsize)
+                rec = self.model.decoder(sample_pool).view(bs, 3, imsize, imsize).to(self.device)
                 img_pool = rec.mul_(127.5).add_(127.5).clamp(0.0, 255.0)
 
                 #print(sample_pool.shape)
-                
+            """   
             for sample_num in range(samples_per_dim):
 
                 factor = random.randint(1,2)            #for ensuring a feature is both decreased and increased max_iter times..
@@ -654,8 +682,24 @@ class Visualizer():
                     xxx = self.model.decode(sample.unsqueeze(-1).unsqueeze(-1), toArray=False)
                     img = torch.sigmoid(xxx).data
                 elif self.dataset == "cifar":
-                    sample = sample_pool[sample_num].unsqueeze_(0)
-                    img = img_pool[sample_num].unsqueeze_(0)
+
+                    Z_enc_ori = self.model.model.encode(data[sample_num].unsqueeze_(0).to(self.device))
+                    z_bs, z_c, z_w, z_h = Z_enc_ori.size()
+
+                    Z_enc = Z_enc_ori.permute(0, 2, 3, 1)  
+                    sample = Z_enc.contiguous().view(-1, self.model.model.z_dim)  # -> (B*W*H,C)
+
+                    Z_dec = self.model.model.find_nearest(sample, self.model.model.embd.weight)  
+                    Z_dec = Z_dec.view(z_bs, z_w, z_h, z_c)
+                    Z_dec = Z_dec.permute(0, 3, 1, 2).contiguous()
+                    #Z_dec.register_hook(self.model.model.hook)
+
+                    img = self.model.model.decode(Z_dec)
+
+                    """
+                    sample = sample_pool[sample_num].unsqueeze_(0).to(self.device)
+                    img = img_pool[sample_num].unsqueeze_(0).to(self.device)
+                    """
                 
                 #print('\n\n')
                 #print(img.get_device())
@@ -688,8 +732,17 @@ class Visualizer():
                         img = torch.sigmoid(xxx).data
                         
                     elif self.dataset == "cifar":
+
+                        Z_dec = self.model.model.find_nearest(sample, self.model.model.embd.weight)  
+                        Z_dec = Z_dec.view(z_bs, z_w, z_h, z_c)
+                        Z_dec = Z_dec.permute(0, 3, 1, 2).contiguous()
+
+                        img = self.model.model.decode(Z_dec)
+
+                        """
                         rec1 = self.model.decoder(sample).view(1, 3, 32,32)
                         img = rec1.mul_(127.5).add_(127.5).clamp(0.0, 255.0)
+                        """
 
                     _,pred = torch.max(classifier((img).to(self.device)), 1)
                     iterations = iterations + 1
@@ -722,8 +775,17 @@ class Visualizer():
                             img = torch.sigmoid(xxx).data
                             
                         elif self.dataset == "cifar":
+
+                            Z_dec = self.model.model.find_nearest(sample, self.model.model.embd.weight)  
+                            Z_dec = Z_dec.view(z_bs, z_w, z_h, z_c)
+                            Z_dec = Z_dec.permute(0, 3, 1, 2).contiguous()
+
+                            img = self.model.model.decode(Z_dec)
+
+                            """
                             rec1 = self.model.decoder(sample).view(1, 3, 32, 32)
                             img = rec1.mul_(127.5).add_(127.5).clamp(0.0, 255.0)
+                            """
 
                         _,pred = torch.max(classifier((img).to(self.device)), 1)
                         iterations = iterations + 1
@@ -739,8 +801,6 @@ class Visualizer():
                     img = torch.zeros(1,img_size[0],img_size[1],img_size[2]).to(self.device)
                     print('\n')
                 else:
-                    out_imgs = img.permute(0, 2, 3, 1).to("cpu", torch.uint8).numpy()
-                    imsave('cifar_images/cifar_live'+str(dim)+str(sample_num)+'.png', out_imgs[0])
                     #print('The previous prediction : '+str(prev_pred[0]))
                     #print('The new prediction : '+str(pred[0]))
                     print('\n')

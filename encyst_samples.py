@@ -69,8 +69,10 @@ if args.dataset=="cifar":
   
   if args.mod_path=='classifers/net.pth':
     args.mod_path = 'classifers/resnet18_comp.pth'
-else:
+elif args.dataset =='mnist':
   print('For mnist dataset')
+else:
+  print('Dataset not suported')
 
 if args.sensitive:
 

@@ -4,8 +4,65 @@ The max iter checked in this file is : 1000
 Using gaussian noise
 Using noise per latent dim 
 Using all the labels for watermark samples
-Using mnist dataset
+Using cifar dataset
 
  -----------------NEW GRAY WATERMARK GENERATED--------------------------
 
----The attack model used for generation is : classifers/badnet.pth
+---The attack model used for generation is : classifers/resnet_badnet.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_trojannn.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_badnet.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_trojannn.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_badnet.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_trojannn.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_badnet.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_trojannn.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_badnet.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_trojannn.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_badnet.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_trojannn.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_badnet.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_trojannn.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_badnet.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_trojannn.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_badnet.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_trojannn.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_badnet.pth
+ -----------------NEW GRAY WATERMARK GENERATED--------------------------
+
+---The attack model used for generation is : classifers/resnet_trojannn.pth
