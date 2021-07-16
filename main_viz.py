@@ -107,7 +107,7 @@ def main(args):
     
     dataset = args.dataset
     
-    if torch.cuda.is_available() and args.dataset!='mnist':
+    if torch.cuda.is_available() and args.dataset!='mnist' and False:
         device = 'cuda'
     else:
         device = 'cpu'
@@ -168,7 +168,7 @@ def main(args):
         elif not args.compress:
 
             print("\nloading the model : "+args.model_path+"\n")
-            
+
             classifier0 = torch.load(PATH,map_location=device)
             PATH = args.model_path
             classifier0.load_state_dict(torch.load(PATH,map_location=device))
