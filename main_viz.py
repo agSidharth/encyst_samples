@@ -126,7 +126,7 @@ def main(args):
         model.set_mode('eval')
 
         if device=='cuda':
-            model.model = net.model.cuda()
+            model.model = model.model.cuda()
 
         """
         encoder0 = WrappedModel(Encoder(cifar_dim))
