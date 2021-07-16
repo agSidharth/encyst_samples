@@ -107,7 +107,7 @@ def main(args):
     
     dataset = args.dataset
     
-    if torch.cuda.is_available() and args.dataset!='mnist' and False:
+    if torch.cuda.is_available() and args.dataset!='mnist':
         device = 'cuda'
     else:
         device = 'cpu'
