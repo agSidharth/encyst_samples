@@ -3,6 +3,7 @@ import os
 import sys
 
 from utils.helpers import FormatterNoDuplicate, check_bounds, set_seed
+from utils.dataset_face import data_loader
 import lpips
 import torch
 import torch.nn as nn
@@ -137,13 +138,18 @@ elif args.dataset == 'cifar':
 
 elif args.dataset == 'face':
   img_size = 224
-
   num_classes = 10
 
+  transforms_1 = transforms.Compose([
+            transforms.Resize(img_size),
+            transforms.CenterCrop(img_size),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+
+  trainset,_ = data_loader(transforms_1,100,0,1000)
+
   natural_samples = torch.zeros(num_classes,samples_per_dim,3,img_size,img_size)      #10 classes , 10 samples per dimension...
-  sys.exit()
-
-
+  #sys.exit()
 
 completed = [0]*num_classes
 total = 0

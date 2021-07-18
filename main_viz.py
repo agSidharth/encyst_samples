@@ -166,7 +166,7 @@ def main(args):
             args.model_path = 'classifers/resnet18_comp.pth'
     
     elif args.dataset == 'face':
-        if args.arch_path = 'classifers/net_architecture.pth':
+        if args.arch_path == 'classifers/net_architecture.pth':
             args.arch_path = None
 
         if args.model_path == 'classifers/net.pth':

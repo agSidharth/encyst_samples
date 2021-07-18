@@ -6,12 +6,47 @@ import pandas as pd
 import torch
 import imageio
 import time 
+import utils.dataset_face as dataset_face
 
 from torchvision.utils import make_grid
 from utils.datasets import get_dataloaders
 from utils.helpers import set_seed
 
 FPS_GIF = 12
+
+def face_samples(num_samples,LABELS):
+
+    img_transforms = transforms.Compose([
+            transforms.Resize(input_size),
+            transforms.CenterCrop(input_size),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+
+    random.seed(time.time() + random.randint(0,1000))
+
+    complete_label_list = dataset_face.load_labels('ffhq_labels.csv')
+
+    count_samples = 0
+    sample_list = []
+    label_list = []
+
+    for count_samples in range(num_samples):
+        index = random.randint(0,70000)
+        num_str = ""
+
+        label_list.append(complete_label_list[index])
+        zero_digits =  5 - len(str(index))
+
+        while (zero_digits>0):
+            num_str = num_str + "0"
+            zero_digits = zero_digits - 1
+
+        num_str = 'thumbnails128x128/'+ num_str + str(index) + '.png'
+
+        img = img_transform(dataset_face.read_img(num_str)).float()
+        sample_list.append(img)
+
+    return torch.stack(sample_list),label_list
 
 
 def get_samples(dataset, num_samples, idcs=[],LABELS = None):
@@ -28,6 +63,10 @@ def get_samples(dataset, num_samples, idcs=[],LABELS = None):
     idcs : list of ints, optional
         List of indices to of images to put at the begning of the samples.
     """
+    if dataset == 'face':
+        return face_samples(num_samples,LABELS)
+
+
     random.seed(time.time() + random.randint(0,1000))
     np.random.seed(int(time.time())*2)
     torch.manual_seed(int(time.time()*7) - random.randint(0,100))
