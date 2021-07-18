@@ -12,11 +12,14 @@ from torchvision.utils import make_grid
 from utils.datasets import get_dataloaders
 from utils.helpers import set_seed
 
+import torchvision.transforms as transforms
+
 FPS_GIF = 12
 
 def face_samples(num_samples,LABELS):
-
-    img_transforms = transforms.Compose([
+    input_size = 224
+    
+    img_transform = transforms.Compose([
             transforms.Resize(input_size),
             transforms.CenterCrop(input_size),
             transforms.ToTensor(),

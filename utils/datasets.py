@@ -44,6 +44,8 @@ def get_img_size(dataset):
 
 def get_background(dataset):
     """Return the image background color."""
+    if dataset =='face':
+        return COLOUR_WHITE
     return get_dataset(dataset).background_color
 
 

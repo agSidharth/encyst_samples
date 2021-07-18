@@ -18,6 +18,7 @@ import numpy as np
 from net.models import LeNet_5
 from resnet import ResNet18
 from main_viz import WrappedModel
+from finetune import ModifiedVGG16Model
 
 def parse_arguments(args_to_parse):
 

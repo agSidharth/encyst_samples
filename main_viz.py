@@ -23,6 +23,8 @@ from torch.autograd import Variable
 import torch
 from vqvae2 import VQVAE
 
+from finetune import ModifiedVGG16Model
+
 cifar_dim = 128
 
 
@@ -143,9 +145,10 @@ def main(args):
         model = CIFAR_VAE(encoder0,decoder0)
         """
     elif dataset == "face":
-
+        
+        args.multiple = True
         model = VQVAE()
-        model.load_state_dict('classifers/checkpoint.pth')
+        model.load_state_dict(torch.load('classifers/vqvae_560.pt',map_location = device))
         model = model.to(device)
         model.eval()
 

@@ -1,27 +1,9 @@
 EXPERIMENT SETTINGS :
-The rate used in this file is : 0.05
-The max iter checked in this file is : 1500
+The rate used in this file is : 0.1
+The max iter checked in this file is : 10
 Using gaussian noise
 Using noise per latent dim 
 Using all the labels for watermark samples
-Using mnist dataset
-
- -----------------NEW RANDOM WATERMARK GENERATED--------------------------
-
-Random--------mnist
-
-Total watermark images : 2
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-Watermark of size 2 SUCCESS for classifers/badnet.pth 
-
-Random--------mnist
-
-Total watermark images : 2
-The percentage of similar top 2 labels is 50.0
-The percentage of similar top label is 50.0
-Watermark of size 2 SUCCESS for classifers/clean_label.pth 
-
- -----------------NEW RANDOM WATERMARK GENERATED--------------------------
+Using face dataset
 
  -----------------NEW RANDOM WATERMARK GENERATED--------------------------
