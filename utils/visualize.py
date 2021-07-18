@@ -701,7 +701,26 @@ class Visualizer():
                     img = img_pool[sample_num].unsqueeze_(0).to(self.device)
                     """
                 elif self.dataset == 'face':
-                    sys.exit()
+
+                    quant_t, quant_b, diff, id_t, id_b = model.encode(data[sample_num].to(device))
+
+                    sample = model.enc_b(data[sample_num].to(device))
+                    enc_t = model.enc_t(sample)
+
+                    quant_t = model.quantize_conv_t(enc_t).permute(0, 2, 3, 1)
+                    quant_t, diff_t, id_t = model.quantize_t(quant_t)
+                    quant_t = quant_t.permute(0, 3, 1, 2)
+                    diff_t = diff_t.unsqueeze(0)
+
+                    dec_t = model.dec_t(quant_t)
+                    enc_b = torch.cat([dec_t, enc_b], 1)
+
+                    quant_b = model.quantize_conv_b(enc_b).permute(0, 2, 3, 1)
+                    quant_b, diff_b, id_b = model.quantize_b(quant_b)
+                    quant_b = quant_b.permute(0, 3, 1, 2)
+                    diff_b = diff_b.unsqueeze(0)
+
+                    img = model.decode(quant_t, quant_b)
                 
                 #print('\n\n')
                 #print(img.get_device())
@@ -742,11 +761,23 @@ class Visualizer():
                         img = self.model.model.decode(Z_dec)
 
                     elif self.dataset == 'face':
-                        sys.exit()
-                        """
-                        rec1 = self.model.decoder(sample).view(1, 3, 32,32)
-                        img = rec1.mul_(127.5).add_(127.5).clamp(0.0, 255.0)
-                        """
+                        enc_t = model.enc_t(sample)
+
+                        quant_t = model.quantize_conv_t(enc_t).permute(0, 2, 3, 1)
+                        quant_t, diff_t, id_t = model.quantize_t(quant_t)
+                        quant_t = quant_t.permute(0, 3, 1, 2)
+                        diff_t = diff_t.unsqueeze(0)
+
+                        dec_t = model.dec_t(quant_t)
+                        enc_b = torch.cat([dec_t, enc_b], 1)
+
+                        quant_b = model.quantize_conv_b(enc_b).permute(0, 2, 3, 1)
+                        quant_b, diff_b, id_b = model.quantize_b(quant_b)
+                        quant_b = quant_b.permute(0, 3, 1, 2)
+                        diff_b = diff_b.unsqueeze(0)
+
+                        img = model.decode(quant_t, quant_b)
+                        
 
                     _,pred = torch.max(classifier((img).to(self.device)), 1)
                     iterations = iterations + 1
@@ -786,11 +817,22 @@ class Visualizer():
 
                             img = self.model.model.decode(Z_dec)
                         elif self.dataset == 'face':
-                            sys.exit()
-                            """
-                            rec1 = self.model.decoder(sample).view(1, 3, 32, 32)
-                            img = rec1.mul_(127.5).add_(127.5).clamp(0.0, 255.0)
-                            """
+                            enc_t = model.enc_t(sample)
+
+                            quant_t = model.quantize_conv_t(enc_t).permute(0, 2, 3, 1)
+                            quant_t, diff_t, id_t = model.quantize_t(quant_t)
+                            quant_t = quant_t.permute(0, 3, 1, 2)
+                            diff_t = diff_t.unsqueeze(0)
+
+                            dec_t = model.dec_t(quant_t)
+                            enc_b = torch.cat([dec_t, enc_b], 1)
+
+                            quant_b = model.quantize_conv_b(enc_b).permute(0, 2, 3, 1)
+                            quant_b, diff_b, id_b = model.quantize_b(quant_b)
+                            quant_b = quant_b.permute(0, 3, 1, 2)
+                            diff_b = diff_b.unsqueeze(0)
+
+                            img = model.decode(quant_t, quant_b)
 
                         _,pred = torch.max(classifier((img).to(self.device)), 1)
                         iterations = iterations + 1

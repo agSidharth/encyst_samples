@@ -21,6 +21,7 @@ import argparse
 from vqvae import Solver
 from torch.autograd import Variable
 import torch
+from vqvae2 import VQVAE
 
 cifar_dim = 128
 
@@ -142,7 +143,11 @@ def main(args):
         model = CIFAR_VAE(encoder0,decoder0)
         """
     elif dataset == "face":
-        sys.exit()
+
+        model = VQVAE()
+        model.load_state_dict('classifers/checkpoint.pth')
+        model = model.to(device)
+        model.eval()
 
     
 
