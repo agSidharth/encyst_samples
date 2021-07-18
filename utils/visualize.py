@@ -702,6 +702,12 @@ class Visualizer():
                     """
                 elif self.dataset == 'face':
 
+                    """
+                    plt.figure(figsize=(2,2))
+                    display_img = np.transpose(data[sample_num].detach().numpy(), (1, 2, 0))
+                    plt.imshow(display_img)
+                    """
+
                     #quant_t, quant_b, diff, id_t, id_b = self.model.encode(data[sample_num].to(self.device))
 
                     sample = self.model.enc_b(data[sample_num].to(self.device).unsqueeze_(0))
@@ -849,10 +855,12 @@ class Visualizer():
                     img = torch.zeros(1,img_size[0],img_size[1],img_size[2]).to(self.device)
                     print('\n')
                 else:
+                    """
                     plt.figure(figsize=(2,2))
                     display_img = np.transpose(img[0].detach().numpy(), (1, 2, 0))
                     plt.imshow(display_img)
                     plt.show()
+                    """
                     #print('The previous prediction : '+str(prev_pred[0]))
                     #print('The new prediction : '+str(pred[0]))
                     print('\n')
