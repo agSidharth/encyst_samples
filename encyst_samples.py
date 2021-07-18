@@ -67,6 +67,9 @@ if torch.cuda.is_available() and args.dataset!='mnist' and (not args.compress):
 else:
   device = 'cpu'
 
+
+
+
 if args.dataset=="cifar":
   print('For cifar datset.......')
   if args.arch_path=='classifers/net_architecture.pth':
@@ -74,10 +77,23 @@ if args.dataset=="cifar":
   
   if args.mod_path=='classifers/net.pth':
     args.mod_path = 'classifers/resnet18_comp.pth'
+
 elif args.dataset =='mnist':
   print('For mnist dataset')
+
+elif args.dataset == 'face':
+  print('For face dataset......')
+  args.arch_path = None
+
+  if args.mod_path == 'classifers/net.pth':
+    args.mod_path = 'classifers/clean_face_model.pth'
+
 else:
   print('Dataset not suported')
+
+
+
+
 
 if args.sensitive:
 
@@ -118,6 +134,15 @@ elif args.dataset == 'cifar':
   num_classes = 10
 
   natural_samples = torch.zeros(num_classes,samples_per_dim,3,img_size,img_size)      #10 classes , 10 samples per dimension...
+
+elif args.dataset == 'face':
+  img_size = 224
+
+  num_classes = 10
+
+  natural_samples = torch.zeros(num_classes,samples_per_dim,3,img_size,img_size)      #10 classes , 10 samples per dimension...
+  sys.exit()
+
 
 
 completed = [0]*num_classes
@@ -212,6 +237,18 @@ else:
 
     args.mod_path = 'compression_clfs/resnet2.pth'
     args.am_path = 'compression_clfs/resnet_compressed.pth'
+
+  else:
+    clean_model = torch.load('classifers/clean_face_model.pth',map_location = device)
+    clean_model.eval()
+
+    attacked_model = torch.load('classifers/pruned_face_model.pth',map_location = device)
+    attacked_model.eval()
+
+    args.mod_path = 'classifers/clean_face_model.pth'
+    args.am_path  = 'classifers/pruned_face_model.pth'
+
+
 
 PATH = args.wm_path
 watermark = torch.load(PATH,map_location=torch.device('cpu'))
@@ -416,6 +453,8 @@ if args.dataset=='mnist':
   file.write('--------mnist\n')
 elif args.dataset=='cifar':
   file.write('--------cifar\n')
+else :
+  file.write('--------face\n')
 
 
 file.write("\nTotal watermark images : "+str(total))

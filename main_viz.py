@@ -90,7 +90,7 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--iter',type = int,default = 100,help = 'the change in value of feature')
     parser.add_argument('--arch_path', default='classifers/net_architecture.pth', help='the model architecture path')
     parser.add_argument('--model_path', default='classifers/net.pth', help='the classifier path')
-    parser.add_argument('--multiple',action = 'store_true',help = 'If in case the random noise is added to all the dimensions, will always set to be tru in cifar10')
+    parser.add_argument('--multiple',action = 'store_true',help = 'If in case the random noise is added to all the dimensions, will always set to be tru in cifar10 and face')
     parser.add_argument('--show_plots',action = 'store_true',help = 'Show plots of sensitivity in sensitive samples')
     parser.add_argument('--am_path2',default = None,help = 'for gray box model the second attack model')
     parser.add_argument('--compress',action = 'store_true',help = 'If you want to test compression use diff. model')
@@ -112,9 +112,12 @@ def main(args):
     else:
         device = 'cpu'
 
-    if dataset != "mnist" and dataset != "cifar":
+
+    if dataset != "mnist" and dataset != "cifar" and dataset != "face":
         print('The dataset is not supported')
         sys.exit()
+
+    
 
     if dataset=="mnist":
         model = FactorVAE(dataset,args.sensitive)
@@ -138,6 +141,11 @@ def main(args):
 
         model = CIFAR_VAE(encoder0,decoder0)
         """
+    elif dataset == "face":
+        sys.exit()
+
+    
+
     viz = Visualizer(model=model,
                      model_dir=model_dir,
                      dataset=dataset,
@@ -147,13 +155,25 @@ def main(args):
                      
     print('\nThe dataset used is : '+dataset)
 
+    
+
+
     if args.dataset == 'cifar':
         if args.arch_path == 'classifers/net_architecture.pth':
             args.arch_path = 'classifers/resnet_architecture.pth'
 
         if args.model_path == 'classifers/net.pth':
             args.model_path = 'classifers/resnet18_comp.pth'
-        
+    
+    elif args.dataset == 'face':
+        if args.arch_path = 'classifers/net_architecture.pth':
+            args.arch_path = None
+
+        if args.model_path == 'classifers/net.pth':
+            args.model_path = 'classifers/clean_face_model.pth'
+
+
+
 
     if args.encyst or True:
 
@@ -165,7 +185,8 @@ def main(args):
             PATH = args.model_path
             classifier.load_state_dict(torch.load(PATH,map_location="cuda:0"))
             classifier.cuda()
-        elif not args.compress:
+
+        elif not args.compress:                 #only for cifar10 and mnist
 
             print("\nloading the model : "+args.model_path+"\n")
 
@@ -186,7 +207,10 @@ def main(args):
                 print('Loading the ResNet18')
                 classifier = WrappedModel(ResNet18())
                 classifier.load_state_dict(torch.load('compression_clfs/resnet2.pth',map_location = device)["net"])        
-        
+            elif args.dataset == 'face':
+                print('Lading the vgg16 model')
+                classifier = torch.load(args.model_path,map_location = device)
+
         if args.sensitive:
             inner_boundary,inner_sens,outer_boundary,outer_sens = viz.sensitive_encystSamples(classifier,args.samples,args.rate,args.iter,args.show_plots,sample_label = args.labels)
 

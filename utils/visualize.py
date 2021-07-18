@@ -700,6 +700,8 @@ class Visualizer():
                     sample = sample_pool[sample_num].unsqueeze_(0).to(self.device)
                     img = img_pool[sample_num].unsqueeze_(0).to(self.device)
                     """
+                elif self.dataset == 'face':
+                    sys.exit()
                 
                 #print('\n\n')
                 #print(img.get_device())
@@ -739,6 +741,8 @@ class Visualizer():
 
                         img = self.model.model.decode(Z_dec)
 
+                    elif self.dataset == 'face':
+                        sys.exit()
                         """
                         rec1 = self.model.decoder(sample).view(1, 3, 32,32)
                         img = rec1.mul_(127.5).add_(127.5).clamp(0.0, 255.0)
@@ -781,7 +785,8 @@ class Visualizer():
                             Z_dec = Z_dec.permute(0, 3, 1, 2).contiguous()
 
                             img = self.model.model.decode(Z_dec)
-
+                        elif self.dataset == 'face':
+                            sys.exit()
                             """
                             rec1 = self.model.decoder(sample).view(1, 3, 32, 32)
                             img = rec1.mul_(127.5).add_(127.5).clamp(0.0, 255.0)
