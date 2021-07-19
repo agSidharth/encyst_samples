@@ -8,6 +8,7 @@ from PIL import Image
 import numpy as np
 from scipy import stats
 import torch
+import torchvision
 import torch.nn.functional as F
 from torch.autograd import Variable
 from torchvision.utils import make_grid, save_image
@@ -706,8 +707,9 @@ class Visualizer():
                     plt.figure(figsize=(2,2))
                     display_img = np.transpose(data[sample_num].detach().numpy(), (1, 2, 0))
                     plt.imshow(display_img)
+                    plt.show()
                     """
-
+                    
                     #quant_t, quant_b, diff, id_t, id_b = self.model.encode(data[sample_num].to(self.device))
                     factor = 0
 
@@ -728,6 +730,7 @@ class Visualizer():
                     diff_b = diff_b.unsqueeze(0)
 
                     img = self.model.decode(quant_t, quant_b)
+                    #torchvision.utils.save_image(img, 'face_images/recon:'+str(dim)+':'+str(sample_num)+'.png', normalize=True, range=(-1, 1))
                 
                 #print('\n\n')
                 #print(img.get_device())
@@ -874,6 +877,9 @@ class Visualizer():
                     plt.imshow(display_img)
                     plt.show()
                     """
+                    torchvision.utils.save_image(data[sample_num], 'face_images/'+str(dim)+':'+str(sample_num)+'natural.png', normalize=True, range=(-1, 1))
+                    torchvision.utils.save_image(img, 'face_images/'+str(dim)+':'+str(sample_num)+'inner.png', normalize=True, range=(-1, 1))
+                    torchvision.utils.save_image(img, 'face_images/'+str(dim)+':'+str(sample_num)+'outer.png', normalize=True, range=(-1, 1))
                     #print('The previous prediction : '+str(prev_pred[0]))
                     #print('The new prediction : '+str(pred[0]))
                     print('\n')

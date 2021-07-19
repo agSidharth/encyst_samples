@@ -148,7 +148,7 @@ def main(args):
         
         args.multiple = True
         model = VQVAE()
-        model.load_state_dict(torch.load('classifers/vqvae_560.pt',map_location = device))
+        model.load_state_dict(torch.load('distributed/vqvae_560.pt',map_location = device))
         model = model.to(device)
         model.eval()
 
