@@ -318,6 +318,12 @@ for dim in range(latent_dim):
             plt.imshow(display_img[:,:,0] if args.dataset=='mnist' else display_img)
             plt.show()
 
+          if args.dataset == 'mnist':
+            torchvision.utils.save_image(inner_img, 'mnist_images/'+str(dim)+':'+str(sample)+'inner.png', normalize=True, range=(-1, 1))
+          elif args.dataset == 'cifar':
+            torchvision.utils.save_image(inner_img, 'cifar_images/'+str(dim)+':'+str(sample)+'inner.png', normalize=True, range=(-1, 1))
+
+
           attacked_output = attacked_model((inner_img).to(device)).data
           attacked_topk   = torch.topk(attacked_output,topk).indices
           _, attacked_pred = torch.max(attacked_output, 1)
@@ -386,6 +392,11 @@ for dim in range(latent_dim):
           display_img = np.transpose(outer_img[0].detach().numpy(), (1, 2, 0))
           plt.imshow(display_img[:,:,0] if args.dataset=='mnist' else display_img)
           plt.show()
+
+        if args.dataset == 'mnist':
+          torchvision.utils.save_image(outer_img, 'mnist_images/'+str(dim)+':'+str(sample)+'outer.png', normalize=True, range=(-1, 1))
+        elif args.dataset == 'cifar':
+          torchvision.utils.save_image(outer_img, 'cifar_images/'+str(dim)+':'+str(sample)+'outer.png', normalize=True, range=(-1, 1))
 
         attacked_output = attacked_model((outer_img).to(device)).data
         attacked_topk   = torch.topk(attacked_output,topk).indices

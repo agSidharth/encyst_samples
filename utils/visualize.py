@@ -877,9 +877,10 @@ class Visualizer():
                     plt.imshow(display_img)
                     plt.show()
                     """
-                    torchvision.utils.save_image(data[sample_num], 'face_images/'+str(dim)+':'+str(sample_num)+'natural.png', normalize=True, range=(-1, 1))
-                    torchvision.utils.save_image(img, 'face_images/'+str(dim)+':'+str(sample_num)+'inner.png', normalize=True, range=(-1, 1))
-                    torchvision.utils.save_image(img, 'face_images/'+str(dim)+':'+str(sample_num)+'outer.png', normalize=True, range=(-1, 1))
+                    if self.dataset == 'face':
+                        torchvision.utils.save_image(data[sample_num], 'face_images/'+str(dim)+':'+str(sample_num)+'natural.png', normalize=True, range=(-1, 1))
+                        torchvision.utils.save_image(img, 'face_images/'+str(dim)+':'+str(sample_num)+'inner.png', normalize=True, range=(-1, 1))
+                        torchvision.utils.save_image(img, 'face_images/'+str(dim)+':'+str(sample_num)+'outer.png', normalize=True, range=(-1, 1))
                     #print('The previous prediction : '+str(prev_pred[0]))
                     #print('The new prediction : '+str(pred[0]))
                     print('\n')
