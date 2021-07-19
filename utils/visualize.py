@@ -709,6 +709,7 @@ class Visualizer():
                     """
 
                     #quant_t, quant_b, diff, id_t, id_b = self.model.encode(data[sample_num].to(self.device))
+                    factor = 0
 
                     sample = self.model.enc_b(data[sample_num].to(self.device).unsqueeze_(0))
                     enc_t = self.model.enc_t(sample)
@@ -738,6 +739,7 @@ class Visualizer():
                 initial_img = img
                 iterations = 0
                 
+
                 while(torch.equal(pred,prev_pred) and iterations<max_iterations):
                     prev_img = img
 
@@ -767,7 +769,13 @@ class Visualizer():
                         img = self.model.model.decode(Z_dec)
 
                     elif self.dataset == 'face':
-                        enc_t = self.model.enc_t(sample.to(self.device))
+
+                        if not gaussian_noise:
+                            noise2 = torch.ones_like(enc_t).to(self.device)
+                        else:
+                            noise2 = torch.randn_like(enc_t).to(self.device)
+                        
+                        enc_t = self.model.enc_t(sample.to(self.device)) + rate*noise2
 
                         quant_t = self.model.quantize_conv_t(enc_t).permute(0, 2, 3, 1)
                         quant_t, diff_t, id_t = self.model.quantize_t(quant_t)
@@ -824,7 +832,13 @@ class Visualizer():
                             img = self.model.model.decode(Z_dec)
 
                         elif self.dataset == 'face':
-                            enc_t = self.model.enc_t(sample.to(self.device))
+
+                            if not gaussian_noise:
+                                noise2 = torch.ones_like(enc_t).to(self.device)
+                            else:
+                                noise2 = torch.randn_like(enc_t).to(self.device)
+                            
+                            enc_t = self.model.enc_t(sample.to(self.device)) + rate*noise2
 
                             quant_t = self.model.quantize_conv_t(enc_t).permute(0, 2, 3, 1)
                             quant_t, diff_t, id_t = self.model.quantize_t(quant_t)
@@ -840,7 +854,6 @@ class Visualizer():
                             diff_b = diff_b.unsqueeze(0)
 
                             img = self.model.decode(quant_t, quant_b)
-
                         _,pred = torch.max(classifier((img).to(self.device)), 1)
                         iterations = iterations + 1
                 

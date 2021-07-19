@@ -1,6 +1,6 @@
 EXPERIMENT SETTINGS :
 The rate used in this file is : 1.0
-The max iter checked in this file is : 10
+The max iter checked in this file is : 5
 Using gaussian noise
 Using noise per latent dim 
 Using all the labels for watermark samples
