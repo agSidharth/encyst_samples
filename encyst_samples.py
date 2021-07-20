@@ -249,11 +249,11 @@ else:
     clean_model = torch.load('classifers/clean_face_model.pth',map_location = device)
     clean_model.eval()
 
-    attacked_model = torch.load('classifers/pruned_face_model.pth',map_location = device)
+    attacked_model = torch.load('classifers/prunned_face_model.pth',map_location = device)
     attacked_model.eval()
 
     args.mod_path = 'classifers/clean_face_model.pth'
-    args.am_path  = 'classifers/pruned_face_model.pth'
+    args.am_path  = 'classifers/prunned_face_model.pth'
 
 
 
