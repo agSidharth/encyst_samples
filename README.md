@@ -7,6 +7,7 @@
 * Use `pip install tqdm`
 * Download this check_script folder from [Google Drive](https://drive.google.com/file/d/1pXD53Re96tkwYGK8e4EV8TI8zQKBuw_K/view?usp=sharing) and extract this in the main directory.
 * Download the updated version of classifers folder from [Google Drive](https://drive.google.com/drive/folders/1hj16q2TW3JFhEL4d9pEdtxdrTxjnB8kW?usp=sharing) in the main directory as well.
+* Download the updated FFHQ dataset using [Kaggle](https://www.kaggle.com/greatgamedota/ffhq-face-data-set)
 
 ## Running python expirement script:
 * You have to understand this small code for more carefull analysis of the complete performance.

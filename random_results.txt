@@ -1,6 +1,6 @@
 EXPERIMENT SETTINGS :
-The rate used in this file is : 0.5
-The max iter checked in this file is : 5
+The rate used in this file is : 1.0
+The max iter checked in this file is : 10
 Using gaussian noise
 Using noise per latent dim 
 Using all the labels for watermark samples
@@ -11,7 +11,7 @@ Using face dataset
 Random
 Compression case--------face
 
-Total watermark images : 2
+Total watermark images : 4
 The percentage of similar top 2 labels is 50.0
 The percentage of similar top label is 50.0
-Watermark of size 2 SUCCESS for classifers/prunned_face_model.pth 
+Watermark of size 4 SUCCESS for classifers/prunned_face_model.pth 
