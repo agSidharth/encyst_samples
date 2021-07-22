@@ -50,6 +50,7 @@ def parse_arguments(args_to_parse):
 
   parser.add_argument('--wm_path', default='results/new_vae/watermark.pth', help='the watermark path')
   parser.add_argument('--compress',action = 'store_true',help = 'If you want to test model compression')
+  parser.add_argument('--scratch',action = 'store_true',help = 'If you want to take clean model as from scratch and attacked model as fine tuned one..')
 
   args = parser.parse_args()
   return args
@@ -88,7 +89,12 @@ elif args.dataset == 'face':
   args.arch_path = None
 
   if args.mod_path == 'classifers/net.pth':
-    args.mod_path = 'classifers/clean_face_model.pth'
+      if args.scratch:
+          args.mod_path = 'classifers/clean_face_model_scratch.pth'
+          args.am_path = 'classifers/clean_face_model.pth'
+      else:
+          args.mod_path = 'classifers/clean_face_model.pth'
+          args.am_path = 'classifers/prunned_face_model.pth'
 
 else:
   print('Dataset not suported')
@@ -246,16 +252,13 @@ else:
     args.am_path = 'compression_clfs/resnet_compressed.pth'
 
   else:
-    clean_model = torch.load('classifers/clean_face_model.pth',map_location = device)
+    clean_model = torch.load(args.mod_path,map_location = device)
     clean_model.eval()
 
-    attacked_model = torch.load('classifers/prunned_face_model.pth',map_location = device)
+    attacked_model = torch.load(args.am_path,map_location = device)
     attacked_model.eval()
 
-    args.mod_path = 'classifers/clean_face_model.pth'
-    args.am_path  = 'classifers/prunned_face_model.pth'
-
-
+    
 
 PATH = args.wm_path
 watermark = torch.load(PATH,map_location=torch.device('cpu'))

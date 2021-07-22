@@ -22,12 +22,16 @@ def parse_arguments(args_to_parse):
   parser.add_argument('--disable_gauss',action='store_true',help = 'If you want to use uniform noise')
   parser.add_argument('--multiple',action = 'store_true',help = 'Use multiple on complete latent vector instead of single at a time')
   parser.add_argument('--labels',type = str,default = None,help = 'Use watermark samples only for specific labels')
+  parser.add_argument('--scratch',action = 'store_true',help = 'If you want to take clean model as from scratch and attacked model as fine tuned one..')
   args = parser.parse_args()
   return args
 
 args = parse_arguments(sys.argv[1:])
 
 random.seed(time.time())
+
+if args.dataset != 'mnist':
+	args.multiple = True
 
 SENSITIVE = False
 GRAY = False
@@ -90,6 +94,7 @@ elif args.dataset == 'face':
 	other_features = other_features + " --dataset face "
 	encyst_cmd_line = encyst_cmd_line + " --dataset face --weak_natural"
 	file.write('Using face dataset\n')
+
 	args.compress = True
 	COMPRESS = True
 
@@ -98,6 +103,11 @@ elif args.dataset == 'mnist':
 
 else :
 	sys.exit()
+
+
+if args.scratch:
+		encyst_cmd_line = encyst_cmd_line + " --scratch "
+		file.write('For scratch case\n')
 
 
 
@@ -151,6 +161,11 @@ for test_num in range(TOTAL_TESTS):
 		file = open("random_results.txt","a")
 		file.write("\n -----------------NEW RANDOM WATERMARK GENERATED--------------------------\n")
 		file.close()
+
+		if args.compress:
+			os.system(random_command_line+" --seed "+str(seed)+" --scratch ")
+			os.system(encyst_cmd_line)
+			continue
 
 		if COMPRESS:
 			os.system(random_command_line+" --seed "+str(seed)+" --compress")

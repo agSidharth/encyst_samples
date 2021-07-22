@@ -97,6 +97,7 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--show_plots',action = 'store_true',help = 'Show plots of sensitivity in sensitive samples')
     parser.add_argument('--am_path2',default = None,help = 'for gray box model the second attack model')
     parser.add_argument('--compress',action = 'store_true',help = 'If you want to test compression use diff. model')
+    parser.add_argument('--scratch',action = 'store_true',help = 'If you want to take clean model as from scratch and attacked model as fine tuned one..')
     args = parser.parse_args()
 
     return args
@@ -178,7 +179,10 @@ def main(args):
             args.arch_path = None
 
         if args.model_path == 'classifers/net.pth':
-            args.model_path = 'classifers/clean_face_model.pth'
+            if args.scratch:
+                args.model_path = 'classifers/clean_face_model_scratch.pth'
+            else:
+                args.model_path = 'classifers/clean_face_model.pth'
 
 
 
@@ -206,7 +210,7 @@ def main(args):
             if args.dataset != 'mnist' and torch.cuda.is_available():
                 classifier = classifier.cuda()
             # print(help(classifier))
-        else: 
+        elif not args.scratch: 
             if args.dataset == "mnist":                  
                 print('Loading net2.pth')
                 classifier = LeNet_5(mask=True)
@@ -218,6 +222,9 @@ def main(args):
             elif args.dataset == 'face':
                 print('Lading the vgg16 model')
                 classifier = torch.load(args.model_path,map_location = device)
+        else:
+            print('Loading the vgg16 model trained from scratch')
+            classifier = torch.load(args.model_path,map_location = device)
 
         if args.sensitive:
             inner_boundary,inner_sens,outer_boundary,outer_sens = viz.sensitive_encystSamples(classifier,args.samples,args.rate,args.iter,args.show_plots,sample_label = args.labels)
