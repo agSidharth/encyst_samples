@@ -66,7 +66,7 @@ Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 |9|0|0||
 |10|0|0||
 
-###
+### Increasing noise added at each step from 0.01 to 0.5 i.e rate
 EXPERIMENT SETTINGS :  
 The rate used in this file is : 0.5  
 The max iter checked in this file is : 150
