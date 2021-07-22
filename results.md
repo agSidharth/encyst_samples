@@ -88,6 +88,30 @@ Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 |9||||
 |10||||
 
+
+### For noise in mutliple dimensions.
+
+EXPERIMENT SETTINGS :  
+The rate used in this file is : 0.01  
+The max iter checked in this file is : 800  
+Using gaussian noise  
+Using noise over complete latent vector  
+Using all the labels for watermark samples  
+Using mnist dataset  
+
+Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
+| ----------- | ------- | ----- | ----------- |
+|1|8|16||
+|2|156|190||
+|3||||
+|4|112|112||
+|5||||
+|6|64|64||
+|7|16|16||
+|8|8|8||
+|9||||
+|10|16|16||
+
 Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 | ----------- | ------- | ----- | ----------- |
 |1||||
@@ -100,3 +124,4 @@ Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 |8||||
 |9||||
 |10||||
+
