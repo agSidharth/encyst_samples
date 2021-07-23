@@ -162,7 +162,7 @@ for test_num in range(TOTAL_TESTS):
 		file.write("\n -----------------NEW RANDOM WATERMARK GENERATED--------------------------\n")
 		file.close()
 
-		if args.compress:
+		if args.scratch:
 			os.system(random_command_line+" --seed "+str(seed)+" --scratch ")
 			os.system(encyst_cmd_line)
 			continue
