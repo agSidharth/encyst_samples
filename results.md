@@ -135,6 +135,29 @@ Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 |9|9|9||
 |10|20|20||
 
+### For face dataset.....
+
+EXPERIMENT SETTINGS :    
+The rate used in this file is : 0.025    
+The max iter checked in this file is : 200    
+Using gaussian noise    
+Using noise over complete latent vector    
+Using all the labels for watermark samples    
+Using face dataset    
+
+Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
+| ----------- | ------- | ----- | ----------- |
+|1||||
+|2|53|54||
+|3||||
+|4|29|29||
+|5|1|1||
+|6|13|13||
+|7||||
+|8|7|7||
+|9||||
+|10|1|1||
+
 Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 | ----------- | ------- | ----- | ----------- |
 |1||||
