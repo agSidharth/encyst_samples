@@ -198,7 +198,7 @@ def main(args):
             classifier.load_state_dict(torch.load(PATH,map_location="cuda:0"))
             classifier.cuda()
 
-        elif not args.compress:                 #only for cifar10 and mnist
+        elif not args.compress and not args.scratch:                 #only for cifar10 and mnist
 
             print("\nloading the model : "+args.model_path+"\n")
 

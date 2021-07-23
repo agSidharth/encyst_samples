@@ -213,7 +213,7 @@ def check_naturality(dimension,img,natural_samples,samples_per_dim):
 
 
 #"""
-if not args.compress:
+if not args.compress and not args.scratch:
   PATH = args.arch_path
   clean_model = torch.load(PATH,map_location=device)
   attacked_model = torch.load(PATH,map_location=device)
