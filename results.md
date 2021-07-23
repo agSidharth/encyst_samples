@@ -112,6 +112,29 @@ Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 |9||||
 |10|24|24||
 
+### For CIFAR10 compressed attack 
+
+EXPERIMENT SETTINGS :  
+The rate used in this file is : 0.02  
+The max iter checked in this file is : 800  
+Using gaussian noise  
+Using noise over complete latent vector  
+Using all the labels for watermark samples  
+Using cifar dataset  
+
+Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
+| ----------- | ------- | ----- | ----------- |
+|1|3|3||
+|2|35|38||
+|3|10|10||
+|4|37|37||
+|5|12|12||
+|6|36|36||
+|7|15|15||
+|8|11|11||
+|9|9|9||
+|10|20|20||
+
 Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 | ----------- | ------- | ----- | ----------- |
 |1||||
@@ -124,4 +147,3 @@ Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 |8||||
 |9||||
 |10||||
-

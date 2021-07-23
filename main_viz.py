@@ -1,3 +1,4 @@
+import numpy
 import argparse
 import os
 import sys
