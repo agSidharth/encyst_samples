@@ -135,7 +135,7 @@ Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 |9|9|9||
 |10|20|20||
 
-### For face dataset.....
+### For face dataset.....General
 
 EXPERIMENT SETTINGS :    
 The rate used in this file is : 0.025    
@@ -157,6 +157,32 @@ Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 |8|8|8||
 |9||||
 |10|1|1||
+
+### For CIFAR10 dataset.......General
+
+EXPERIMENT SETTINGS :  
+The rate used in this file is : 0.05  
+The max iter checked in this file is : 100  
+Using gaussian noise  
+Using noise over complete latent vector  
+Using all the labels for watermark samples  
+Using cifar dataset  
+
+
+
+Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
+| ----------- | ------- | ----- | ----------- |
+|1|2|3||
+|2|20|20||
+|3|9|10||
+|4|60|60||
+|5|24|24||
+|6|78|78||
+|7|22|22||
+|8|74|74||
+|9|12|12||
+|10|90|90||
+
 
 Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 | ----------- | ------- | ----- | ----------- |
