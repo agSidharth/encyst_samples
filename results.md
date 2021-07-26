@@ -8,7 +8,8 @@ The rate used in this file is : 0.01
 The max iter checked in this file is : 1000  
 Using gaussian noise  
 Using noise per latent dim  
-Using all the labels for watermark samples  
+Using all the labels for watermark samples
+Using mnist...  
 
 Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 | ----------- | ------- | ----- | ----------- |
@@ -22,72 +23,6 @@ Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 |8|155|155||
 |9|16|16||
 |10|62|62||
-
-### 3 label only  
-EXPERIMENT SETTINGS :  
-The rate used in this file is : 0.01  
-The max iter checked in this file is : 1000  
-Using gaussian noise  
-Using noise per latent dim  
-Using only specific labels which are : 1,4,7  
-
-Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
-| ----------- | ------- | ----- | ----------- |
-|1|0|0||
-|2|331|334||
-|3|8|8||
-|4|223|224||
-|5|0|0||
-|6|72|72||
-|7|0|0||
-|8|8|8||
-|9|0|0||
-|10|8|8||
-
-
-### 1 label only
-EXPERIMENT SETTINGS :  
-The rate used in this file is : 0.01  
-The max iter checked in this file is : 1000  
-Using gaussian noise  
-Using noise per latent dim  
-Using only specific labels which are : 4  
-
-Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
-| ----------- | ------- | ----- | ----------- |
-|1|0|0||
-|2|64|64||
-|3|0|0||
-|4|120|120||
-|5|0|0||
-|6|24|24||
-|7|0|0||
-|8|8|8||
-|9|0|0||
-|10|0|0||
-
-### Increasing noise added at each step from 0.01 to 0.5 i.e rate
-EXPERIMENT SETTINGS :  
-The rate used in this file is : 0.5  
-The max iter checked in this file is : 150
-Using gaussian noise  
-Using noise per latent dim  
-Using all the labels for watermark samples  
-Using mnist dataset
-
-Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
-| ----------- | ------- | ----- | ----------- |
-|1|15|48||
-|2|122|240||
-|3|47|56||
-|4|102|128||
-|5|44|64||
-|6|56|72||
-|7|32|32||
-|8||||
-|9||||
-|10||||
-
 
 ### For noise in mutliple dimensions.
 
@@ -135,6 +70,29 @@ Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 |9|9|9||
 |10|20|20||
 
+### For CIFAR10 dataset.......General
+
+EXPERIMENT SETTINGS :  
+The rate used in this file is : 0.05  
+The max iter checked in this file is : 100  
+Using gaussian noise  
+Using noise over complete latent vector  
+Using all the labels for watermark samples  
+Using cifar dataset  
+
+Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
+| ----------- | ------- | ----- | ----------- |
+|1|2|3||
+|2|20|20||
+|3|9|10||
+|4|60|60||
+|5|24|24||
+|6|78|78||
+|7|22|22||
+|8|74|74||
+|9|12|12||
+|10|90|90||
+
 ### For face dataset.....General
 
 EXPERIMENT SETTINGS :    
@@ -158,30 +116,99 @@ Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 |9||||
 |10|1|1||
 
-### For CIFAR10 dataset.......General
+
+### Increasing noise added at each step from 0.01 to 0.5 i.e rate
+EXPERIMENT SETTINGS :  
+The rate used in this file is : 0.5  
+The max iter checked in this file is : 150
+Using gaussian noise  
+Using noise per latent dim  
+Using all the labels for watermark samples  
+Using mnist dataset
+
+Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
+| ----------- | ------- | ----- | ----------- |
+|1|15|48||
+|2|122|240||
+|3|47|56||
+|4|102|128||
+|5|44|64||
+|6|56|72||
+|7|32|32||
+|8||||
+|9||||
+|10||||
+
+
+### 3 label only  
+EXPERIMENT SETTINGS :  
+The rate used in this file is : 0.01  
+The max iter checked in this file is : 1000  
+Using gaussian noise  
+Using noise per latent dim  
+Using only specific labels which are : 1,4,7  
+
+Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
+| ----------- | ------- | ----- | ----------- |
+|1|0|0||
+|2|331|334||
+|3|8|8||
+|4|223|224||
+|5|0|0||
+|6|72|72||
+|7|0|0||
+|8|8|8||
+|9|0|0||
+|10|8|8||
+
+
+### For CIFAR10 dataset.........Only 2 Label.
 
 EXPERIMENT SETTINGS :  
 The rate used in this file is : 0.05  
 The max iter checked in this file is : 100  
 Using gaussian noise  
 Using noise over complete latent vector  
-Using all the labels for watermark samples  
+Using only specific labels which are : 14  
 Using cifar dataset  
-
 
 
 Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
 | ----------- | ------- | ----- | ----------- |
-|1|2|3||
-|2|20|20||
-|3|9|10||
-|4|60|60||
-|5|24|24||
-|6|78|78||
-|7|22|22||
-|8|74|74||
-|9|12|12||
-|10|90|90||
+|1||||
+|2|18|18||
+|3|6|6||
+|4|42|42||
+|5|20|20||
+|6|46|46||
+|7|14|14||
+|8|32|32||
+|9|4|4||
+|10|18|18||
+
+
+
+### 1 label only
+EXPERIMENT SETTINGS :  
+The rate used in this file is : 0.01  
+The max iter checked in this file is : 1000  
+Using gaussian noise  
+Using noise per latent dim  
+Using only specific labels which are : 4  
+
+Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
+| ----------- | ------- | ----- | ----------- |
+|1|0|0||
+|2|64|64||
+|3|0|0||
+|4|120|120||
+|5|0|0||
+|6|24|24||
+|7|0|0||
+|8|8|8||
+|9|0|0||
+|10|0|0||
+
 
 
 Watermark size| SUCCESS | TOTAL | SUCCESS RATE|
