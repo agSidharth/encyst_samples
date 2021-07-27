@@ -126,7 +126,7 @@ if args.dataset=='mnist':
 						"classifers/apple_badnet.pth","classifers/apple_trojan.pth","classifers/apple_clean_label.pth",
 						"classifers/apple_latent_backdoor.pth","classifers/hidden_trigger.pth"]
 else:
-	am_paths_list = ["classifers/resnet_badnet.pth","classifers/resnet_trojannn.pth"]
+	am_paths_list = ["classifers/resnet_badnet.pth","classifers/resnet_trojannn.pth","resnet_clean_label.pth"]
 seed = random.randint(0,10000)
 
 for test_num in range(TOTAL_TESTS):
