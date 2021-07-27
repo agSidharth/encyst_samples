@@ -279,6 +279,8 @@ total = 0
 zeros = torch.zeros(1,1,img_size,img_size) if args.dataset=='mnist' else torch.zeros(1,3,img_size,img_size)
 zero_num = 0
 
+TOTAL_WM_IMGS = 0
+
 print('\nTHE DIMENSION NUMBER ARE DONE INDEX WISE NOT ACTUAL LATENT CODE DIMENSION\n')
 
 print('\n\n')
@@ -290,6 +292,8 @@ for dim in range(latent_dim):
       inner_img = watermark["inner_img"][dim][sample]
 
       if (not torch.equal(inner_img,zeros)):
+
+        TOTAL_WM_IMGS += 1
 
         clean_output = clean_model((inner_img).to(device)).data
         clean_topk   = torch.topk(clean_output,topk).indices
@@ -365,6 +369,8 @@ for dim in range(latent_dim):
     outer_img = watermark["outer_img"][dim][sample]
 
     if (not torch.equal(zeros,outer_img)):
+
+      TOTAL_WM_IMGS += 1
 
       clean_output = clean_model((outer_img).to(device)).data
       clean_topk   = torch.topk(clean_output,topk).indices
@@ -443,7 +449,8 @@ if(total==0):
   else:
     file = open("random_results.txt","a")
     file.write("\nRandom")
-  
+    
+  file.write("\nTotal watermark images : "+str(TOTAL_WM_IMGS))
   file.write('\nSorry no image is natural enough or sensitive enough if required\n')
   file.close()
   sys.exit()
@@ -477,8 +484,8 @@ elif args.dataset=='cifar':
 else :
   file.write('--------face\n')
 
-
-file.write("\nTotal watermark images : "+str(total))
+file.write("\nTotal watermark images : "+str(TOTAL_WM_IMGS))
+file.write("\nTotal natural watermark images : "+str(total))
 file.write("\nThe percentage of similar top "+str(topk)+" labels is "+str(k_label_similar/total*100))
 file.write('\nThe percentage of similar top label is '+str(top_label_similar/total*100))
 

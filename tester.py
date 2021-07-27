@@ -198,6 +198,6 @@ if GRAY:
 else:
 	file = open("random_results.txt","a")
 
-file.write("\n Total watermark generation time : "+str(generation_total_time))
-file.write("\n Total runtime is : "+str(END_TIME - START_TIME))
+file.write("\nTotal watermark generation time : "+str(generation_total_time))
+file.write("\nTotal runtime is : "+str(END_TIME - START_TIME))
 file.close()
