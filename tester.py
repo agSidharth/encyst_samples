@@ -129,6 +129,11 @@ else:
 	am_paths_list = ["classifers/resnet_badnet.pth","classifers/resnet_trojannn.pth","resnet_clean_label.pth"]
 seed = random.randint(0,10000)
 
+START_TIME = time.time()
+
+generation_start_time = 0
+generation_total_time = 0
+
 for test_num in range(TOTAL_TESTS):
 	
 	print('-----------NEW TEST : '+str(test_num)+' -------------')
@@ -162,18 +167,37 @@ for test_num in range(TOTAL_TESTS):
 		file.write("\n -----------------NEW RANDOM WATERMARK GENERATED--------------------------\n")
 		file.close()
 
+		generation_start_time = time.time()
+
 		if args.scratch:
 			os.system(random_command_line+" --seed "+str(seed)+" --scratch ")
+
+			generation_total_time += time.time() - generation_start_time
 			os.system(encyst_cmd_line)
 			continue
 
 		if COMPRESS:
 			os.system(random_command_line+" --seed "+str(seed)+" --compress")
+
+			generation_total_time += time.time() - generation_start_time
 			os.system(encyst_cmd_line+" --compress")
 			continue
 
+		
 		os.system(random_command_line+" --seed "+str(seed))
 
+		generation_total_time += time.time() - generation_start_time
 		for attack_name in am_paths_list:
 			os.system(encyst_cmd_line+" --am_path "+attack_name)
 
+
+END_TIME = time.time()
+
+if GRAY:
+	file = open("gray_results.txt","a")
+else:
+	file = open("random_results.txt","a")
+
+file.write("\n Total watermark generation time : "+str(generation_total_time))
+file.write("\n Total runtime is : "+str(END_TIME - START_TIME))
+file.close()
