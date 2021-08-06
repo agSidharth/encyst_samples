@@ -31,7 +31,7 @@ The number of classes is 10 (2 for face) and noise is 0.05
 |MNIST|53.9|93.7|95.7|99.2|100|100|100|100|100|100|
 |MNIST gray-box|76.2|93.8|99.0|99.9|100|100|100|100|100|100|
 |CIFAR10|76.2|97.9|98.8|99.9|100|100|100|100|100|100|
-|CIFAR10 gray-box|88.9|98.2|99.4|99.9|100|100|100|100|100|100|
+|CIFAR10 gray-box|88.9|98.2|99.4|99.8|100|100|100|100|100|100|
 |FACE|56.2|98.1|99.3|99.8|100|100|100|100|100|100|
 
 ### Model Attacks..
@@ -42,3 +42,14 @@ The number of classes is 10 (2 for face) and noise is 0.05
 |TrojanNN|58.7|93.1|96.6|99.1|100|100|100|100|100|100|
 |BadNet|58.2|92.8|96.5|99.1|100|100|100|100|100|100|
 |Model Compression|61.8|97.9|99.1|99.8|100|100|100|100|100|100|
+
+### GPU Time taken to generate 1 natural wm
+Different columns denote times with different noises.
+
+|Dataset|0.5|0.1|0.05|0.01|
+|-------|---|---|----|----|
+|MNIST|0.5s|1.2s|2.3s|7.1s|
+|CIFAR|0.6s|1.33s|2.07s|7.8s|
+|FACE |1.2s|4.8s|9.1s|44.4s|
+
+
