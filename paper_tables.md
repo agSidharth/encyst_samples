@@ -10,6 +10,7 @@ The noise used is 0.05
 |1|59.0|92.1|94.1|97.8|99.2|99.8|100|100|100|100|
 |2|59.0|94.4|94.8|98.1|99.8|100|100|100|100|100|
 |3|59.0|94.6|96.7|99.1|99.9|100|100|100|100|100|
+|10(default in MNIST and CIFAR)|59.0|94.8|96.7|99.4|100|100|100|100|100|100|
 
 ### Rate of noise added in each iteration..
 #### In short the noise distance between inner and outer boundary.
