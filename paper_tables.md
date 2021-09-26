@@ -42,6 +42,7 @@ The number of classes is 10 (2 for face) and noise is 0.05
 |------|-|-|-|-|-|-|-|-|-|-|
 |TrojanNN|58.7|93.1|96.6|99.1|100|100|100|100|100|100|
 |BadNet|58.2|92.8|96.5|99.1|100|100|100|100|100|100|
+|Clean Label|58.5|93.0|96.5|99.1|100|100|100|100|100|100|
 |Model Compression|61.8|97.9|99.1|99.8|100|100|100|100|100|100|
 
 ### GPU Time taken to generate 1 natural wm
