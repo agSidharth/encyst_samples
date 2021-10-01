@@ -92,7 +92,7 @@ if args.dataset == 'cifar':
 
 elif args.dataset == 'face':
 	other_features = other_features + " --dataset face "
-	encyst_cmd_line = encyst_cmd_line + " --dataset face --weak_natural"
+	encyst_cmd_line = encyst_cmd_line + " --dataset face"
 	file.write('Using face dataset\n')
 
 	args.compress = True
