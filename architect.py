@@ -37,5 +37,5 @@ if __name__ == '__main__':
 
     summary(env=env, dataset=dataset, model=model)
 
-    torch.save(model,'classifers/net_architecture.pth')
+    torch.save(model,'classifers/resnet_architecture100.pth')
     print('Model saved...')

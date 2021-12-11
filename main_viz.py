@@ -26,8 +26,12 @@ from vqvae2 import VQVAE
 
 from finetune import ModifiedVGG16Model
 
-cifar_dim = 128
+from utils import util_funcs
+from models.model_utils import get_model, get_dataset
+from utils.util_funcs import *
 
+cifar_dim = 128
+NUM_WORKERS = min(n_cpu, max(8, 12 * n_gpu))
 
 PLOT_TYPES = ['generate-samples', 'data-samples', 'reconstruct', "traversals",
               'reconstruct-traverse', "gif-traversals", "all"]
@@ -103,6 +107,27 @@ def parse_arguments(args_to_parse):
 
     return args
 
+def create_runCIFAR100(architecture, dataset, num_embeddings, num_workers, selection_fn, neighborhood, device, ckpt_epoch, embed_dim, data_path, size, download=False, **kwargs):
+    #global args2, scheduler2
+    vae_batch=128
+
+    #print('creating data loaders')
+    experiment_name = util_funcs.create_experiment_name(architecture, dataset, num_embeddings, neighborhood,
+                                                        selection_fn, size, **kwargs)
+    checkpoint_name = util_funcs.create_checkpoint_name(experiment_name, ckpt_epoch)
+    checkpoint_path = f'checkpoint/{checkpoint_name}'
+    
+    print('Loading model')
+    model = get_model(architecture, num_embeddings, device, neighborhood, selection_fn, embed_dim, parallel=False, **kwargs)
+    model.load_state_dict(torch.load(os.path.join('.', checkpoint_path)), strict=False)
+
+    return model
+
+def cifar100_Generator(device):
+    util_funcs.seed_generators(7)
+
+    create_runCIFAR100('vqvae',"cifar100",512,NUM_WORKERS,'vanilla',1,device,200,64,'./data',64,False,experiment_name='',alpha=0.3)
+
 
 def main(args):
     
@@ -118,7 +143,7 @@ def main(args):
         device = 'cpu'
 
 
-    if dataset != "mnist" and dataset != "cifar" and dataset != "face":
+    if dataset != "mnist" and dataset != "cifar" and dataset != "face" and dataset!='cifar100':
         print('The dataset is not supported')
         sys.exit()
 
@@ -146,6 +171,10 @@ def main(args):
 
         model = CIFAR_VAE(encoder0,decoder0)
         """
+    elif dataset=="cifar100":
+        model = cifar100_Generator(device)
+        model = model.to(device)
+        model.eval()
     elif dataset == "face":
         
         args.multiple = True
@@ -175,6 +204,14 @@ def main(args):
         if args.model_path == 'classifers/net.pth':
             args.model_path = 'classifers/resnet18_comp.pth'
     
+    elif args.dataset == 'cifar100':
+        if args.arch_path == 'classifers/net_architecture.pth':
+            args.arch_path = 'classifers/resnet_architecture100.pth'
+
+        if args.model_path == 'classifers/net.pth':
+            args.model_path = 'classifers/resnet18_comp100.pth'
+
+
     elif args.dataset == 'face':
         if args.arch_path == 'classifers/net_architecture.pth':
             args.arch_path = None
@@ -199,7 +236,7 @@ def main(args):
             classifier.load_state_dict(torch.load(PATH,map_location="cuda:0"))
             classifier.cuda()
 
-        elif not args.compress and not args.scratch:                 #only for cifar10 and mnist
+        elif not args.compress and not args.scratch:                 #only for cifar10 and mnist and cifar100..
 
             print("\nloading the model : "+args.model_path+"\n")
 
@@ -211,6 +248,7 @@ def main(args):
             if args.dataset != 'mnist' and torch.cuda.is_available():
                 classifier = classifier.cuda()
             # print(help(classifier))
+
         elif not args.scratch: 
             if args.dataset == "mnist":                  
                 print('Loading net2.pth')

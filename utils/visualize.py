@@ -701,6 +701,9 @@ class Visualizer():
                     sample = sample_pool[sample_num].unsqueeze_(0).to(self.device)
                     img = img_pool[sample_num].unsqueeze_(0).to(self.device)
                     """
+                elif self.dataset =="cifar100":
+                    sample, diff, id, num_quantization_steps, mean_D, mean_Z, norm_Z, top_percentile, num_zeros= self.model.encode(data[sample_num])
+                    img = model.decode(sample)
                 elif self.dataset == 'face':
 
                     """
@@ -771,6 +774,10 @@ class Visualizer():
 
                         img = self.model.model.decode(Z_dec)
 
+                    elif self.dataset == "cifar100":
+
+                        img = model.decode(sample)
+
                     elif self.dataset == 'face':
 
                         if not gaussian_noise:
@@ -833,6 +840,10 @@ class Visualizer():
                             Z_dec = Z_dec.permute(0, 3, 1, 2).contiguous()
 
                             img = self.model.model.decode(Z_dec)
+
+                        elif self.dataset == "cifar100":
+
+                            img = model.decode(sample)
 
                         elif self.dataset == 'face':
 

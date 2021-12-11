@@ -13,7 +13,7 @@ def parse_arguments(args_to_parse):
   parser = argparse.ArgumentParser(description=description,
                                      formatter_class=FormatterNoDuplicate)
   parser.add_argument('strategy',type = str,help = 'Choose one among (sensitive,gray,random)')
-  parser.add_argument('--dataset',type = str,default = 'mnist',help = 'the dataset available are (mnist,cifar10,face)')
+  parser.add_argument('--dataset',type = str,default = 'mnist',help = 'the dataset available are (mnist,cifar10,cifar100,face)')
   parser.add_argument('--compress',action = 'store_true',help = 'If you want to test the compression case.')
   parser.add_argument('--num_tests',type = int,default = 10,help = 'Number of experiments needed to be conducted')
   parser.add_argument('--rate',type = float,default = 0.01,help = 'the range of noise added at each step')
@@ -90,9 +90,14 @@ if args.dataset == 'cifar':
 	encyst_cmd_line = encyst_cmd_line + " --dataset cifar"
 	file.write('Using cifar dataset\n')
 
+elif args.dataset == 'cifar100':
+	other_features = other_features + " --dataset cifar100 "
+	encyst_cmd_line = encyst_cmd_line + " --dataset cifar100 "
+	file.write('Using cifar100 dataset\n')
+
 elif args.dataset == 'face':
 	other_features = other_features + " --dataset face "
-	encyst_cmd_line = encyst_cmd_line + " --dataset face --weak_natural"
+	encyst_cmd_line = encyst_cmd_line + " --dataset face"
 	file.write('Using face dataset\n')
 
 	args.compress = True
@@ -125,6 +130,8 @@ if args.dataset=='mnist':
 	am_paths_list = ["classifers/badnet.pth","classifers/clean_label.pth","classifers/trojannn.pth",
 						"classifers/apple_badnet.pth","classifers/apple_trojan.pth","classifers/apple_clean_label.pth",
 						"classifers/apple_latent_backdoor.pth","classifers/hidden_trigger.pth"]
+elif(args.dataset=='cifar100'):
+	am_paths_list = ["classifers/resnet_badnet100.pth","classifers/resnet_trojannn100.pth","classifers/resnet_clean_label100.pth"]
 else:
 	am_paths_list = ["classifers/resnet_badnet.pth","classifers/resnet_trojannn.pth","resnet_clean_label.pth"]
 seed = random.randint(0,10000)

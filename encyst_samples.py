@@ -81,6 +81,15 @@ if args.dataset=="cifar":
   if args.mod_path=='classifers/net.pth':
     args.mod_path = 'classifers/resnet18_comp.pth'
 
+elif args.dataset=="cifar100":
+  print('For cifar100 datset.......')
+  if args.arch_path=='classifers/net_architecture.pth':
+    args.arch_path = 'classifers/resnet_architecture100.pth'
+  
+  if args.mod_path=='classifers/net.pth':
+    args.mod_path = 'classifers/resnet18_comp100.pth'
+
+
 elif args.dataset =='mnist':
   print('For mnist dataset')
 
@@ -142,6 +151,18 @@ elif args.dataset == 'cifar':
   num_classes = 10
 
   natural_samples = torch.zeros(num_classes,samples_per_dim,3,img_size,img_size)      #10 classes , 10 samples per dimension...
+
+elif args.dataset == "cifar100":
+
+  img_size = 32
+  transforms_1 = transforms.Compose([transforms.ToTensor(),transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))])
+
+  cifar_trainset = datasets.CIFAR100(root='./data',train=True,download=True,transform=transforms_1)
+  trainset = DataLoader(cifar_trainset,batch_size = 100,shuffle = True)
+  num_classes = 100
+
+  natural_samples = torch.zeros(num_classes,samples_per_dim,3,img_size,img_size)
+
 
 elif args.dataset == 'face':
   img_size = 224
@@ -329,6 +350,8 @@ for dim in range(latent_dim):
             torchvision.utils.save_image(inner_img, 'mnist_images/'+str(dim)+':'+str(sample)+'inner.png', normalize=True, range=(-1, 1))
           elif args.dataset == 'cifar':
             torchvision.utils.save_image(inner_img, 'cifar_images/'+str(dim)+':'+str(sample)+'inner.png', normalize=True, range=(-1, 1))
+          elif args.dataset == 'cifar100':
+            torchvision.utils.save_image(inner_img, 'cifar100_images/'+str(dim)+':'+str(sample)+'inner.png', normalize=True, range=(-1, 1))
 
 
           attacked_output = attacked_model((inner_img).to(device)).data
@@ -406,6 +429,8 @@ for dim in range(latent_dim):
           torchvision.utils.save_image(outer_img, 'mnist_images/'+str(dim)+':'+str(sample)+'outer.png', normalize=True, range=(-1, 1))
         elif args.dataset == 'cifar':
           torchvision.utils.save_image(outer_img, 'cifar_images/'+str(dim)+':'+str(sample)+'outer.png', normalize=True, range=(-1, 1))
+        elif args.dataset == 'cifar100':
+          torchvision.utils.save_image(outer_img, 'cifar100_images/'+str(dim)+':'+str(sample)+'outer.png', normalize=True, range=(-1, 1))
 
         attacked_output = attacked_model((outer_img).to(device)).data
         attacked_topk   = torch.topk(attacked_output,topk).indices
@@ -481,6 +506,8 @@ if args.dataset=='mnist':
   file.write('--------mnist\n')
 elif args.dataset=='cifar':
   file.write('--------cifar\n')
+elif args.dataset=='cifar100':
+  file.write('--------cifar100\n')
 else :
   file.write('--------face\n')
 
