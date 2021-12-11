@@ -16,13 +16,5 @@ The percentage of similar top 2 labels is 0.0
 The percentage of similar top label is 0.0
 Watermark of size 1 SUCCESS for classifers/resnet_badnet100.pth 
 
-Random--------cifar100
-
-Total watermark images : 44
-Total natural watermark images : 1
-The percentage of similar top 2 labels is 100.0
-The percentage of similar top label is 100.0
-Watermark of size 1 FAILED for classifers/resnet_trojannn100.pth 
-
-Total watermark generation time : 1.3982348442077637
-Total runtime is : 66.57980036735535
+Total watermark generation time : 8.09124755859375
+Total runtime is : 43.660815477371216
