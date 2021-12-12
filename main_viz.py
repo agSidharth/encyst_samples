@@ -115,18 +115,18 @@ def create_runCIFAR100(architecture, dataset, num_embeddings, num_workers, selec
     experiment_name = util_funcs.create_experiment_name(architecture, dataset, num_embeddings, neighborhood,
                                                         selection_fn, size, **kwargs)
     checkpoint_name = util_funcs.create_checkpoint_name(experiment_name, ckpt_epoch)
-    checkpoint_path = f'checkpoint/{checkpoint_name}'
+    checkpoint_path = f'checkpoints/{checkpoint_name}'
     
     print('Loading model')
     model = get_model(architecture, num_embeddings, device, neighborhood, selection_fn, embed_dim, parallel=False, **kwargs)
-    model.load_state_dict(torch.load(os.path.join('.', checkpoint_path)), strict=False)
+    model.load_state_dict(torch.load(os.path.join('.', checkpoint_path),map_location = device), strict=False)
 
     return model
 
-def cifar100_Generator(device):
+def cifar100_Generator(this_device):
     util_funcs.seed_generators(7)
 
-    create_runCIFAR100('vqvae',"cifar100",512,NUM_WORKERS,'vanilla',1,device,200,64,'./data',64,False,experiment_name='',alpha=0.3)
+    return create_runCIFAR100(alpha=0.3, architecture='vqvae', backward_dict=1, checkpoint_freq=5, checkpoint_path='./checkpoints', ckpt_epoch=195, data_path='./data', dataset='cifar100', device=this_device, dictionary_loss_weight=0.0, download=False, embed_dim=64, eval_iter=1, experiment_name='experiment_vq', is_enforce_sparsity=False, is_quantize_coefs=False, lr=0.0003, neighborhood=1, normalize_dict=True, normalize_x=True, normalize_z=False, num_embeddings=512, num_epochs=200, num_nonzero=2, num_strides=2, num_workers=8, parallelize=True, sample_gradients=1000, sample_size=25, sampling_iter=25, sched=None, seed=7, selection_fn='vanilla', size=64, summary_path='./summary', use_backwards_simd=True, vae_batch=128)
 
 
 def main(args):
@@ -172,6 +172,7 @@ def main(args):
         model = CIFAR_VAE(encoder0,decoder0)
         """
     elif dataset=="cifar100":
+        args.multiple = True
         model = cifar100_Generator(device)
         model = model.to(device)
         model.eval()

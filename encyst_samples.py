@@ -154,8 +154,9 @@ elif args.dataset == 'cifar':
 
 elif args.dataset == "cifar100":
 
-  img_size = 32
-  transforms_1 = transforms.Compose([transforms.ToTensor(),transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))])
+  img_size = 64
+  transforms_1 = transforms.Compose([transforms.Resize(img_size),
+            transforms.CenterCrop(img_size),transforms.ToTensor(),transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))])
 
   cifar_trainset = datasets.CIFAR100(root='./data',train=True,download=True,transform=transforms_1)
   trainset = DataLoader(cifar_trainset,batch_size = 100,shuffle = True)

@@ -403,7 +403,8 @@ class CIFAR100(datasets.CIFAR100):
         super().__init__(root,
                         train=True,
                         download=True,
-                        transform = transforms.Compose([transforms.ToTensor(),transforms.Normalize((0.5, 0.5, 0.5),(0.5, 0.5, 0.5))]))
+                        transform = transforms.Compose([transforms.Resize(64),
+            transforms.CenterCrop(64),transforms.ToTensor(),transforms.Normalize((0.5, 0.5, 0.5),(0.5, 0.5, 0.5))]))
 
 
 # HELPERS
