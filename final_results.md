@@ -28,6 +28,7 @@ Different columns denote size of watermark
 |CIFAR10|595/740|391/396|134/134|700/700|241/241|430/430|170/170|320/320|120/120|330/330|
 |CIFAR10 gray-box|223/252|165/170|364/366|446/448|100%|100%|100%|100%|100%|100%|
 |FACE|380/653|389/396||210/210|2/2|60/60||40/40||10/10|
+|CIFAR100|300/336|255/263|88/90|250/250|100%|100%|100%|100%|100%|100%|
 
 ### Model Attacks..
 Different columns denote size of watermark
@@ -55,6 +56,7 @@ Different columns denote different rates.
 |-------|---|----|----|----|
 |MNIST|1.34|2.01s|2.28s|20s|
 |CIFAR10|0.747s|1.514s|2.88s|13.37s|
+|CIFAR100|7.8s|14.4s|27.8s|142.5s|
 |FFHQ|15s|25.1s|59.77s|230s|
 
 ### More things but no table required:
