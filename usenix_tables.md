@@ -1,5 +1,5 @@
 # Naturality
-Note that FFHQ only had 2 classes male or female.
+Note that FFHQ only had 2 classes male or female. CIFAR100 had 0.45 as average with 0.3 as variance.
 |Dataset|1|2|3|4|5|6|7|8|9|10|
 |-------|-|-|-|-|-|-|-|-|-|-|
 |MNIST|0.162|0.188|0.219|0.186|0.211|0.221|0.161|0.218|0.159|0.171|
@@ -23,6 +23,7 @@ Note model compression was only evaluated on BlackBox not GrayBox. As explained 
 |MNIST gray-box|76.3|93.8|99.0|99.9|100|100|100|100|100|100|
 |CIFAR10|76.0|97.8|98.9|99.9|100|100|100|100|100|100|
 |CIFAR10 gray-box|88.8|98.3|99.4|99.9|100|100|100|100|100|100|
+|CIFAR100|88.1|97.9|98.6|99.9|100|100|100|100|100|100|
 
 # BadNet
 |Dataset|1|2|3|4|5|6|7|8|9|10|
@@ -31,6 +32,7 @@ Note model compression was only evaluated on BlackBox not GrayBox. As explained 
 |MNIST gray-box|76.2|93.8|99.0|99.9|100|100|100|100|100|100|
 |CIFAR10|76.1|97.8|98.8|99.9|100|100|100|100|100|100|
 |CIFAR10 gray-box|88.9|98.2|99.5|99.9|100|100|100|100|100|100|
+|CIFAR100|88.1|97.9|98.6|99.9|100|100|100|100|100|100|
 
 # Clean Label
 |Dataset|1|2|3|4|5|6|7|8|9|10|
@@ -39,3 +41,4 @@ Note model compression was only evaluated on BlackBox not GrayBox. As explained 
 |MNIST gray-box|76.2|93.7|99.0|99.9|100|100|100|100|100|100|
 |CIFAR10|76.0|97.7|98.8|99.9|100|100|100|100|100|100|
 |CIFAR10 gray-box|89.0|98.2|99.4|99.9|100|100|100|100|100|100|
+|CIFAR100|88.1|97.9|98.6|99.9|100|100|100|100|100|100|

@@ -65,4 +65,4 @@ Different columns denote different rates.
 * System specifications used for time analysis are:
 Intel® Core™ i5-8265U (1.6 GHz base frequency, up to 3.9 GHz with Intel® Turbo Boost Technology, 6 MB cache, 4 cores),8 GB DDR4-2400 SDRAM (1 x 8 GB)
 * Sensitive paper guys used "We run our experiments on a server with 1 Nvidia 1080TiGPU, 2 Intel Xeon E5-2667 CPUs, 32MB cache and 64GBmemory". To get one sample per 3.2s
-* For CIFAR100 LPIPS metric is around 0.44
+* For CIFAR100 LPIPS metric is around 0.45, with 0.3 variance over the classes.
