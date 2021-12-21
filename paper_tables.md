@@ -52,6 +52,9 @@ Different columns denote times with different noises.
 |-------|---|---|----|----|
 |MNIST|0.5s|1.2s|2.3s|7.1s|
 |CIFAR|0.6s|1.33s|2.07s|7.8s|
+|CIFAR100|0.8s|3.1s|6.9s|20s|
 |FACE |1.2s|4.8s|9.1s|44.4s|
+
+
 
 
