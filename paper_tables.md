@@ -18,7 +18,8 @@ Tested on MNIST,CIFAR10
 #### In short the noise distance between inner and outer boundary.
 Different columns denote size of watermark  
 The number of classes is 10 (2 for face)  
-Basically after each iteration `rate*gaussian_noise` is added.
+Basically after each iteration `rate*gaussian_noise` is added.  
+Tested on MNIST,CIFAR10,FACE,CIFAR100
 |Range of noise|1|2|3|4|5|6|7|8|9|10|
 |--------------|-|-|-|-|-|-|-|-|-|-|
 |0.01|65.1+-4.8|95.7+-2.3|97.9+-1.1|99.9+-0.1|100+-0|100+-0|100+-0|100+-0|100+-0|100+-0|
