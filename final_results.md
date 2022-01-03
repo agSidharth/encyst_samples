@@ -50,7 +50,7 @@ Different columns denote size of watermark
 |CIFAR10|0.017s|0.017s|0.83s|2.88|
 |FACE|0.21s|0.13s|28.39|59.77|
 
-### Time taken for 1 natural wm with different rate
+### Time taken for 1 natural wm with different rate in CPU
 Different columns denote different rates.
 |Dataset|0.5| 0.1|0.05|0.01|
 |-------|---|----|----|----|

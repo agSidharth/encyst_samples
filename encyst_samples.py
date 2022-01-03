@@ -218,6 +218,9 @@ for dim in range(num_classes):
 
 torch.set_grad_enabled(True)
 
+print(avg_loss)
+print(sum(avg_loss)/100)
+
 def check_naturality(dimension,img,natural_samples,samples_per_dim):
   max = 0
   sum = 0
