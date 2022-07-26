@@ -44,7 +44,8 @@ class Visualizer():
                  loss_of_interest=None,
                  display_loss_per_dim=False,
                  max_traversal=0.475,  # corresponds to ~2 for standard normal
-                 upsample_factor=1):
+                 upsample_factor=1,
+                 mnist_gen = False):
         """
         Visualizer is used to generate images of samples, reconstructions,
         latent traversals and so on of the trained model.
@@ -83,6 +84,7 @@ class Visualizer():
         """
         self.model = model
         self.latent_dim = self.model.z_dim if dataset=='mnist' else 128
+        self.mnist_gen = mnist_gen
         self.max_traversal = max_traversal
         self.save_images = save_images
         self.model_dir = model_dir
@@ -675,13 +677,15 @@ class Visualizer():
                     factor = -1
 
                 #print(data.shape)
-                if self.dataset == "mnist":
+                if self.dataset == "mnist" and not self.mnist_gen:
                     sample0 = self.model.encode(data[sample_num])
                     
                     sample = sample0[:, :, 0, 0].to(self.device)
                     
                     xxx = self.model.decode(sample.unsqueeze(-1).unsqueeze(-1), toArray=False)
                     img = torch.sigmoid(xxx).data
+                elif self.dataset == "mnist":
+                    img,_,sample = self.model.forward(data[sample_num].unsqueeze_(0))
                 elif self.dataset == "cifar":
 
                     Z_enc_ori = self.model.model.encode(data[sample_num].unsqueeze_(0).to(self.device))
@@ -762,10 +766,11 @@ class Visualizer():
                             noise = torch.randn_like(sample).to(self.device)
                         sample = sample + factor*rate*noise
 
-                    if self.dataset == "mnist":
+                    if self.dataset == "mnist" and (not self.mnist_gen):
                         xxx = self.model.decode(sample.unsqueeze(-1).unsqueeze(-1), toArray=False)
                         img = torch.sigmoid(xxx).data
-                        
+                    elif self.dataset=="mnist":
+                        img = self.model.decoder(sample)
                     elif self.dataset == "cifar":
 
                         Z_dec = self.model.model.find_nearest(sample, self.model.model.embd.weight)  
@@ -829,10 +834,11 @@ class Visualizer():
                                 noise = torch.randn_like(sample).to(self.device)
                             sample = sample + factor*rate*noise
 
-                        if self.dataset == "mnist":
+                        if self.dataset == "mnist" and (not self.mnist_gen):
                             xxx = self.model.decode(sample.unsqueeze(-1).unsqueeze(-1), toArray=False)
                             img = torch.sigmoid(xxx).data
-                            
+                        elif self.dataset == "mnist":
+                            img = self.model.decoder(sample)
                         elif self.dataset == "cifar":
 
                             Z_dec = self.model.model.find_nearest(sample, self.model.model.embd.weight)  

@@ -23,6 +23,7 @@ def parse_arguments(args_to_parse):
   parser.add_argument('--multiple',action = 'store_true',help = 'Use multiple on complete latent vector instead of single at a time')
   parser.add_argument('--labels',type = str,default = None,help = 'Use watermark samples only for specific labels')
   parser.add_argument('--scratch',action = 'store_true',help = 'If you want to take clean model as from scratch and attacked model as fine tuned one..')
+  parser.add_argument('--mnist_gen',default = '200000',help = 'To choose among different generative models for mnist..')
   args = parser.parse_args()
   return args
 
@@ -84,6 +85,9 @@ else:
 
 
 encyst_cmd_line = "python encyst_samples.py " 
+
+if args.dataset=='mnist':
+	other_features = other_features + " --mnist_gen "+ args.mnist_gen + " "
 
 if args.dataset == 'cifar':
 	other_features = other_features + " --dataset cifar "
@@ -175,6 +179,7 @@ for test_num in range(TOTAL_TESTS):
 		file.close()
 
 		generation_start_time = time.time()
+
 
 		if args.scratch:
 			os.system(random_command_line+" --seed "+str(seed)+" --scratch ")

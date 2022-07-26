@@ -42,6 +42,7 @@ class VAE(nn.Module):
             raise RuntimeError("{} sized images not supported. Only (None, 32, 32) and (None, 64, 64) supported. Build your own architecture or reshape images!".format(img_size))
 
         self.latent_dim = latent_dim
+        self.z_dim = latent_dim
         self.img_size = img_size
         self.num_pixels = self.img_size[1] * self.img_size[2]
         self.encoder = encoder(img_size, self.latent_dim)

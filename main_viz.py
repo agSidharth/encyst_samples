@@ -5,6 +5,7 @@ import sys
 import torch
 import torch.nn as nn
 
+from disvae import init_specific_model
 from utils.helpers import FormatterNoDuplicate, check_bounds, set_seed
 from utils.visualize import Visualizer
 from utils.viz_helpers import get_samples
@@ -17,6 +18,7 @@ from net.models import LeNet_5
 from models_32 import *
 from cifar_misc import *
 from resnet import ResNet18
+import json
 
 import argparse
 from vqvae import Solver
@@ -103,6 +105,7 @@ def parse_arguments(args_to_parse):
     parser.add_argument('--am_path2',default = None,help = 'for gray box model the second attack model')
     parser.add_argument('--compress',action = 'store_true',help = 'If you want to test compression use diff. model')
     parser.add_argument('--scratch',action = 'store_true',help = 'If you want to take clean model as from scratch and attacked model as fine tuned one..')
+    parser.add_argument('--mnist_gen',default = '200000',help = 'To choose among different generative models for mnist..')
     args = parser.parse_args()
 
     return args
@@ -150,7 +153,25 @@ def main(args):
     
 
     if dataset=="mnist":
-        model = FactorVAE(dataset,args.sensitive)
+        if(args.mnist_gen=="200000"):
+            model = FactorVAE(dataset,args.sensitive,args.mnist_gen)
+        else:
+            directory="results/"+args.mnist_gen
+            MODEL_FILENAME = "model.pt"
+            META_FILENAME = "specs.json"
+            path_to_metadata = os.path.join(directory, META_FILENAME)
+            with open(path_to_metadata) as metadata_file:
+                metadata = json.load(metadata_file)
+            img_size = metadata["img_size"]
+            latent_dim = metadata["latent_dim"]
+            model_type = metadata["model_type"]
+
+            path_to_model = os.path.join(directory, MODEL_FILENAME)
+            model = init_specific_model(model_type, img_size, latent_dim).to(device)
+            model.load_state_dict(torch.load(path_to_model), strict=False)
+            model.to(device)
+            model.eval()
+            print("Loading the model: "+args.mnist_gen)
     elif dataset=="cifar":
 
         args.multiple = True
@@ -191,7 +212,8 @@ def main(args):
                      dataset=dataset,
                      max_traversal=args.max_traversal,
                      loss_of_interest='kl_loss_',
-                     upsample_factor=args.upsample_factor)
+                     upsample_factor=args.upsample_factor,
+                     mnist_gen = (args.mnist_gen!="200000"))
                      
     print('\nThe dataset used is : '+dataset)
 
